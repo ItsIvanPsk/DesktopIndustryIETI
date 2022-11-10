@@ -41,6 +41,11 @@ public class baseDades{
             //Faccio Wu Lin
             query = "INSERT INTO User (userName, password) VALUES ('Ivan', 'ivan1234');";
             stmnt.executeUpdate(query);
+            query = "INSERT INTO User (userName, password) VALUES ('Marc', 'marc1234');";
+            stmnt.executeUpdate(query);
+            query = "INSERT INTO User (userName, password) VALUES ('Borja', 'borja1234');";
+            stmnt.executeUpdate(query);
+            
 
             
         } catch (SQLException e) {

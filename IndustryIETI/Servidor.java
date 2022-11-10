@@ -21,7 +21,7 @@ public class Servidor extends WebSocketServer {
     private static int port = 4810; 
     private static Servidor socket;
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public void inicial() throws InterruptedException, IOException {
         
 
         boolean running = true;
