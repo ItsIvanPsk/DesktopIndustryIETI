@@ -76,11 +76,10 @@ public class Servidor extends WebSocketServer {
                 }
             }
         if (existe){
-            System.out.println("true");
             conn.send("true");
         }
         else{
-            System.out.println("false");
+
             conn.send("false");
         }
         } catch (SQLException e) {
