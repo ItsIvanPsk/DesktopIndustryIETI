@@ -18,7 +18,7 @@ public class Servidor extends WebSocketServer {
     String basePath = System.getProperty("user.dir") + "/";
     String bbddPath = basePath + "database.db";
     private static Scanner sc=new Scanner(System.in);
-    private static int port = 4810; 
+    private static int port = 8888; 
     private static Servidor socket;
 
     public static void main(String[] args) throws InterruptedException, IOException {
@@ -29,7 +29,7 @@ public class Servidor extends WebSocketServer {
         // Deshabilitar SSLv3 per clients Android
         java.lang.System.setProperty("jdk.tls.client.protocols", "TLSv1,TLSv1.1,TLSv1.2");
 
-        socket = new Servidor(port);
+        socket   = new Servidor(port);
         socket.start();
 
 
@@ -53,12 +53,21 @@ public class Servidor extends WebSocketServer {
     //Function for when the client connects
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
+        // Saludem personalment al nou client
+        conn.send("Benvingut a WsServer"); 
 
+        // Enviem la direcció URI del nou client a tothom 
+        broadcast("Nova connexió: " + handshake.getResourceDescriptor());
+
+        // Mostrem per pantalla (servidor) la nova connexió
+        String host = conn.getRemoteSocketAddress().getAddress().getHostAddress();
+        System.out.println(host + " s'ha connectat");
     }
     //Function for when the client disconnects
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-
+        broadcast(conn + " s'ha desconnectat");
+        System.out.println(conn + " s'ha desconnectat");
     }
 
     //Function that receives the user and password and checks if it exists.
@@ -72,16 +81,18 @@ public class Servidor extends WebSocketServer {
             while (rs.next()) {
                 Usuario user=new Usuario(rs.getString("userName"), rs.getString("password"));
                 if (user.getUsername().equals(usuarioArray.get(0)) && user.getPassword().equals(usuarioArray.get(1))){
-                existe=true;
+                    existe=true;
+                }
+                if (existe){
+                    String message = "UV#" + user.getUsername() + "#" + user.getPassword() + "#true";
+                    conn.send(message);
+                }
+                else{
+                    String message = "UV#" + user.getUsername() + "#" + user.getPassword() + "#false";
+                    conn.send(message);
                 }
             }
-        if (existe){
-            conn.send("true");
-        }
-        else{
-
-            conn.send("false");
-        }
+        
         } catch (SQLException e) {
             System.out.println("Error relacionado con sql");
         }
