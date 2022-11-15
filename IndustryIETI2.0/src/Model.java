@@ -1,13 +1,10 @@
 package src;
 
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Objects;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -20,12 +17,6 @@ import javax.swing.border.EmptyBorder;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import java.io.File;
-import java.util.ArrayList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,7 +35,6 @@ public class Model {
     private static ArrayList<String> sliders = new ArrayList<String>();
     private static ArrayList<String> dropdowns = new ArrayList<String>();
     private static ArrayList<String> sensors = new ArrayList<String>();
-
     public static void lecturaXMLApp(File file) {
 
         try {
@@ -53,6 +43,11 @@ public class Model {
             Document doc = dBuilder.parse(file);
 
             doc.getDocumentElement().normalize();
+            
+            switchs.clear();
+            sliders.clear();
+            dropdowns.clear();
+            sensors.clear();
 
             NodeList listaControles = doc.getElementsByTagName("controls");
 
@@ -132,22 +127,35 @@ public class Model {
         return sensors;
     }
     public String recorrerArrays(ArrayList<String> switchs,ArrayList<String> sliders,ArrayList<String> dropdowns,ArrayList<String> sensors) {
-        String texto="CF%%";
-        for (String i:switchs) {
-            texto+=i+"%%";
-        }
-        for (String i:sliders) {
-            texto+=i+"%%";
-        }
-        for (String i:dropdowns) {
-            texto+=i+"%%";
-        }
-        for (String i:sensors) {
-            texto+=i+"%%";
-        }
-        //texto=texto.substring(0,texto.length()-2);
-        return texto;
+        String appComponentes="CF%%";
 
+        System.out.println(switchs.size());
+
+        if(switchs.size() != 0){
+            for (String _switch:switchs) {
+                appComponentes = appComponentes + _switch + "%%";
+            }
+        }
+
+        if(sliders.size() != 0){
+            for (String _sliders:sliders) {
+                appComponentes = appComponentes + _sliders + "%%";
+            }
+        }
+
+        if(sensors.size() != 0){
+            for (String _sensors:sensors) {
+                appComponentes = appComponentes + _sensors + "%%";
+            }
+        }
+
+        if(dropdowns.size() != 0){
+            for (String _dropdown:dropdowns) {
+                appComponentes = appComponentes + _dropdown + "%%";
+            }
+        }
+        System.out.println(appComponentes);
+        return appComponentes;
     }
 
     public JPanel createSwitch(File file) {

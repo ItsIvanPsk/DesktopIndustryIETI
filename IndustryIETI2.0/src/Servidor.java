@@ -28,6 +28,8 @@ public class Servidor extends WebSocketServer {
         
         baseDades.checkDataBase();
         modelo = new Model();
+        Window windows = new Window();
+
         boolean running = true;
 
         // Deshabilitar SSLv3 per clients Android
@@ -73,7 +75,6 @@ public class Servidor extends WebSocketServer {
         System.out.println("MESSAGE: " + message);
         String token = message.substring(0, 3);
         if(token.equals("UV#")){
-            boolean existe=false;
             ArrayList<String> usuarioArray=new ArrayList<String>(Arrays.asList(message.split("#")));
             Connection conection = UtilsSQLite.connect(bbddPath);
             ResultSet rs = UtilsSQLite.querySelect(conection, "SELECT * FROM User;");
@@ -85,9 +86,11 @@ public class Servidor extends WebSocketServer {
                             && password.equals(usuarioArray.get(2))){
                         String msg = "UV#" + userName + "#" + password + "#true";
                         conn.send(msg);
+                        break;
                     } else{
                         String msg = "UV#" + userName + "#" + password + "#false";
                         conn.send(msg);
+                        break;
                     }
                 }
             } catch (SQLException e) {

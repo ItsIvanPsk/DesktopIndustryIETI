@@ -55,7 +55,6 @@ public class baseDades{
     //Conexion BBDD
     public static Connection connect (String filePath) {
         conn = null;
-        
         try {
             String url = "jdbc:sqlite:" + filePath;
             conn = DriverManager.getConnection(url);            
