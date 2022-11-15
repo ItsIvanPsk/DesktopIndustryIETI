@@ -1,4 +1,4 @@
-package src;
+package src.view;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -7,15 +7,7 @@ import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import java.util.ArrayList;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import src.model.Model;
 
 
 public class Window {
@@ -25,7 +17,7 @@ public class Window {
 	Model modelo=new Model();
 	private Container panelContenedor;
 	
-	Window() {
+	public Window() {
 		construirVentana();
 		
 	}
@@ -72,7 +64,7 @@ public class Window {
 	        return;  
 	    }
 	    File selectedFile = fileChooser.getSelectedFile();
-	    modelo.lecturaXMLApp(selectedFile);
+	    Model.lecturaXMLApp(selectedFile);
 	    loadComponents(selectedFile);
 	    
 	    

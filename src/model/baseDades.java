@@ -1,9 +1,8 @@
-package src;
+package src.model;
 
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -12,36 +11,35 @@ public class baseDades{
     static Connection conn = connect(filePath);
     static String query;
 
-    //Check if the Data Base exists
     public static void checkDataBase(){
-        //Es comprova si la Base de dades es creada
         File db = new File(filePath);
         if(!db.exists()){
             initDatabase(filePath);
         }
-    
     }
 
-    //Create Data Base
     public static void initDatabase(String filePath){
         try {
             Statement stmnt = conn.createStatement();
-            //Es crea la query que volem executar
             query = "DROP TABLE IF EXISTS User;";
 
             stmnt.executeUpdate(query);
 
-            //Es crea la nova taula Faccio
             query = "CREATE TABLE User ("
                     + "	id integer PRIMARY KEY AUTOINCREMENT,"
                     + "	userName Varchar(15) NOT NULL,"
                     + " password Varchar(15) NOT NULL);";
-            //Afegeixo la taula a la base de dades
             stmnt.executeUpdate(query);
 
-            // Es crea el nous elements de la taula Faccio
-            //Faccio Wu Lin
             query = "INSERT INTO User (userName, password) VALUES ('Ivan', 'ivan1234');";
+            stmnt.executeUpdate(query);
+            query = "INSERT INTO User (userName, password) VALUES ('Marc', 'marc1234');";
+            stmnt.executeUpdate(query);
+            query = "INSERT INTO User (userName, password) VALUES ('Borja', 'borja1234');";
+            stmnt.executeUpdate(query);
+            query = "INSERT INTO User (userName, password) VALUES ('test', 'test');";
+            stmnt.executeUpdate(query);
+            query = "INSERT INTO User (userName, password) VALUES ('prueba', 'prueba');";
             stmnt.executeUpdate(query);
             
         } catch (SQLException e) {
@@ -52,7 +50,6 @@ public class baseDades{
          
     }
 
-    //Conexion BBDD
     public static Connection connect (String filePath) {
         conn = null;
         try {
@@ -64,22 +61,6 @@ public class baseDades{
         return conn;
     }
 
-    //Execute querys
-    public static ResultSet executeQuerys(String query){
-        ResultSet rs = null;
-        try {
-            Statement stmt = conn.createStatement();
-            rs = stmt.executeQuery(query);
-           
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        //Retorno el ResultSet
-        return rs;
-    }
-
-    //Disconect BBDD
     public static void disconnect (Connection conn ) {
         try {
             if (conn != null) { 

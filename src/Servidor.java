@@ -14,6 +14,11 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import src.model.Model;
+import src.model.baseDades;
+import src.utils.UtilsSQLite;
+import src.view.Window;
+
 
 public class Servidor extends WebSocketServer {
 
@@ -28,16 +33,14 @@ public class Servidor extends WebSocketServer {
         
         baseDades.checkDataBase();
         modelo = new Model();
-        Window windows = new Window();
+        new Window();
 
         boolean running = true;
 
-        // Deshabilitar SSLv3 per clients Android
         java.lang.System.setProperty("jdk.tls.client.protocols", "TLSv1,TLSv1.1,TLSv1.2");
 
         socket = new Servidor(port);
         socket.start();
-
 
         while (running) {
             String line = sc.nextLine();
@@ -56,20 +59,18 @@ public class Servidor extends WebSocketServer {
     public Servidor(InetSocketAddress address) {
         super(address);
     }
-    //Function for when the client connects
+
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        // Mostrem per pantalla (servidor) la nova connexió
         String host = conn.getRemoteSocketAddress().getAddress().getHostAddress();
         System.out.println(host + " s'ha connectat");
     }
-    //Function for when the client disconnects
+
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         System.out.println(conn + " s'ha desconnectat");
     }
 
-    //Function that receives the user and password and checks if it exists.
     @Override
     public void onMessage(WebSocket conn, String message) {
         System.out.println("MESSAGE: " + message);
@@ -98,23 +99,19 @@ public class Servidor extends WebSocketServer {
             }
         } else if(token.equals("CF#")){
             Model.lecturaXMLApp(new File(configPath));
-            conn.send(modelo.recorrerArrays(modelo.getSwitchs(),modelo.getSliders(),modelo.getDropDowns(),modelo.getSensors()));
+            conn.send(
+                modelo.recorrerArrays(
+                    modelo.getSwitchs(),
+                    modelo.getSliders(),
+                    modelo.getDropDowns(),
+                    modelo.getSensors()
+                )
+            );
         }
     }
-    //Function for error messages
     @Override
-    public void onError(WebSocket conn, Exception ex) {
-        ex.printStackTrace();
-    }
-    //Function for server startup
+    public void onError(WebSocket conn, Exception ex) { ex.printStackTrace(); }
     @Override
-    public void onStart() {
-        
-    }
-
-    public String getConnectionId (WebSocket connection) {
-        String name = connection.toString();
-        return name.replaceAll("org.java_websocket.WebSocketImpl@", "").substring(0, 3);
-    }
+    public void onStart() { }
 
 }
