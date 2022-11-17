@@ -29,6 +29,6 @@ public class Option {
 
     //ToSting
     public String toString() {
-    	return "value#" + value + "#" + text;
+    	return value + "//" + text;
     }
 }    

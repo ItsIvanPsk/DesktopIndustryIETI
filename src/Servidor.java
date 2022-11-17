@@ -23,7 +23,7 @@ import src.view.Window;
 public class Servidor extends WebSocketServer {
 
     String bbddPath = System.getProperty("user.dir") + "/src/database.db";
-    String configPath = System.getProperty("user.dir") + "/src/config.xml";
+    String configPath = System.getProperty("user.dir") + "/src/config/config.xml";
     private static Scanner sc=new Scanner(System.in);
     private static int port = 8888; 
     private static Servidor socket;
@@ -98,6 +98,7 @@ public class Servidor extends WebSocketServer {
                 System.out.println("Error relacionado con sql");
             }
         } else if(token.equals("CF#")){
+            System.out.println("here");
             Model.lecturaXMLApp(new File(configPath));
             conn.send(
                 modelo.recorrerArrays(
@@ -107,6 +108,7 @@ public class Servidor extends WebSocketServer {
                     modelo.getSensors()
                 )
             );
+            System.out.println("here 2");
         }
     }
     @Override
