@@ -69,7 +69,8 @@ public class Model {
 
             doc.getDocumentElement().normalize();
             
-            errorValidate.idValidate(file);
+            //errorValidate.idValidate(file);
+            errorValidate.nullValues(file);
             model.getSwitchs().clear();
             model.getSliders().clear();
             model.getDropDowns().clear();

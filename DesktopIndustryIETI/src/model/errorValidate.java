@@ -1,6 +1,8 @@
 package src.model;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Objects;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -253,17 +255,125 @@ public class errorValidate {
                 }
             }
 
+            ArrayList<Integer> idList = new ArrayList<Integer>();
             for (Controls contr : contrList){
-                System.out.println(contr);
                 String[] listSplit = contr.toString().split("#");
 
-                ArrayList<int> idList = new ArrayList<int>(); 
+                idList.add(Integer.parseInt(listSplit[1]));
+                
             }
 
-            
+            Collections.sort(idList);
+            for (int i = 0; i <= idList.size(); i++){
+                if (i+1 == idList.size()){
+                    //SALIR DEL FOR
+                    break;
+                }
+                else if (idList.get(i) == idList.get(i+1)){
+                    //SE HA DETECTADO 2 ID IGUALES
+                    check = false;
+                }
+            }
+            System.out.println(idList);
         } catch(Exception e) { 
         	e.printStackTrace(); 
         }
 		return check;
     }
+
+    public static boolean nullValues(File file){
+        boolean check = true;
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(file);
+
+            doc.getDocumentElement().normalize();
+
+            NodeList listaControles = doc.getElementsByTagName("controls");
+
+            for(int cnt = 0; cnt < listaControles.getLength(); cnt++) {
+                Node nodeControl = listaControles.item(cnt);
+                if(nodeControl.getNodeType() == nodeControl.ELEMENT_NODE) {
+                    Element elm = (Element) nodeControl;
+                    NodeList listaSwitch = elm.getElementsByTagName("switch");
+                    for(int i = 0; i < listaSwitch.getLength(); i++) {
+                        Node nodeSwitch = listaSwitch.item(i);
+                        if(nodeSwitch.getNodeType() == nodeSwitch.ELEMENT_NODE) {
+                            Element elmSwi = (Element) nodeSwitch;
+                            if (elmSwi.getAttribute("id") == null || elmSwi.getAttribute("default").equals("") || elmSwi.getTextContent().equals("")) {
+                                System.out.println("SWITCH MAL");
+                            	check=false;
+                                break;
+                            }
+                            
+                        }
+
+                    }
+                    NodeList listaSlider = elm.getElementsByTagName("slider");
+                    for(int i = 0; i < listaSlider.getLength(); i++) {
+                        Node nodeSlider = listaSlider.item(i);
+                        if(nodeSlider.getNodeType() == nodeSlider.ELEMENT_NODE) {
+                            Element elmSli = (Element) nodeSlider;
+                            if (elmSli.getAttribute("id") == null || elmSli.getAttribute("default") == null || elmSli.getAttribute("min") == null || elmSli.getAttribute("max") == null || elmSli.getAttribute("step") == null || elmSli.getTextContent().equals("")) {
+                                System.out.println("SLIDER MAL");
+                            	check=false;
+                                break;
+                            }
+                           
+                        }
+                    }
+                    NodeList listaDropDown = elm.getElementsByTagName("dropdown");
+                    for(int i = 0; i < listaDropDown.getLength(); i++) {
+                        Node nodeDropDown = listaDropDown.item(i);
+                        if(nodeDropDown.getNodeType() == nodeDropDown.ELEMENT_NODE) {
+                            Element elmDrop = (Element) nodeDropDown;
+                            if (elmDrop.getAttribute("id") == null || elmDrop.getAttribute("default") == null) {
+                            	check=false;
+                                break;
+                            }else{                           
+                            
+                                NodeList listaOption= elmDrop.getElementsByTagName("option");
+                                for(int j = 0; j < listaOption.getLength(); j++) {
+                                    Node nodeOption = listaOption.item(j);
+                                    if(nodeOption.getNodeType() == nodeOption.ELEMENT_NODE) {
+                                        Element elmOpti = (Element) nodeOption;
+                                        if (elmOpti.getAttribute("value") == null || elmOpti.getTextContent().equals("")) {
+                                            check=false;
+                                            break;
+                                        }
+                                    }
+                                    
+
+                                }
+                               
+                            }
+                        }
+
+                    }
+                    
+                    NodeList listaSensor = elm.getElementsByTagName("sensor");
+                    for(int i = 0; i < listaSensor.getLength(); i++) {
+                        Node nodeSensor = listaSensor.item(i);
+                        if(nodeSensor.getNodeType() == nodeSensor.ELEMENT_NODE) {
+                            Element elmSen = (Element) nodeSensor;
+                            if (elmSen.getAttribute("id") == null || elmSen.getAttribute("units").equals("") || elmSen.getAttribute("thresholdlow") == null || elmSen.getAttribute("thresholdhigh") == null || elmSen.getTextContent().equals("")) {
+                            	check=false;
+                                break;
+                            }
+                            
+                        }
+                        
+                    }
+                    
+                    
+                }
+            }
+
+        } catch(Exception e) { 
+        	e.printStackTrace(); 
+        }
+		return check;
+    }
+    
 }
