@@ -1,21 +1,22 @@
 package src.components;
  
 public class Option {
-    private String value, text;
+    private int value;
+    private String text;
     
     //Constructor
-    public Option(String value, String text) {
+    public Option(int value, String text) {
         super();
         this.value = value;
         this.text = text;
     }
     
     //Getters and Setters
-    public String getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(int value) {
         this.value = value;
     }
 

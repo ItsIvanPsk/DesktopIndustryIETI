@@ -1,60 +1,65 @@
 package src.components;
-import java.io.Serializable;
 
-public class Sensor implements Serializable{
-	private String id,units,thresholdlow,thresholdhigh,text;
+public class Sensor extends Controls{
+    int id,thresholdlow,thresholdhigh;
+    private String units,text;
 
-	public Sensor(String id, String units, String thresholdlow,String thresholdhigh,String text) {
-		this.id = id;
-		this.units = units;
-		this.thresholdlow = thresholdlow;
-		this.thresholdhigh= thresholdhigh;
-		this.text = text;
-	}
-	//getters and setters
+    public Sensor(int id, String units, int thresholdlow,int thresholdhigh,String text) {
+        this.id = id;
+        this.units = units;
+        this.thresholdlow = thresholdlow;
+        this.thresholdhigh= thresholdhigh;
+        this.text = text;
+    }
+    //getters and setters
 
-	public String getId() {
-		return id;
-	}
+    public Sensor() {
+    }
+
+    public int getId() {
+        return id;
+    }
 
 
-	public String getUnits() {
-		return units;
-	}
+    public String getUnits() {
+        return units;
+    }
 
-	public void setUnits(String units) {
-		this.units = units;
-	}
+    public void setUnits(String units) {
+        this.units = units;
+    }
 
-	public String getThresholdlow() {
-		return thresholdlow;
-	}
+    public int getThresholdlow() {
+        return thresholdlow;
+    }
 
-	public void setThresholdlow(String thresholdlow) {
-		this.thresholdlow = thresholdlow;
-	}
+    public void setThresholdlow(int thresholdlow) {
+        this.thresholdlow = thresholdlow;
+    }
 
-	public String getThresholdhigh() {
-		return thresholdhigh;
-	}
+    public int getThresholdhigh() {
+        return thresholdhigh;
+    }
 
-	public void setThresholdhigh(String thresholdhigh) {
-		this.thresholdhigh = thresholdhigh;
-	}
+    public void setThresholdhigh(int thresholdhigh) {
+        this.thresholdhigh = thresholdhigh;
+    }
 
-	public String getText() {
-		return text;
-	}
+    public String getText() {
+        return text;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
-	@Override
-	public String toString() {
-		return "SS#"+id+"#"+units+"#"+ thresholdlow+"#"+thresholdhigh+"#"+text;
-	}
-	
-	
-	
-	
+    public void setText(String text) {
+        this.text = text;
+    }
+    @Override
+    public String toString() {
+        return "SS#"+id+"#"+units+"#"+ thresholdlow+"#"+thresholdhigh+"#"+text;
+    }
+    
+    public void setId(int id){
+        this.id = id;
+    }
+    
+    
 }

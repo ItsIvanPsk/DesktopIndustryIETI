@@ -104,11 +104,9 @@ public class Servidor extends WebSocketServer {
             conn.send(msg);
         } else if(token.equals("AC#")){
             // obj id = idpasada
-            // 
-        } 
+            //
+        }
     }
-
-    
     @Override
     public void onError(WebSocket conn, Exception ex) { ex.printStackTrace(); }
     @Override
