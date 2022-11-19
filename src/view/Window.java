@@ -64,16 +64,14 @@ public class Window {
 	        return;  
 	    }
 	    File selectedFile = fileChooser.getSelectedFile();
-	    Model.lecturaXMLApp(selectedFile);
-	    loadComponents(selectedFile);
-	    
-	    
+	    Model.lecturaXML(selectedFile);
+	    loadComponents();
 	}
-	private void loadComponents(File file) {
-		panelContenedor.add(modelo.createSwitch(file));
-		panelContenedor.add(modelo.createSlider(file));
-		panelContenedor.add(modelo.createDropdown(file));
-		panelContenedor.add(modelo.createSensor(file));
+	private void loadComponents() {
+		panelContenedor.add(modelo.createSwitch());
+		panelContenedor.add(modelo.createSlider());
+		//panelContenedor.add(modelo.createDropdown());
+		panelContenedor.add(modelo.createSensor());
 		ventana.pack();
 		ventana.setSize(1500,1000);
 	}

@@ -14,7 +14,6 @@ public class Switch implements Serializable{
 		return id;
 	}
 
-
 	public String getDef() {
 		return def;
 	}

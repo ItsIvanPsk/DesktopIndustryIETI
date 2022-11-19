@@ -98,19 +98,17 @@ public class Servidor extends WebSocketServer {
                 System.out.println("Error relacionado con sql");
             }
         } else if(token.equals("CF#")){
-            System.out.println("here");
-            Model.lecturaXMLApp(new File(configPath));
-            conn.send(
-                modelo.recorrerArrays(
-                    modelo.getSwitchs(),
-                    modelo.getSliders(),
-                    modelo.getDropDowns(),
-                    modelo.getSensors()
-                )
-            );
-            System.out.println("here 2");
-        }
+            Model.lecturaXML(new File(configPath));
+            String msg = modelo.recorrerArrays();
+            System.out.println("Server sends: " + msg);
+            conn.send(msg);
+        } else if(token.equals("AC#")){
+            // obj id = idpasada
+            // 
+        } 
     }
+
+    
     @Override
     public void onError(WebSocket conn, Exception ex) { ex.printStackTrace(); }
     @Override
