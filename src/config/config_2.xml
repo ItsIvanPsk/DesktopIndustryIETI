@@ -3,7 +3,7 @@
     <controls name="block1">
         <switch id="0" default="on">Label</switch>
         <slider id="1" default="5" min="0" max="10" step="1">Label</slider>
-        <dropdown id="2" default="3">
+        <dropdown id="2" default="3" label="Etiqueta">
             <option value="2">Label 2</option>
             <option value="3">Label 3</option>
         </dropdown>

@@ -99,7 +99,7 @@ public class Servidor extends WebSocketServer {
             }
         } else if(token.equals("CF#")){
             System.out.println("here");
-            Model.lecturaXMLApp(new File(configPath));
+            Model.lecturaXML(new File(configPath));
             conn.send(
                 modelo.recorrerArrays(
                     modelo.getSwitchs(),
