@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.io.File;
 
 import javax.swing.*;
+import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -12,6 +13,10 @@ import src.model.Model;
 
 public class Window {
 	private  JFrame ventana;
+    private JScrollPane scrollPanelSwitch;
+	private JScrollPane scrollPanelSlider;
+	private JScrollPane scrollPanelDropDown;
+	private JScrollPane scrollPanelSensor;
 	private static JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
 	private static FileFilter filter = new FileNameExtensionFilter("File xml (.xml)", "xml");
 	Model modelo=new Model();
@@ -44,7 +49,6 @@ public class Window {
 		arxiu.add(carregarConfig);
 		panelContenedor.setLayout(new GridLayout(2,2));
 		
-		ventana.pack();
 		ventana.setSize(1500, 1000);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - ventana.getWidth()) / 2);
@@ -66,16 +70,59 @@ public class Window {
 	    File selectedFile = fileChooser.getSelectedFile();
 	    Model.lecturaXML(selectedFile);
 	    loadComponents();
+	    
+	    
 	}
 	private void loadComponents() {
-		panelContenedor.add(modelo.createSwitch());
-		panelContenedor.add(modelo.createSlider());
-		//panelContenedor.add(modelo.createDropdown());
-		panelContenedor.add(modelo.createSensor());
-		ventana.pack();
-		ventana.setSize(1500,1000);
+		panelContenedor.removeAll();
+		scrollPanelSwitch= new JScrollPane();
+        panelContenedor.add(scrollPanelSwitch);
+
+		JPanel titleSwitch = new JPanel();
+        titleSwitch.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        scrollPanelSwitch.setColumnHeaderView(titleSwitch);
+
+        JLabel labelSwitch = new JLabel("Switchs");
+        titleSwitch.add(labelSwitch);
+		
+
+		scrollPanelSlider= new JScrollPane();
+        panelContenedor.add(scrollPanelSlider);
+
+		JPanel titleSlider= new JPanel();
+        titleSlider.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        scrollPanelSlider.setColumnHeaderView(titleSlider);
+
+        JLabel labelSlider = new JLabel("Sliders");
+        titleSlider.add(labelSlider);
+
+
+		scrollPanelDropDown= new JScrollPane();
+        panelContenedor.add(scrollPanelDropDown);
+
+		JPanel titleDropDown = new JPanel();
+        titleDropDown.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        scrollPanelDropDown.setColumnHeaderView(titleDropDown);
+
+        JLabel labelDropDown = new JLabel("Drops Downs");
+        titleDropDown.add(labelDropDown);
+
+
+		scrollPanelSensor= new JScrollPane();
+        panelContenedor.add(scrollPanelSensor);
+
+		JPanel titleSensor = new JPanel();
+        titleSensor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        scrollPanelSensor.setColumnHeaderView(titleSensor);
+
+        JLabel labelSensors = new JLabel("Sensors");
+        titleSensor.add(labelSensors);
+
+		scrollPanelSwitch.setViewportView(modelo.createSwitch());
+		scrollPanelSlider.setViewportView(modelo.createSlider());
+		scrollPanelDropDown.setViewportView(modelo.createDropdown());
+		scrollPanelSensor.setViewportView(modelo.createSensor());
+		SwingUtilities.updateComponentTreeUI(ventana);
 	}
-
 }
-
 

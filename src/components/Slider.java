@@ -1,16 +1,16 @@
 package src.components;
-import java.io.Serializable;
 
-public class Slider implements Serializable{
-    private String id;
-    private String def;
-    private String min;
-    private String max;
-    private String step;
+
+public class Slider extends Controls {
+    private int id;
+    private int def;
+    private int min;
+    private int max;
+    private int step;
     private String text;
     
     //Constructor
-    public Slider(String id, String def, String min, String max, String step, String text) {
+    public Slider(int id, int def, int min, int max, int step, String text) {
         super();
         this.id = id;
         this.def = def;
@@ -20,36 +20,39 @@ public class Slider implements Serializable{
         this.text = text;
     }
     
+    public Slider() {
+    }
+
     //Getters and Setters
-    public String getDef() {
+    public int getDef() {
         return def;
     }
 
-    public void setDef(String def) {
+    public void setDef(int def) {
         this.def = def;
     }
 
-    public String getMin() {
+    public int getMin() {
         return min;
     }
 
-    public void setMin(String min) {
+    public void setMin(int min) {
         this.min = min;
     }
 
-    public String getMax() {
+    public int getMax() {
         return max;
     }
 
-    public void setMax(String max) {
+    public void setMax(int max) {
         this.max = max;
     }
 
-    public String getStep() {
+    public int getStep() {
         return step;
     }
 
-    public void setStep(String step) {
+    public void setStep(int step) {
         this.step = step;
     }
 
@@ -61,14 +64,28 @@ public class Slider implements Serializable{
         this.text = text;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     //ToString
     public String toString() {
         return "SL#"+id+"#"+def+"#"+min+"#"+ max+"#"+step+"#"+text ;
     }
+
+
     
     
 }
