@@ -105,14 +105,12 @@ public class Window {
 		JPanel titleDropDown = new JPanel();
         titleDropDown.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
         scrollPanelDropDown.setColumnHeaderView(titleDropDown);
-	private void loadComponents() {
 		panelContenedor.add(modelo.createSwitch());
 		panelContenedor.add(modelo.createSlider());
 		//panelContenedor.add(modelo.createDropdown());
 		panelContenedor.add(modelo.createSensor());
 		ventana.pack();
 		ventana.setSize(1500,1000);
-	}
 
         JLabel labelDropDown = new JLabel("Drops Downs");
         titleDropDown.add(labelDropDown);

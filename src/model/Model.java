@@ -1,5 +1,6 @@
 package src.model;
 
+import java.awt.*;    
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -160,36 +161,29 @@ public class Model {
         }
     }
 
-    public String recorrerArrays(
-        ArrayList<String> switchs,
-        ArrayList<String> sliders,
-        ArrayList<String> dropdowns,
-        ArrayList<String> sensors
-    ) {
+    public String recorrerArrays() {
         String appComponentes = "CF%%";
 
-        System.out.println(switchs.size());
-
-        if(switchs.size() != 0){
-            for (String _switch : switchs) {
+        if(model.getSwitchs().size() != 0){
+            for (String _switch : model.getSwitchs()) {
                 appComponentes = appComponentes + _switch + "%%";
             }
         }
 
-        if(sliders.size() != 0){
-            for (String _sliders : sliders) {
+        if(model.getSliders().size() != 0){
+            for (String _sliders : model.getSliders()) {
                 appComponentes = appComponentes + _sliders + "%%";
             }
         }
 
-        if(sensors.size() != 0){
-            for (String _sensors:sensors) {
+        if(model.getSensors().size() != 0){
+            for (String _sensors:model.getSensors()) {
                 appComponentes = appComponentes + _sensors + "%%";
             }
         }
 
-        if(dropdowns.size() != 0){
-            for (String _dropdown:dropdowns) {
+        if(model.getDropDowns().size() != 0){
+            for (String _dropdown:model.getDropDowns()) {
                 appComponentes = appComponentes + _dropdown + "%%";
             }
         }
