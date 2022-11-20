@@ -32,10 +32,10 @@ public class Window {
 		JMenuBar barraMenu=new JMenuBar();
 		ventana.setJMenuBar(barraMenu);
 		
-		JMenu arxiu=new JMenu("Arxiu");
+		JMenu arxiu = new JMenu("Arxiu");
 		barraMenu.add(arxiu);
 		
-		JMenu visualitzacio=new JMenu("Visualitzacions");
+		JMenu visualitzacio = new JMenu("Visualitzacions");
 		barraMenu.add(visualitzacio);
 		
 		JMenuItem carregarConfig=new JMenuItem("Carregar configuracio");
@@ -73,7 +73,7 @@ public class Window {
 	    
 	    
 	}
-	private void loadComponents() {
+	public void loadComponents() {
 		panelContenedor.removeAll();
 		scrollPanelSwitch= new JScrollPane();
         panelContenedor.add(scrollPanelSwitch);

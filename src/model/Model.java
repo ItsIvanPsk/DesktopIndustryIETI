@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -23,6 +24,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import src.components.Controls;
 import src.components.Dropdown;
 import src.components.Option;
 import src.components.Sensor;
@@ -31,18 +33,18 @@ import src.components.Switch;
 
 public class Model {
     // App
-	private ArrayList<String> switchs = new ArrayList<String>();
-    private ArrayList<String> sliders = new ArrayList<String>();
-    private ArrayList<String> dropdowns = new ArrayList<String>();
-    private ArrayList<String> sensors = new ArrayList<String>();
+	private static ArrayList<String> switchs = new ArrayList<String>();
+    private static ArrayList<String> sliders = new ArrayList<String>();
+    private static ArrayList<String> dropdowns = new ArrayList<String>();
+    private static ArrayList<String> sensors = new ArrayList<String>();
     // Desktop
-	private ArrayList<Switch> switchs_obj = new ArrayList<>();
-    private ArrayList<Slider> sliders_obj = new ArrayList<>();
-    private ArrayList<Dropdown> dropdowns_obj = new ArrayList<>();
-    private ArrayList<Sensor> sensors_obj = new ArrayList<>();
+	private static ArrayList<Switch> switchs_obj = new ArrayList<>();
+    private static ArrayList<Slider> sliders_obj = new ArrayList<>();
+    private static ArrayList<Dropdown> dropdowns_obj = new ArrayList<>();
+    private static ArrayList<Sensor> sensors_obj = new ArrayList<>();
 
     static Model model = new Model();
-
+    
     /*
         
         Variables con GETTERS/SETTERS en vez de usar static
@@ -58,7 +60,6 @@ public class Model {
         1 METODO 'Salt&Pepper' para desencriptar la contraseña //WIP
 
      */
-
 
     public static void lecturaXML(File file) {
         try {
@@ -193,6 +194,14 @@ public class Model {
         return appComponentes;
     }
 
+    public Controls getArrayObject(ArrayList<Controls> array, int id){
+
+        for (int i = 0; i < array.size(); i++) {
+            System.out.println(i);
+        }
+        return new Controls();
+    }
+
     public JPanel createSwitch() {
         // Generate the background and the header
         JPanel panel1=new JPanel();
@@ -259,16 +268,16 @@ public class Model {
 	}
 	
 	public JPanel createDropdown() {
-		JPanel panel1=new JPanel();
+		JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayout(0,2));
-        JComboBox combo=null;
+        JComboBox combo = null;
 
         for( int cb = 0 ; cb < model.getDropDownsObj().size() ; cb++ ){
             combo=new JComboBox();
             for( int op = 0 ; op < model.getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
                 String[] array=model.getDropDownsObj().get(cb).getListOpt().get(op).split("//");
                 Option pre=new Option(Integer.parseInt(array[0]), array[1]);
-                if (model.getDropDownsObj().get(cb).getDef()==pre.getValue()) {
+                if (model.getDropDownsObj().get(cb).getDef() == pre.getValue()) {
                     combo.addItem(pre.getText());
                     combo.setSelectedIndex(op);
                 }
@@ -277,7 +286,7 @@ public class Model {
                 }
             }
             JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(model.getDropDownsObj().get(cb).getText());
+            JLabel tag=new JLabel(Model.getDropDownsObj().get(cb).getText());
             combo.setMaximumSize(new Dimension(400, 50));
             panel2.add(tag);
             panel2.add(combo);
@@ -291,15 +300,15 @@ public class Model {
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         JTextField text=null;
 
-        for( int ss = 0 ; ss < model.getSensorsObj().size() ; ss++ ){
+        for( int ss = 0 ; ss < Model.getSensorsObj().size() ; ss++ ){
             text = new JTextField();
 			text.setText(
-                "Temperature thresholdlow: " + model.getSensorsObj().get(ss).getThresholdlow() + " " + model.getSensorsObj().get(ss).getUnits()
-                + "\nTemperature Thresholdhigh: " + model.getSensorsObj().get(ss).getThresholdhigh() + " " + model.getSensorsObj().get(ss).getUnits());
+                "Temperature thresholdlow: " + Model.getSensorsObj().get(ss).getThresholdlow() + " " + Model.getSensorsObj().get(ss).getUnits()
+                + "\nTemperature Thresholdhigh: " + Model.getSensorsObj().get(ss).getThresholdhigh() + " " + Model.getSensorsObj().get(ss).getUnits());
             
             text.setEditable(false);
             JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(model.getSensorsObj().get(ss).getText());
+            JLabel tag=new JLabel(Model.getSensorsObj().get(ss).getText());
             panel2.add(tag);
             panel2.add(text);
             panel1.add(Box.createVerticalStrut(10));
@@ -308,21 +317,45 @@ public class Model {
 		return panel1;
 	}
 
-    public Object findObjectWithId(int id){
+    public static int findObjectWithId(int id){
+        System.out.println("IVAN: " + Model.getSwitchsObj().size());
+        for (int i = 0; i < Model.getSwitchsObj().size(); i++) {
+            if(Model.getSwitchsObj().get(i).getId() == id){
+                return i;
+            }
+        }
+
+        for (int i = 0; i < Model.getSensorsObj().size(); i++) {
+            if(Model.getSensorsObj().get(i).getId() == id){
+                return i;
+            }
+        }
+
+        for (int i = 0; i < Model.getSlidersObj().size(); i++) {
+            if(Model.getSlidersObj().get(i).getId() == id){
+                return i;
+            }
+        }
+
+        for (int i = 0; i < Model.getDropDownsObj().size(); i++) {
+            if(Model.getDropDownsObj().get(i).getId() == id){
+                return i;
+            }
+        }
         
-        return new Object();
+        return -1;
     }
 
     // Getters/Setters
-    public ArrayList<String> getSwitchs() { return switchs; }
-    public ArrayList<String> getSliders() { return sliders; }
-    public ArrayList<String> getDropDowns() { return dropdowns; }
-    public ArrayList<String> getSensors() { return sensors; }
+    public static ArrayList<String> getSwitchs() { return switchs; }
+    public static ArrayList<String> getSliders() { return sliders; }
+    public static ArrayList<String> getDropDowns() { return dropdowns; }
+    public static ArrayList<String> getSensors() { return sensors; }
 
-    public ArrayList<Switch> getSwitchsObj() { return switchs_obj; }
-    public ArrayList<Slider> getSlidersObj() { return sliders_obj; }
-    public ArrayList<Dropdown> getDropDownsObj() { return dropdowns_obj; }
-    public ArrayList<Sensor> getSensorsObj() { return sensors_obj; }
+    public static ArrayList<Switch> getSwitchsObj() { return switchs_obj; }
+    public static ArrayList<Slider> getSlidersObj() { return sliders_obj; }
+    public static ArrayList<Dropdown> getDropDownsObj() { return dropdowns_obj; }
+    public static ArrayList<Sensor> getSensorsObj() { return sensors_obj; }
 
 }
 

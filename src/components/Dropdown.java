@@ -2,7 +2,7 @@ package src.components;
 
 import java.util.ArrayList;
 
-public class Dropdown {
+public class Dropdown extends Controls{
     private int id, def;
     private String text;
     private ArrayList<String> listOpt;

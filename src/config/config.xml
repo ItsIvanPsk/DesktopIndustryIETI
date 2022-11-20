@@ -9,6 +9,29 @@
         </dropdown>
         <sensor id="3" units="ºC" thresholdlow="5" thresholdhigh="10">Label</sensor>
         <switch id="4" default="off">Label</switch>
-        <switch id="5" default="on">Label</switch>        
+        <switch id="5" default="on">Label</switch>     
+        <switch id="6" default="on">Label</switch>  
+        <dropdown id="7" default="3" label="Etiqueta">
+            <option value="2">Label 2</option>
+            <option value="3">Label 3</option>
+        </dropdown>
+        <dropdown id="8" default="3" label="Etiqueta">
+            <option value="2">Label 2</option>
+            <option value="3">Label 3</option>
+        </dropdown>
+        <dropdown id="9" default="3" label="Etiqueta">
+            <option value="2">Label 2</option>
+            <option value="3">Label 3</option>
+        </dropdown> 
+        <dropdown id="10" default="3" label="Etiqueta">
+            <option value="2">Label 2</option>
+            <option value="3">Label 3</option>
+        </dropdown>
+        <slider id="11" default="5" min="0" max="10" step="1">Label</slider>
+        <slider id="12" default="5" min="0" max="10" step="1">Label</slider>
+        <slider id="13" default="5" min="0" max="10" step="1">Label</slider>
+        <sensor id="14" units="ºC" thresholdlow="5" thresholdhigh="10">Label</sensor>
+        <sensor id="15" units="ºC" thresholdlow="5" thresholdhigh="10">Label</sensor>
+        <sensor id="16" units="ºC" thresholdlow="5" thresholdhigh="10">Label</sensor>
     </controls>
 </root>
