@@ -86,10 +86,12 @@ public class Servidor extends WebSocketServer {
                     if (userName.equals(usuarioArray.get(1)) 
                             && password.equals(usuarioArray.get(2))){
                         String msg = "UV#" + userName + "#" + password + "#true";
+                        System.out.println("Server sends: " + msg);
                         conn.send(msg);
                         break;
                     } else{
                         String msg = "UV#" + userName + "#" + password + "#false";
+                        System.out.println("Server sends: " + msg);
                         conn.send(msg);
                         break;
                     }
@@ -98,17 +100,10 @@ public class Servidor extends WebSocketServer {
                 System.out.println("Error relacionado con sql");
             }
         } else if(token.equals("CF#")){
-            System.out.println("here");
             Model.lecturaXML(new File(configPath));
-            conn.send(
-                modelo.recorrerArrays(
-                    modelo.getSwitchs(),
-                    modelo.getSliders(),
-                    modelo.getDropDowns(),
-                    modelo.getSensors()
-                )
-            );
-            System.out.println("here 2");
+            String msg = modelo.recorrerArrays();
+            System.out.println("Server sends: " + msg);
+            conn.send(msg);
         }
     }
     @Override
