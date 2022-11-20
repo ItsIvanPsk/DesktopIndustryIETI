@@ -1,10 +1,10 @@
 package src.components;
-import java.io.Serializable;
 
-public class Sensor implements Serializable{
-	private String id,units,thresholdlow,thresholdhigh,text;
+public class Sensor extends Controls{
+	int id,thresholdlow,thresholdhigh;
+	private String units,text;
 
-	public Sensor(String id, String units, String thresholdlow,String thresholdhigh,String text) {
+	public Sensor(int id, String units, int thresholdlow,int thresholdhigh,String text) {
 		this.id = id;
 		this.units = units;
 		this.thresholdlow = thresholdlow;
@@ -13,7 +13,10 @@ public class Sensor implements Serializable{
 	}
 	//getters and setters
 
-	public String getId() {
+	public Sensor() {
+    }
+
+    public int getId() {
 		return id;
 	}
 
@@ -26,19 +29,19 @@ public class Sensor implements Serializable{
 		this.units = units;
 	}
 
-	public String getThresholdlow() {
+	public int getThresholdlow() {
 		return thresholdlow;
 	}
 
-	public void setThresholdlow(String thresholdlow) {
+	public void setThresholdlow(int thresholdlow) {
 		this.thresholdlow = thresholdlow;
 	}
 
-	public String getThresholdhigh() {
+	public int getThresholdhigh() {
 		return thresholdhigh;
 	}
 
-	public void setThresholdhigh(String thresholdhigh) {
+	public void setThresholdhigh(int thresholdhigh) {
 		this.thresholdhigh = thresholdhigh;
 	}
 
@@ -54,7 +57,9 @@ public class Sensor implements Serializable{
 		return "SS#"+id+"#"+units+"#"+ thresholdlow+"#"+thresholdhigh+"#"+text;
 	}
 	
-	
+	public void setId(int id){
+		this.id = id;
+	}
 	
 	
 }

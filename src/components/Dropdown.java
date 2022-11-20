@@ -2,33 +2,46 @@ package src.components;
 
 import java.util.ArrayList;
 
-public class Dropdown {
-    private String id, def;
+
+public class Dropdown extends Controls{
+    private int id, def;
+    private String label;
     private ArrayList<String> listOpt;
     
     //Constructor
-    public Dropdown(String id, String def, ArrayList<String> listOpt) {
+    public Dropdown(int id, int def, String label, ArrayList<String> listOpt) {
         super();
         this.id = id;
         this.def = def;
+        this.label = label;
         this.listOpt = listOpt;
     }
     
+    public Dropdown() {
+    }
+
     //Setters and Getters
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getDef() {
+    public int getDef() {
         return def;
     }
 
-    public void setDef(String def) {
+    public void setDef(int def) {
         this.def = def;
+    }
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public ArrayList<String> getListOpt() {
@@ -41,7 +54,7 @@ public class Dropdown {
 
     //ToString
     public String toString() {
-    	return "DD#" + id + "#" + def + "#" + listOpt.toString();
+    	return "DD#" + id + "#" + def + "#" + label + "#" + listOpt.toString();
     }
     
     

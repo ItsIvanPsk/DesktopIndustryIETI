@@ -1,16 +1,18 @@
 package src.components;
-import java.io.Serializable;
 
-public class Switch implements Serializable{
-	private String id,def,text;
+public class Switch extends Controls{
+	private int id;
+	private String def,text;
 
-	public Switch(String id, String def, String text) {
+	public Switch(int id, String def, String text) {
 		this.id = id;
 		this.def = def;
 		this.text = text;
 	}
+	public Switch() {
+	}
 	//getters and setters
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -35,6 +37,9 @@ public class Switch implements Serializable{
 	public String toString() {
 		return "SW#"+id+"#"+def+"#"+text;
 	}
+    public void setId(int id) {
+		this.id = id;
+    }
 	
 	
 	

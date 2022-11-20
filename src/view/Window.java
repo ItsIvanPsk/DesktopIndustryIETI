@@ -8,6 +8,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import src.model.Model;
+import src.model.errorValidate;
 
 
 public class Window {
@@ -64,16 +65,18 @@ public class Window {
 	        return;  
 	    }
 	    File selectedFile = fileChooser.getSelectedFile();
-	    Model.lecturaXMLApp(selectedFile);
+		
+		
+	    Model.lecturaXML(selectedFile);
 	    loadComponents(selectedFile);
 	    
 	    
 	}
 	private void loadComponents(File file) {
-		panelContenedor.add(modelo.createSwitch(file));
-		panelContenedor.add(modelo.createSlider(file));
-		panelContenedor.add(modelo.createDropdown(file));
-		panelContenedor.add(modelo.createSensor(file));
+		panelContenedor.add(modelo.createSwitch());
+		panelContenedor.add(modelo.createSlider());
+		panelContenedor.add(modelo.createDropdown());
+		panelContenedor.add(modelo.createSensor());
 		ventana.pack();
 		ventana.setSize(1500,1000);
 	}
