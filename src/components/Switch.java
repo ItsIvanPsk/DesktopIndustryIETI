@@ -17,9 +17,10 @@ public class Switch extends Controls{
         return id;
     }
 
-	public String getDef() {
-		return def;
-	}
+
+    public String getDef() {
+        return def;
+    }
 
     public void setDef(String def) {
         this.def = def;
@@ -40,7 +41,7 @@ public class Switch extends Controls{
     public void setId(int id) {
         this.id = id;
     }
-
-
-
+    
+    
+    
 }

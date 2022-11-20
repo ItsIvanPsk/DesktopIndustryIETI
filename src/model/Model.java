@@ -1,6 +1,8 @@
 package src.model;
 
-import java.awt.*;    
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -42,14 +44,14 @@ public class Model {
     static Model model = new Model();
 
     /*
-
+        
         Variables con GETTERS/SETTERS en vez de usar static
 
         1 METODO para obtener del XML y crear los objetos en los respectivos Arrays
-        1 METODO para generar la interfaz, este metodo cogerá los 4 arrays y generará la
+        1 METODO para generar la interfaz, este metodo cogerá los 4 arrays y generará la 
             interfaz desde 0 con los objetos de los arrays.
         1 METODO para recorrer los arrays y generar string para la App
-
+        
         1 METODO para encontrar un objeto con una id en concreto y retornarlo //WIP
         1 METODO para actualizar el objeto deseado en los Arrays (Puede ser que también se deba de cambiar el XML) //WIP
         1 METODO para encriptar la contraseña //WIP
@@ -88,8 +90,8 @@ public class Model {
                         if(nodeSwitch.getNodeType() == Node.ELEMENT_NODE) {
                             Element elmSwi = (Element) nodeSwitch;
                             Switch switch_obj = new Switch(
-                                Integer.parseInt(elmSwi.getAttribute("id")),
-                                elmSwi.getAttribute("default"),
+                                Integer.parseInt(elmSwi.getAttribute("id")), 
+                                elmSwi.getAttribute("default"), 
                                 elmSwi.getTextContent()
                             );
                             model.getSwitchs().add(switch_obj.toString());
@@ -102,7 +104,7 @@ public class Model {
                         if(nodeSlider.getNodeType() == Node.ELEMENT_NODE) {
                             Element elmSli = (Element) nodeSlider;
                             Slider slider = new Slider(
-                                Integer.parseInt(elmSli.getAttribute("id")),
+                                Integer.parseInt(elmSli.getAttribute("id")), 
                                 Integer.parseInt(elmSli.getAttribute("default")),
                                 Integer.parseInt(elmSli.getAttribute("min")),
                                 Integer.parseInt(elmSli.getAttribute("max")),
@@ -161,29 +163,36 @@ public class Model {
         }
     }
 
-    public String recorrerArrays() {
+    public String recorrerArrays(
+        ArrayList<String> switchs,
+        ArrayList<String> sliders,
+        ArrayList<String> dropdowns,
+        ArrayList<String> sensors
+    ) {
         String appComponentes = "CF%%";
 
-        if(model.getSwitchs().size() != 0){
-            for (String _switch : model.getSwitchs()) {
+        System.out.println(switchs.size());
+
+        if(switchs.size() != 0){
+            for (String _switch : switchs) {
                 appComponentes = appComponentes + _switch + "%%";
             }
         }
 
-        if(model.getSliders().size() != 0){
-            for (String _sliders : model.getSliders()) {
+        if(sliders.size() != 0){
+            for (String _sliders : sliders) {
                 appComponentes = appComponentes + _sliders + "%%";
             }
         }
 
-        if(model.getSensors().size() != 0){
-            for (String _sensors:model.getSensors()) {
+        if(sensors.size() != 0){
+            for (String _sensors:sensors) {
                 appComponentes = appComponentes + _sensors + "%%";
             }
         }
 
-        if(model.getDropDowns().size() != 0){
-            for (String _dropdown:model.getDropDowns()) {
+        if(dropdowns.size() != 0){
+            for (String _dropdown:dropdowns) {
                 appComponentes = appComponentes + _dropdown + "%%";
             }
         }
@@ -210,7 +219,7 @@ public class Model {
                     } else {
                         boton.setText("on");
                     }
-
+                    
                 }
             });
             if (boton.getText().equalsIgnoreCase("on")){
@@ -228,7 +237,7 @@ public class Model {
 	}
 	
 	public JPanel createSlider() {
-
+	
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         JSlider slider=null;
@@ -251,7 +260,7 @@ public class Model {
             panel2.add(slider);
             panel1.add(Box.createVerticalStrut(10));
             panel1.add(panel2);
-
+            
         }
 	return panel1;
 	}
@@ -294,7 +303,7 @@ public class Model {
 			text.setText(
                 "Temperature thresholdlow: " + model.getSensorsObj().get(ss).getThresholdlow() + " " + model.getSensorsObj().get(ss).getUnits()
                 + "\nTemperature Thresholdhigh: " + model.getSensorsObj().get(ss).getThresholdhigh() + " " + model.getSensorsObj().get(ss).getUnits());
-
+            
             text.setEditable(false);
             JPanel panel2=new JPanel();
             JLabel tag=new JLabel(model.getSensorsObj().get(ss).getText());
@@ -307,7 +316,7 @@ public class Model {
 	}
 
     public Object findObjectWithId(int id){
-
+        
         return new Object();
     }
 
