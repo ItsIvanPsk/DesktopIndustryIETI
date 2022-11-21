@@ -17,6 +17,9 @@ public class Switch extends Controls{
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getDef() {
         return def;
@@ -37,9 +40,6 @@ public class Switch extends Controls{
     @Override
     public String toString() {
         return "SW#"+id+"#"+def+"#"+text;
-    }
-    public void setId(int id) {
-        this.id = id;
     }
     
     

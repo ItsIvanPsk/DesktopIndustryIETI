@@ -7,6 +7,10 @@
             <option value="2">Label 2</option>
             <option value="3">Label 3</option>
         </dropdown>
+        <dropdown id="2" default="2" label="Puertas del garaje">
+            <option value="1">Puerta delantera</option>
+            <option value="2">Puerta trasera</option>
+        </dropdown>
         <sensor id="3" units="ºC" thresholdlow="5" thresholdhigh="10">Label</sensor>
         <switch id="4" default="off">Label</switch>
         <switch id="5" default="on">Label</switch>        

@@ -1,6 +1,6 @@
 package src.components;
  
-public class Option {
+public class Option extends Controls{
     private int value;
     private String text;
     

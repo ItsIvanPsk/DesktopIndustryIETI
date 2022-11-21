@@ -1,5 +1,4 @@
 package src;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -27,14 +26,12 @@ public class Servidor extends WebSocketServer {
     private static Scanner sc=new Scanner(System.in);
     private static int port = 8888; 
     private static Servidor socket;
-    static Model modelo;
+    Window window = new Window();
+    Model modelo = new Model();
 
     public static void main(String[] args) throws InterruptedException, IOException {
         
         baseDades.checkDataBase();
-        modelo = new Model();
-        new Window();
-
         boolean running = true;
 
         java.lang.System.setProperty("jdk.tls.client.protocols", "TLSv1,TLSv1.1,TLSv1.2");
@@ -73,6 +70,7 @@ public class Servidor extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket conn, String message) {
+        Model model = new Model();
         System.out.println("MESSAGE: " + message);
         String token = message.substring(0, 3);
         if(token.equals("UV#")){
@@ -82,14 +80,15 @@ public class Servidor extends WebSocketServer {
             try {
                 while (rs.next()) {
                     String userName = rs.getString("userName");
-                    String password = rs.getString("password");
-                    if (userName.equals(usuarioArray.get(1)) 
-                            && password.equals(usuarioArray.get(2))){
-                        String msg = "UV#" + userName + "#" + password + "#true";
+                    String hash = rs.getString("hash");
+                    if (model.passwordValidate(usuarioArray.get(1),usuarioArray.get(2))) {
+                        String msg = "UV#" + userName + "#" + hash.substring(hash.length() - 10) + "#true";
+                        System.out.println("Server sends: " + msg);
                         conn.send(msg);
                         break;
-                    } else{
-                        String msg = "UV#" + userName + "#" + password + "#false";
+                    } else {
+                        String msg = "UV#" + userName + "#" + hash.substring(hash.length() - 10) + "#false";
+                        System.out.println("Server sends: " + msg);
                         conn.send(msg);
                         break;
                     }
@@ -98,21 +97,40 @@ public class Servidor extends WebSocketServer {
                 System.out.println("Error relacionado con sql");
             }
         } else if(token.equals("CF#")){
-            System.out.println("here");
-            Model.lecturaXML(new File(configPath));
-            conn.send(
-                modelo.recorrerArrays(
-                    modelo.getSwitchs(),
-                    modelo.getSliders(),
-                    modelo.getDropDowns(),
-                    modelo.getSensors()
-                )
-            );
-            System.out.println("here 2");
+            String msg = model.recorrerArrays();
+            System.out.println("Server sends: " + msg);
+            conn.send(msg);
+        } else if (token.equals("AC#")){
+            System.out.println(message);
+            String[] splitedMessage = message.split("#");
+            switch (splitedMessage[1]) {
+                case "SW":
+                    Integer sw_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
+                    if(splitedMessage[3].equals("true")){
+                        modelo.getSwitchsObj().get(sw_index).setDef("on");
+                    } else {
+                        modelo.getSwitchsObj().get(sw_index).setDef("off");
+                    }
+                    window.loadComponents();
+                    break;
+                case "SL":
+                    Integer sl_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
+                    modelo.getSlidersObj().get(sl_index).setDef(Integer.parseInt(splitedMessage[3]));
+                    window.loadComponents();
+                    break;
+                case "DD":
+                    System.out.println(splitedMessage[3]);
+                    Integer dd_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
+                    modelo.getDropDownsObj().get(dd_index).setDef(Integer.parseInt(splitedMessage[3]));
+                    window.loadComponents();
+                    break;
+            }
         }
     }
+
     @Override
     public void onError(WebSocket conn, Exception ex) { ex.printStackTrace(); }
+    
     @Override
     public void onStart() { }
 

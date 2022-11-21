@@ -12,19 +12,18 @@ import src.model.Model;
 
 
 public class Window {
-	private  JFrame ventana;
+	private static  JFrame ventana;
     private JScrollPane scrollPanelSwitch;
 	private JScrollPane scrollPanelSlider;
 	private JScrollPane scrollPanelDropDown;
 	private JScrollPane scrollPanelSensor;
 	private static JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
 	private static FileFilter filter = new FileNameExtensionFilter("File xml (.xml)", "xml");
-	Model modelo=new Model();
+	Model modelo = new Model();
 	private Container panelContenedor;
 	
 	public Window() {
 		construirVentana();
-		
 	}
 	private void construirVentana() {
 		ventana= new JFrame("Industry IETI");
@@ -32,13 +31,13 @@ public class Window {
 		JMenuBar barraMenu=new JMenuBar();
 		ventana.setJMenuBar(barraMenu);
 		
-		JMenu arxiu=new JMenu("Arxiu");
+		JMenu arxiu = new JMenu("Arxiu");
 		barraMenu.add(arxiu);
 		
-		JMenu visualitzacio=new JMenu("Visualitzacions");
+		JMenu visualitzacio = new JMenu("Visualitzacions");
 		barraMenu.add(visualitzacio);
 		
-		JMenuItem carregarConfig=new JMenuItem("Carregar configuracio");
+		JMenuItem carregarConfig = new JMenuItem("Carregar configuracio");
 		carregarConfig.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -70,10 +69,8 @@ public class Window {
 	    File selectedFile = fileChooser.getSelectedFile();
 	    Model.lecturaXML(selectedFile);
 	    loadComponents();
-	    
-	    
 	}
-	private void loadComponents() {
+	public void loadComponents() {
 		panelContenedor.removeAll();
 		scrollPanelSwitch= new JScrollPane();
         panelContenedor.add(scrollPanelSwitch);
@@ -123,6 +120,9 @@ public class Window {
 		scrollPanelDropDown.setViewportView(modelo.createDropdown());
 		scrollPanelSensor.setViewportView(modelo.createSensor());
 		SwingUtilities.updateComponentTreeUI(ventana);
+	}
+	public static JFrame getVentana(){
+		return ventana;
 	}
 }
 
