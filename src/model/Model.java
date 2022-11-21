@@ -33,17 +33,17 @@ import src.components.Switch;
 
 public class Model {
     // App
-	private static ArrayList<String> switchs = new ArrayList<String>();
-    private static ArrayList<String> sliders = new ArrayList<String>();
-    private static ArrayList<String> dropdowns = new ArrayList<String>();
-    private static ArrayList<String> sensors = new ArrayList<String>();
+	private ArrayList<String> switchs = new ArrayList<String>();
+    private ArrayList<String> sliders = new ArrayList<String>();
+    private ArrayList<String> dropdowns = new ArrayList<String>();
+    private ArrayList<String> sensors = new ArrayList<String>();
     // Desktop
-	private static ArrayList<Switch> switchs_obj = new ArrayList<>();
-    private static ArrayList<Slider> sliders_obj = new ArrayList<>();
-    private static ArrayList<Dropdown> dropdowns_obj = new ArrayList<>();
-    private static ArrayList<Sensor> sensors_obj = new ArrayList<>();
+	private ArrayList<Switch> switchs_obj = new ArrayList<>();
+    private ArrayList<Slider> sliders_obj = new ArrayList<>();
+    private ArrayList<Dropdown> dropdowns_obj = new ArrayList<>();
+    private ArrayList<Sensor> sensors_obj = new ArrayList<>();
 
-    static Model model = new Model();
+    static Model modelo = new Model();
     
     /*
         
@@ -62,6 +62,15 @@ public class Model {
      */
 
     public static void lecturaXML(File file) {
+        modelo.getSwitchs().clear();
+        modelo.getSliders().clear();
+        modelo.getDropDowns().clear();
+        modelo.getSensors().clear();
+
+        modelo.getSwitchsObj().clear();
+        modelo.getSlidersObj().clear();
+        modelo.getDropDownsObj().clear();
+        modelo.getSensorsObj().clear();
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -69,16 +78,6 @@ public class Model {
 
             doc.getDocumentElement().normalize();
             
-            model.getSwitchs().clear();
-            model.getSliders().clear();
-            model.getDropDowns().clear();
-            model.getSensors().clear();
-
-            model.getSwitchsObj().clear();
-            model.getSlidersObj().clear();
-            model.getDropDownsObj().clear();
-            model.getSensorsObj().clear();
-
             NodeList listaControles = doc.getElementsByTagName("controls");
 
             for(int cnt = 0; cnt < listaControles.getLength(); cnt++) {
@@ -95,8 +94,8 @@ public class Model {
                                 elmSwi.getAttribute("default"), 
                                 elmSwi.getTextContent()
                             );
-                            model.getSwitchs().add(switch_obj.toString());
-                            model.getSwitchsObj().add(switch_obj);
+                            modelo.getSwitchs().add(switch_obj.toString());
+                            modelo.getSwitchsObj().add(switch_obj);
                         }
                     }
                     NodeList listaSlider = elm.getElementsByTagName("slider");
@@ -112,8 +111,8 @@ public class Model {
                                 Integer.parseInt(elmSli.getAttribute("step")),
                                 elmSli.getTextContent());
 
-                            model.getSliders().add(slider.toString());
-                            model.getSlidersObj().add(slider);
+                            modelo.getSliders().add(slider.toString());
+                            modelo.getSlidersObj().add(slider);
                         }
                     }
                     NodeList listaDropDown = elm.getElementsByTagName("dropdown");
@@ -136,8 +135,8 @@ public class Model {
 
                             }
                             Dropdown dropdown = new Dropdown(id,def,lab,option);
-                            model.getDropDowns().add(dropdown.toString());
-                            model.getDropDownsObj().add(dropdown);
+                            modelo.getDropDowns().add(dropdown.toString());
+                            modelo.getDropDownsObj().add(dropdown);
                         }
                     }
 
@@ -153,8 +152,8 @@ public class Model {
                                 Integer.parseInt(elmSen.getAttribute("thresholdhigh")),
                                 elmSen.getTextContent());
 
-                            model.getSensors().add(sensor.toString());
-                            model.getSensorsObj().add(sensor);
+                            modelo.getSensors().add(sensor.toString());
+                            modelo.getSensorsObj().add(sensor);
                         }
                     }
                 }
@@ -167,26 +166,26 @@ public class Model {
     public String recorrerArrays() {
         String appComponentes = "CF%%";
 
-        if(model.getSwitchs().size() != 0){
-            for (String _switch : model.getSwitchs()) {
+        if(modelo.getSwitchs().size() != 0){
+            for (String _switch : modelo.getSwitchs()) {
                 appComponentes = appComponentes + _switch + "%%";
             }
         }
 
-        if(model.getSliders().size() != 0){
-            for (String _sliders : model.getSliders()) {
+        if(modelo.getSliders().size() != 0){
+            for (String _sliders : modelo.getSliders()) {
                 appComponentes = appComponentes + _sliders + "%%";
             }
         }
 
-        if(model.getSensors().size() != 0){
-            for (String _sensors:model.getSensors()) {
+        if(modelo.getSensors().size() != 0){
+            for (String _sensors:modelo.getSensors()) {
                 appComponentes = appComponentes + _sensors + "%%";
             }
         }
 
-        if(model.getDropDowns().size() != 0){
-            for (String _dropdown:model.getDropDowns()) {
+        if(modelo.getDropDowns().size() != 0){
+            for (String _dropdown:modelo.getDropDowns()) {
                 appComponentes = appComponentes + _dropdown + "%%";
             }
         }
@@ -207,9 +206,9 @@ public class Model {
         JPanel panel1=new JPanel();
         panel1.setLayout(new GridLayout(0,2));
 
-        for( int sw = 0 ; sw < model.getSwitchsObj().size() ; sw++ ){
+        for( int sw = 0 ; sw < modelo.getSwitchsObj().size() ; sw++ ){
             JToggleButton boton = new JToggleButton(
-                model.getSwitchsObj()
+                modelo.getSwitchsObj()
                 .get(sw)
                 .getDef()
             );
@@ -228,7 +227,7 @@ public class Model {
                 boton.setSelected(true);
             }
             JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(model.getSwitchsObj().get(sw).getText());
+            JLabel tag=new JLabel(modelo.getSwitchsObj().get(sw).getText());
             boton.setFocusable(false);
             panel2.add(tag);
             panel2.add(boton);
@@ -244,19 +243,19 @@ public class Model {
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         JSlider slider=null;
 
-        for( int sl = 0 ; sl < model.getSlidersObj().size() ; sl++ ){
+        for( int sl = 0 ; sl < modelo.getSlidersObj().size() ; sl++ ){
             slider = new JSlider(
-                model.getSlidersObj().get(sl).getMin(),
-                model.getSlidersObj().get(sl).getMax(),
-                model.getSlidersObj().get(sl).getDef()
+                modelo.getSlidersObj().get(sl).getMin(),
+                modelo.getSlidersObj().get(sl).getMax(),
+                modelo.getSlidersObj().get(sl).getDef()
             );
             slider.setPaintTrack(true);
             slider.setPaintTicks(true);
             slider.setPaintLabels(true);
-            slider.setMajorTickSpacing(model.getSlidersObj().get(sl).getStep());
+            slider.setMajorTickSpacing(modelo.getSlidersObj().get(sl).getStep());
             JPanel panel2=new JPanel();
             panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
-            JLabel tag=new JLabel(model.getSlidersObj().get(sl).getText());
+            JLabel tag=new JLabel(modelo.getSlidersObj().get(sl).getText());
             tag.setAlignmentX(Component.CENTER_ALIGNMENT);
             panel2.add(tag);
             panel2.add(slider);
@@ -270,14 +269,14 @@ public class Model {
 	public JPanel createDropdown() {
 		JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayout(0,2));
-        JComboBox combo = null;
+        JComboBox combo;
 
-        for( int cb = 0 ; cb < model.getDropDownsObj().size() ; cb++ ){
-            combo=new JComboBox();
-            for( int op = 0 ; op < model.getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
-                String[] array=model.getDropDownsObj().get(cb).getListOpt().get(op).split("//");
+        for( int cb = 0 ; cb < modelo.getDropDownsObj().size() ; cb++ ){
+            combo = new JComboBox();
+            for( int op = 0 ; op < modelo.getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
+                String[] array=modelo.getDropDownsObj().get(cb).getListOpt().get(op).split("//");
                 Option pre=new Option(Integer.parseInt(array[0]), array[1]);
-                if (model.getDropDownsObj().get(cb).getDef() == pre.getValue()) {
+                if (modelo.getDropDownsObj().get(cb).getDef() == pre.getValue()) {
                     combo.addItem(pre.getText());
                     combo.setSelectedIndex(op);
                 }
@@ -286,7 +285,7 @@ public class Model {
                 }
             }
             JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(Model.getDropDownsObj().get(cb).getText());
+            JLabel tag=new JLabel(modelo.getDropDownsObj().get(cb).getText());
             combo.setMaximumSize(new Dimension(400, 50));
             panel2.add(tag);
             panel2.add(combo);
@@ -300,15 +299,15 @@ public class Model {
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         JTextField text=null;
 
-        for( int ss = 0 ; ss < Model.getSensorsObj().size() ; ss++ ){
+        for( int ss = 0 ; ss < modelo.getSensorsObj().size() ; ss++ ){
             text = new JTextField();
 			text.setText(
-                "Temperature thresholdlow: " + Model.getSensorsObj().get(ss).getThresholdlow() + " " + Model.getSensorsObj().get(ss).getUnits()
-                + "\nTemperature Thresholdhigh: " + Model.getSensorsObj().get(ss).getThresholdhigh() + " " + Model.getSensorsObj().get(ss).getUnits());
+                "Temperature thresholdlow: " + modelo.getSensorsObj().get(ss).getThresholdlow() + " " + modelo.getSensorsObj().get(ss).getUnits()
+                + "\nTemperature Thresholdhigh: " + modelo.getSensorsObj().get(ss).getThresholdhigh() + " " + modelo.getSensorsObj().get(ss).getUnits());
             
             text.setEditable(false);
             JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(Model.getSensorsObj().get(ss).getText());
+            JLabel tag=new JLabel(modelo.getSensorsObj().get(ss).getText());
             panel2.add(tag);
             panel2.add(text);
             panel1.add(Box.createVerticalStrut(10));
@@ -318,27 +317,27 @@ public class Model {
 	}
 
     public static int findObjectWithId(int id){
-        System.out.println("IVAN: " + Model.getSwitchsObj().size());
-        for (int i = 0; i < Model.getSwitchsObj().size(); i++) {
-            if(Model.getSwitchsObj().get(i).getId() == id){
+        System.out.println("IVAN: " + modelo.getSwitchsObj().size());
+        for (int i = 0; i < modelo.getSwitchsObj().size(); i++) {
+            if(modelo.getSwitchsObj().get(i).getId() == id){
                 return i;
             }
         }
 
-        for (int i = 0; i < Model.getSensorsObj().size(); i++) {
-            if(Model.getSensorsObj().get(i).getId() == id){
+        for (int i = 0; i < modelo.getSensorsObj().size(); i++) {
+            if(modelo.getSensorsObj().get(i).getId() == id){
                 return i;
             }
         }
 
-        for (int i = 0; i < Model.getSlidersObj().size(); i++) {
-            if(Model.getSlidersObj().get(i).getId() == id){
+        for (int i = 0; i < modelo.getSlidersObj().size(); i++) {
+            if(modelo.getSlidersObj().get(i).getId() == id){
                 return i;
             }
         }
 
-        for (int i = 0; i < Model.getDropDownsObj().size(); i++) {
-            if(Model.getDropDownsObj().get(i).getId() == id){
+        for (int i = 0; i < modelo.getDropDownsObj().size(); i++) {
+            if(modelo.getDropDownsObj().get(i).getId() == id){
                 return i;
             }
         }
@@ -347,15 +346,15 @@ public class Model {
     }
 
     // Getters/Setters
-    public static ArrayList<String> getSwitchs() { return switchs; }
-    public static ArrayList<String> getSliders() { return sliders; }
-    public static ArrayList<String> getDropDowns() { return dropdowns; }
-    public static ArrayList<String> getSensors() { return sensors; }
+    public ArrayList<String> getSwitchs() { return switchs; }
+    public ArrayList<String> getSliders() { return sliders; }
+    public ArrayList<String> getDropDowns() { return dropdowns; }
+    public ArrayList<String> getSensors() { return sensors; }
 
-    public static ArrayList<Switch> getSwitchsObj() { return switchs_obj; }
-    public static ArrayList<Slider> getSlidersObj() { return sliders_obj; }
-    public static ArrayList<Dropdown> getDropDownsObj() { return dropdowns_obj; }
-    public static ArrayList<Sensor> getSensorsObj() { return sensors_obj; }
+    public ArrayList<Switch> getSwitchsObj() { return switchs_obj; }
+    public ArrayList<Slider> getSlidersObj() { return sliders_obj; }
+    public ArrayList<Dropdown> getDropDownsObj() { return dropdowns_obj; }
+    public ArrayList<Sensor> getSensorsObj() { return sensors_obj; }
 
 }
 

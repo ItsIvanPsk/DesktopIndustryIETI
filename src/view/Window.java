@@ -19,12 +19,11 @@ public class Window {
 	private JScrollPane scrollPanelSensor;
 	private static JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
 	private static FileFilter filter = new FileNameExtensionFilter("File xml (.xml)", "xml");
-	Model modelo=new Model();
+	Model modelo = new Model();
 	private Container panelContenedor;
 	
 	public Window() {
 		construirVentana();
-		
 	}
 	private void construirVentana() {
 		ventana= new JFrame("Industry IETI");
@@ -38,7 +37,7 @@ public class Window {
 		JMenu visualitzacio = new JMenu("Visualitzacions");
 		barraMenu.add(visualitzacio);
 		
-		JMenuItem carregarConfig=new JMenuItem("Carregar configuracio");
+		JMenuItem carregarConfig = new JMenuItem("Carregar configuracio");
 		carregarConfig.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -70,8 +69,6 @@ public class Window {
 	    File selectedFile = fileChooser.getSelectedFile();
 	    Model.lecturaXML(selectedFile);
 	    loadComponents();
-	    
-	    
 	}
 	public void loadComponents() {
 		panelContenedor.removeAll();

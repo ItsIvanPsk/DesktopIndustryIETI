@@ -14,7 +14,6 @@ import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
-import src.components.Switch;
 import src.model.Model;
 import src.model.baseDades;
 import src.utils.UtilsSQLite;
@@ -29,6 +28,7 @@ public class Servidor extends WebSocketServer {
     private static int port = 8888; 
     private static Servidor socket;
     Window window = new Window();
+    Model modelo = new Model();
 
     public static void main(String[] args) throws InterruptedException, IOException {
         
@@ -83,12 +83,12 @@ public class Servidor extends WebSocketServer {
                     String userName = rs.getString("userName");
                     String password = rs.getString("password");
                     if (userName.equals(usuarioArray.get(1)) 
-                            && password.equals(usuarioArray.get(2))){
+                            && password.equals(usuarioArray.get(2))) {
                         String msg = "UV#" + userName + "#" + password + "#true";
                         System.out.println("Server sends: " + msg);
                         conn.send(msg);
                         break;
-                    } else{
+                    } else {
                         String msg = "UV#" + userName + "#" + password + "#false";
                         System.out.println("Server sends: " + msg);
                         conn.send(msg);
@@ -99,7 +99,6 @@ public class Servidor extends WebSocketServer {
                 System.out.println("Error relacionado con sql");
             }
         } else if(token.equals("CF#")){
-            Model.lecturaXML(new File(configPath));
             String msg = model.recorrerArrays();
             System.out.println("Server sends: " + msg);
             conn.send(msg);
@@ -110,21 +109,21 @@ public class Servidor extends WebSocketServer {
                 case "SW":
                     Integer sw_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
                     if(splitedMessage[3].equals("true")){
-                        Model.getSwitchsObj().get(sw_index).setDef("on");
+                        modelo.getSwitchsObj().get(sw_index).setDef("on");
                     } else {
-                        Model.getSwitchsObj().get(sw_index).setDef("off");
+                        modelo.getSwitchsObj().get(sw_index).setDef("off");
                     }
                     window.loadComponents();
                     break;
                 case "SL":
                     Integer sl_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
-                    Model.getSlidersObj().get(sl_index).setDef(Integer.parseInt(splitedMessage[3]));
+                    modelo.getSlidersObj().get(sl_index).setDef(Integer.parseInt(splitedMessage[3]));
                     window.loadComponents();
                     break;
                 case "DD":
                     System.out.println(splitedMessage[3]);
                     Integer dd_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
-                    Model.getDropDownsObj().get(dd_index).setDef(Integer.parseInt(splitedMessage[3]));
+                    modelo.getDropDownsObj().get(dd_index).setDef(Integer.parseInt(splitedMessage[3]));
                     window.loadComponents();
                     break;
             }
