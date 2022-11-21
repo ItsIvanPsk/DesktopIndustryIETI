@@ -96,9 +96,7 @@ public class Servidor extends WebSocketServer {
                 System.out.println("Error relacionado con sql");
             }
         } else if(token.equals("CF#")){
-            String msg = modelo.recorrerArrays();
-            System.out.println("Server sends: " + msg);
-            System.out.println("SEND SIZE: " + modelo.getSwitchsObj().size());
+            String msg = Model.getModel().recorrerArrays();
             conn.send(msg);
         } else if (token.equals("AC#")){
             System.out.println(message);

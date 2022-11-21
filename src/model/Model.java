@@ -215,32 +215,33 @@ public class Model {
 
     public String recorrerArrays() {
         String appComponentes = "CF%%";
-        System.out.println("RECORRER SIZE: " + getModel().getSwitchsObj().size());
 
-        if(getModel().getSwitchs().size() != 0){
-            for (String _switch : getModel().getSwitchs()) {
-                appComponentes = appComponentes + _switch + "%%";
+        // getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())
+        if(getModel().getSwitchsObj().size() != 0){
+            for (int i = 0; i < getModel().getSwitchsObj().size(); i++) {
+                System.out.println(getModel().getSwitchsObj().get(i).toString());
+                appComponentes = appComponentes + getModel().getSwitchsObj().get(i).toString() + "%%";
             }
         }
 
-        if(getModel().getSliders().size() != 0){
-            for (String _sliders : getModel().getSliders()) {
-                appComponentes = appComponentes + _sliders + "%%";
+        if(getModel().getSlidersObj().size() != 0){
+            for (int i = 0; i < getModel().getSlidersObj().size(); i++) {
+                appComponentes = appComponentes + getModel().getSlidersObj().get(i).toString() + "%%";
             }
         }
 
-        if(getModel().getSensors().size() != 0){
-            for (String _sensors:getModel().getSensors()) {
-                appComponentes = appComponentes + _sensors + "%%";
+        if(getModel().getSensorsObj().size() != 0){
+            for (int i = 0; i < getModel().getSensorsObj().size(); i++) {
+                appComponentes = appComponentes + getModel().getSensorsObj().get(i).toString() + "%%";
             }
         }
 
-        if(getModel().getDropDowns().size() != 0){
-            for (String _dropdown:getModel().getDropDowns()) {
-                appComponentes = appComponentes + _dropdown + "%%";
+        if(getModel().getDropDownsObj().size() != 0){
+            for (int i = 0; i < getModel().getDropDownsObj().size(); i++) {
+                appComponentes = appComponentes + getModel().getDropDownsObj().get(i).toString() + "%%";
             }
         }
-        
+        System.out.println("STRING MODELO-> " + appComponentes);
         return appComponentes;
     }
 
@@ -262,10 +263,11 @@ public class Model {
                     if (boton.getText().equalsIgnoreCase("on")) {
                         boton.setText("off");
                         getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
+                        System.out.println("Model onClick" + getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())));
                     } else {
                         boton.setText("on");
                         getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
-
+                        System.out.println(getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())));
                     }
                 }
             });
@@ -344,7 +346,6 @@ public class Model {
 
                 @Override
                 public void itemStateChanged(ItemEvent e) {
-                    // TODO Auto-generated method stub
                     for( int op = 0 ; op < getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().size() ; op++ ){
                         String[] array=getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("//");
                         Option pre=new Option(Integer.parseInt(array[0]), array[1]);
@@ -389,7 +390,6 @@ public class Model {
 	}
 
     public int findObjectWithId(int id){
-        System.out.println("IVAN: " + getModel().getSwitchsObj().size());
         for (int i = 0; i < getModel().getSwitchsObj().size(); i++) {
             if(getModel().getSwitchsObj().get(i).getId() == id){
                 return i;
