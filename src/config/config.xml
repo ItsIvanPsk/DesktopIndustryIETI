@@ -3,7 +3,7 @@
     <controls name="block1">
         <switch id="0" default="on">Luces oficina</switch>
         <slider id="1" default="5" min="0" max="10" step="1">Revs Licuadora</slider>
-        <dropdown id="2" default="3" label="Puertas del garaje">
+        <dropdown id="2" default="2" label="Puertas del garaje">
             <option value="1">Puerta delantera</option>
             <option value="2">Puerta trasera</option>
         </dropdown>

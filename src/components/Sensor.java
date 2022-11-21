@@ -52,14 +52,15 @@ public class Sensor extends Controls{
     public void setText(String text) {
         this.text = text;
     }
+
+    public void setId(int id){
+        this.id = id;
+    }
     @Override
     public String toString() {
         return "SS#"+id+"#"+units+"#"+ thresholdlow+"#"+thresholdhigh+"#"+text;
     }
     
-    public void setId(int id){
-        this.id = id;
-    }
     
     
 }
