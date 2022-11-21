@@ -1,5 +1,4 @@
 package src;
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -28,7 +27,7 @@ public class Servidor extends WebSocketServer {
     private static int port = 8888; 
     private static Servidor socket;
     Window window = new Window();
-    Model modelo = new Model();
+    static Model modelo = Model.getModel();
 
     public static void main(String[] args) throws InterruptedException, IOException {
         
@@ -71,7 +70,6 @@ public class Servidor extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        Model model = new Model();
         System.out.println("MESSAGE: " + message);
         String token = message.substring(0, 3);
         if(token.equals("UV#")){
@@ -81,15 +79,14 @@ public class Servidor extends WebSocketServer {
             try {
                 while (rs.next()) {
                     String userName = rs.getString("userName");
-                    String password = rs.getString("password");
-                    if (userName.equals(usuarioArray.get(1)) 
-                            && password.equals(usuarioArray.get(2))) {
-                        String msg = "UV#" + userName + "#" + password + "#true";
+                    String hash = rs.getString("hash");
+                    if (modelo.passwordValidate(usuarioArray.get(1),usuarioArray.get(2))) {
+                        String msg = "UV#" + userName + "#" + hash.substring(hash.length() - 10) + "#true";
                         System.out.println("Server sends: " + msg);
                         conn.send(msg);
                         break;
                     } else {
-                        String msg = "UV#" + userName + "#" + password + "#false";
+                        String msg = "UV#" + userName + "#" + hash.substring(hash.length() - 10) + "#false";
                         System.out.println("Server sends: " + msg);
                         conn.send(msg);
                         break;
@@ -99,15 +96,15 @@ public class Servidor extends WebSocketServer {
                 System.out.println("Error relacionado con sql");
             }
         } else if(token.equals("CF#")){
-            String msg = model.recorrerArrays();
-            System.out.println("Server sends: " + msg);
+            String msg = Model.getModel().recorrerArrays();
             conn.send(msg);
         } else if (token.equals("AC#")){
             System.out.println(message);
             String[] splitedMessage = message.split("#");
+            System.out.println(modelo.getSwitchsObj().size());
             switch (splitedMessage[1]) {
                 case "SW":
-                    Integer sw_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
+                    Integer sw_index = modelo.findObjectWithId(Integer.parseInt(splitedMessage[2]));
                     if(splitedMessage[3].equals("true")){
                         modelo.getSwitchsObj().get(sw_index).setDef("on");
                     } else {
@@ -116,13 +113,13 @@ public class Servidor extends WebSocketServer {
                     window.loadComponents();
                     break;
                 case "SL":
-                    Integer sl_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
+                    Integer sl_index = modelo.findObjectWithId(Integer.parseInt(splitedMessage[2]));
                     modelo.getSlidersObj().get(sl_index).setDef(Integer.parseInt(splitedMessage[3]));
                     window.loadComponents();
                     break;
                 case "DD":
                     System.out.println(splitedMessage[3]);
-                    Integer dd_index = Model.findObjectWithId(Integer.parseInt(splitedMessage[2]));
+                    Integer dd_index = modelo.findObjectWithId(Integer.parseInt(splitedMessage[2]));
                     modelo.getDropDownsObj().get(dd_index).setDef(Integer.parseInt(splitedMessage[3]));
                     window.loadComponents();
                     break;
