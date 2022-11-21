@@ -19,7 +19,7 @@ public class Window {
 	private JScrollPane scrollPanelSensor;
 	private static JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
 	private static FileFilter filter = new FileNameExtensionFilter("File xml (.xml)", "xml");
-	Model modelo = new Model();
+	Model modelo = Model.getModel();
 	private Container panelContenedor;
 	
 	public Window() {

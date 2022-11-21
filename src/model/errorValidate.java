@@ -1,7 +1,6 @@
 package src.model;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -21,7 +20,6 @@ import src.components.Sensor;
 import src.components.Switch;
 
 public class errorValidate {
-    private Model model = new Model();
     private static Switch button = new Switch();
     private static Sensor sensor = new Sensor();
     private static Slider slider = new Slider();

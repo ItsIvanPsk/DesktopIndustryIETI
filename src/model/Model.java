@@ -33,7 +33,6 @@ import org.w3c.dom.NodeList;
 
 import com.password4j.Password;
 
-import src.components.Controls;
 import src.components.Dropdown;
 import src.components.Option;
 import src.components.Sensor;
@@ -54,9 +53,20 @@ public class Model {
     private ArrayList<Slider> sliders_obj = new ArrayList<>();
     private ArrayList<Dropdown> dropdowns_obj = new ArrayList<>();
     private ArrayList<Sensor> sensors_obj = new ArrayList<>();
-
-    static Model modelo = new Model();
     
+    private static Model instance;
+
+    private Model(){
+        
+    }
+
+    public static Model getModel(){
+        if(instance == null){
+            instance = new Model();
+        }
+        return instance;
+    }
+
     /*
         
         Variables con GETTERS/SETTERS en vez de usar static
@@ -74,15 +84,7 @@ public class Model {
      */
 
     public static void lecturaXML(File file) {
-        modelo.getSwitchs().clear();
-        modelo.getSliders().clear();
-        modelo.getDropDowns().clear();
-        modelo.getSensors().clear();
 
-        modelo.getSwitchsObj().clear();
-        modelo.getSlidersObj().clear();
-        modelo.getDropDownsObj().clear();
-        modelo.getSensorsObj().clear();
         if (!errorValidate.attributeNumValidate(file)){
             CustomsDialogs.numAttributeDialog(Window.getVentana());
             System.out.println("NUM DE ATRIBUTOS MAL");
@@ -109,6 +111,16 @@ public class Model {
         }
         else{
             try {
+                getModel().getSwitchs().clear();
+                getModel().getSliders().clear();
+                getModel().getDropDowns().clear();
+                getModel().getSensors().clear();
+        
+                getModel().getSwitchsObj().clear();
+                getModel().getSlidersObj().clear();
+                getModel().getDropDownsObj().clear();
+                getModel().getSensorsObj().clear();
+
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                 Document doc = dBuilder.parse(file);
@@ -131,8 +143,8 @@ public class Model {
                                     elmSwi.getAttribute("default"), 
                                     elmSwi.getTextContent()
                                 );
-                                modelo.getSwitchs().add(switch_obj.toString());
-                                modelo.getSwitchsObj().add(switch_obj);
+                                getModel().getSwitchs().add(switch_obj.toString());
+                                getModel().getSwitchsObj().add(switch_obj);
                             }
                         }
                         NodeList listaSlider = elm.getElementsByTagName("slider");
@@ -148,8 +160,8 @@ public class Model {
                                     Integer.parseInt(elmSli.getAttribute("step")),
                                     elmSli.getTextContent());
 
-                                modelo.getSliders().add(slider.toString());
-                                modelo.getSlidersObj().add(slider);
+                                getModel().getSliders().add(slider.toString());
+                                getModel().getSlidersObj().add(slider);
                             }
                         }
                         NodeList listaDropDown = elm.getElementsByTagName("dropdown");
@@ -172,8 +184,8 @@ public class Model {
 
                                 }
                                 Dropdown dropdown = new Dropdown(id,def,lab,option);
-                                modelo.getDropDowns().add(dropdown.toString());
-                                modelo.getDropDownsObj().add(dropdown);
+                                getModel().getDropDowns().add(dropdown.toString());
+                                getModel().getDropDownsObj().add(dropdown);
                             }
                         }
 
@@ -189,8 +201,8 @@ public class Model {
                                     Integer.parseInt(elmSen.getAttribute("thresholdhigh")),
                                     elmSen.getTextContent());
 
-                                modelo.getSensors().add(sensor.toString());
-                                modelo.getSensorsObj().add(sensor);
+                                getModel().getSensors().add(sensor.toString());
+                                getModel().getSensorsObj().add(sensor);
                             }
                         }
                     }
@@ -203,40 +215,33 @@ public class Model {
 
     public String recorrerArrays() {
         String appComponentes = "CF%%";
+        System.out.println("RECORRER SIZE: " + getModel().getSwitchsObj().size());
 
-        if(modelo.getSwitchs().size() != 0){
-            for (String _switch : modelo.getSwitchs()) {
+        if(getModel().getSwitchs().size() != 0){
+            for (String _switch : getModel().getSwitchs()) {
                 appComponentes = appComponentes + _switch + "%%";
             }
         }
 
-        if(modelo.getSliders().size() != 0){
-            for (String _sliders : modelo.getSliders()) {
+        if(getModel().getSliders().size() != 0){
+            for (String _sliders : getModel().getSliders()) {
                 appComponentes = appComponentes + _sliders + "%%";
             }
         }
 
-        if(modelo.getSensors().size() != 0){
-            for (String _sensors:modelo.getSensors()) {
+        if(getModel().getSensors().size() != 0){
+            for (String _sensors:getModel().getSensors()) {
                 appComponentes = appComponentes + _sensors + "%%";
             }
         }
 
-        if(modelo.getDropDowns().size() != 0){
-            for (String _dropdown:modelo.getDropDowns()) {
+        if(getModel().getDropDowns().size() != 0){
+            for (String _dropdown:getModel().getDropDowns()) {
                 appComponentes = appComponentes + _dropdown + "%%";
             }
         }
-
+        
         return appComponentes;
-    }
-
-    public Controls getArrayObject(ArrayList<Controls> array, int id){
-
-        for (int i = 0; i < array.size(); i++) {
-            System.out.println(i);
-        }
-        return new Controls();
     }
 
     public JPanel createSwitch() {
@@ -244,9 +249,9 @@ public class Model {
         JPanel panel1=new JPanel();
         panel1.setLayout(new GridLayout(0,2));
 
-        for( int sw = 0 ; sw < modelo.getSwitchsObj().size() ; sw++ ){
+        for( int sw = 0 ; sw < getModel().getSwitchsObj().size() ; sw++ ){
             JToggleButton boton = new JToggleButton(
-                modelo.getSwitchsObj()
+                getModel().getSwitchsObj()
                 .get(sw)
                 .getDef()
             );
@@ -256,10 +261,10 @@ public class Model {
                 public void actionPerformed(ActionEvent e) {
                     if (boton.getText().equalsIgnoreCase("on")) {
                         boton.setText("off");
-                        modelo.getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
+                        getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
                     } else {
                         boton.setText("on");
-                        modelo.getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
+                        getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
 
                     }
                 }
@@ -268,7 +273,7 @@ public class Model {
                 boton.setSelected(true);
             }
             JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(modelo.getSwitchsObj().get(sw).getText());
+            JLabel tag=new JLabel(getModel().getSwitchsObj().get(sw).getText());
             boton.setFocusable(false);
             panel2.add(tag);
             panel2.add(boton);
@@ -283,28 +288,28 @@ public class Model {
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
 
-        for( int sl = 0 ; sl < modelo.getSlidersObj().size() ; sl++ ){
+        for( int sl = 0 ; sl < getModel().getSlidersObj().size() ; sl++ ){
             JSlider slider = new JSlider(
-                modelo.getSlidersObj().get(sl).getMin(),
-                modelo.getSlidersObj().get(sl).getMax(),
-                modelo.getSlidersObj().get(sl).getDef()
+                getModel().getSlidersObj().get(sl).getMin(),
+                getModel().getSlidersObj().get(sl).getMax(),
+                getModel().getSlidersObj().get(sl).getDef()
             );
             slider.setPaintTrack(true);
             slider.setPaintTicks(true);
             slider.setPaintLabels(true);
-            slider.setMajorTickSpacing(modelo.getSlidersObj().get(sl).getStep());
+            slider.setMajorTickSpacing(getModel().getSlidersObj().get(sl).getStep());
             slider.setName(String.valueOf(sl));
             slider.addChangeListener(new ChangeListener() {
                 @Override
                 public void stateChanged(ChangeEvent e) {
-                    modelo.getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());;
+                    getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());;
                 }
                 
             });
             
             JPanel panel2=new JPanel();
             panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
-            JLabel tag=new JLabel(modelo.getSlidersObj().get(sl).getText());
+            JLabel tag=new JLabel(getModel().getSlidersObj().get(sl).getText());
             tag.setAlignmentX(Component.CENTER_ALIGNMENT);
             panel2.add(tag);
             panel2.add(slider);
@@ -320,12 +325,12 @@ public class Model {
         panel1.setLayout(new GridLayout(0,2));
 
 
-        for( int cb = 0 ; cb < modelo.getDropDownsObj().size() ; cb++ ){
+        for( int cb = 0 ; cb < getModel().getDropDownsObj().size() ; cb++ ){
             JComboBox combo = new JComboBox();
-            for( int op = 0 ; op < modelo.getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
-                String[] array=modelo.getDropDownsObj().get(cb).getListOpt().get(op).split("//");
+            for( int op = 0 ; op < getModel().getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
+                String[] array=getModel().getDropDownsObj().get(cb).getListOpt().get(op).split("//");
                 Option pre=new Option(Integer.parseInt(array[0]), array[1]);
-                if (modelo.getDropDownsObj().get(cb).getDef() == pre.getValue()) {
+                if (getModel().getDropDownsObj().get(cb).getDef() == pre.getValue()) {
                     combo.addItem(pre.getText());
                     combo.setSelectedIndex(op);
                 }
@@ -340,11 +345,11 @@ public class Model {
                 @Override
                 public void itemStateChanged(ItemEvent e) {
                     // TODO Auto-generated method stub
-                    for( int op = 0 ; op < modelo.getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().size() ; op++ ){
-                        String[] array=modelo.getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("//");
+                    for( int op = 0 ; op < getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().size() ; op++ ){
+                        String[] array=getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("//");
                         Option pre=new Option(Integer.parseInt(array[0]), array[1]);
                         if (pre.getText().equals(combo.getSelectedItem())){
-                            modelo.getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
+                            getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
                         }
                     }
                     
@@ -352,7 +357,7 @@ public class Model {
                 
             });
             JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(modelo.getDropDownsObj().get(cb).getLabel());
+            JLabel tag=new JLabel(getModel().getDropDownsObj().get(cb).getLabel());
             combo.setMaximumSize(new Dimension(400, 50));
             panel2.add(tag);
             panel2.add(combo);
@@ -366,15 +371,15 @@ public class Model {
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         JTextField text=null;
 
-        for( int ss = 0 ; ss < modelo.getSensorsObj().size() ; ss++ ){
+        for( int ss = 0 ; ss < getModel().getSensorsObj().size() ; ss++ ){
             text = new JTextField();
 			text.setText(
-                "Temperature thresholdlow: " + modelo.getSensorsObj().get(ss).getThresholdlow() + " " + modelo.getSensorsObj().get(ss).getUnits()
-                + "\nTemperature Thresholdhigh: " + modelo.getSensorsObj().get(ss).getThresholdhigh() + " " + modelo.getSensorsObj().get(ss).getUnits());
+                "Temperature thresholdlow: " + getModel().getSensorsObj().get(ss).getThresholdlow() + " " + getModel().getSensorsObj().get(ss).getUnits()
+                + "\nTemperature Thresholdhigh: " + getModel().getSensorsObj().get(ss).getThresholdhigh() + " " + getModel().getSensorsObj().get(ss).getUnits());
             
             text.setEditable(false);
             JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(modelo.getSensorsObj().get(ss).getText());
+            JLabel tag=new JLabel(getModel().getSensorsObj().get(ss).getText());
             panel2.add(tag);
             panel2.add(text);
             panel1.add(Box.createVerticalStrut(10));
@@ -383,28 +388,28 @@ public class Model {
 		return panel1;
 	}
 
-    public static int findObjectWithId(int id){
-        System.out.println("IVAN: " + modelo.getSwitchsObj().size());
-        for (int i = 0; i < modelo.getSwitchsObj().size(); i++) {
-            if(modelo.getSwitchsObj().get(i).getId() == id){
+    public int findObjectWithId(int id){
+        System.out.println("IVAN: " + getModel().getSwitchsObj().size());
+        for (int i = 0; i < getModel().getSwitchsObj().size(); i++) {
+            if(getModel().getSwitchsObj().get(i).getId() == id){
                 return i;
             }
         }
 
-        for (int i = 0; i < modelo.getSensorsObj().size(); i++) {
-            if(modelo.getSensorsObj().get(i).getId() == id){
+        for (int i = 0; i < getModel().getSensorsObj().size(); i++) {
+            if(getModel().getSensorsObj().get(i).getId() == id){
                 return i;
             }
         }
 
-        for (int i = 0; i < modelo.getSlidersObj().size(); i++) {
-            if(modelo.getSlidersObj().get(i).getId() == id){
+        for (int i = 0; i < getModel().getSlidersObj().size(); i++) {
+            if(getModel().getSlidersObj().get(i).getId() == id){
                 return i;
             }
         }
 
-        for (int i = 0; i < modelo.getDropDownsObj().size(); i++) {
-            if(modelo.getDropDownsObj().get(i).getId() == id){
+        for (int i = 0; i < getModel().getDropDownsObj().size(); i++) {
+            if(getModel().getDropDownsObj().get(i).getId() == id){
                 return i;
             }
         }
@@ -426,8 +431,7 @@ public class Model {
             e.printStackTrace();
         }
         return 0;
-    }
-    
+    } 
     public boolean passwordValidate(String username, String password){
         String filePath = System.getProperty("user.dir") + "/src/database.db";
         Connection conn=UtilsSQLite.connect(filePath);
