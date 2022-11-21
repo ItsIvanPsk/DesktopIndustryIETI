@@ -7,7 +7,7 @@ public class Dropdown extends Controls{
     private int id, def;
     private String label;
     private ArrayList<String> listOpt;
-    
+
     //Constructor
     public Dropdown(int id, int def, String label, ArrayList<String> listOpt) {
         super();
@@ -16,7 +16,7 @@ public class Dropdown extends Controls{
         this.label = label;
         this.listOpt = listOpt;
     }
-    
+
     public Dropdown() {
     }
 
@@ -56,7 +56,7 @@ public class Dropdown extends Controls{
     public String toString() {
     	return "DD#" + id + "#" + def + "#" + label + "#" + listOpt.toString();
     }
-    
-    
-    
+
+
+
 }

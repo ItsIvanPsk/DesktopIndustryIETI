@@ -27,7 +27,8 @@ public class errorValidate {
     private static Slider slider = new Slider();
     private static Dropdown dropDown = new Dropdown();
 
-    public boolean checkoutControls(File file) {
+    //validation for the attribute name in control
+    public static boolean checkoutControls(File file) {
 		boolean checkControl = true;
 		try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -44,7 +45,7 @@ public class errorValidate {
                     list.add(elm.getAttribute("name"));
                 }
             }
-            
+
             for (int i=0;i<list.size()-1;i++) {
             	for (int j=i+1;j<list.size();j++) {
             		if (Objects.equals(list.get(i), list.get(j))) {
@@ -52,13 +53,14 @@ public class errorValidate {
             		}
             	}
             }
-		} catch(Exception e) { 
-        	e.printStackTrace(); 
+		} catch(Exception e) {
+        	e.printStackTrace();
         }
 		return checkControl;
 	}
 
-	public boolean attributeNumValidate(File file) {
+    //Number of attributes validation
+	public static boolean attributeNumValidate(File file) {
 		boolean check = true;
 		try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -114,12 +116,12 @@ public class errorValidate {
                                     	check=false;
                                     }
                                 }
-        
+
                             }
                         }
 
                     }
-                    
+
                     NodeList listaSensor = elm.getElementsByTagName("sensor");
                     for(int i = 0; i < listaSensor.getLength(); i++) {
                         Node nodeSensor = listaSensor.item(i);
@@ -131,16 +133,17 @@ public class errorValidate {
                         }
 
                     }
-                    
-                    
+
+
                 }
             }
-        } catch(Exception e) { 
-        	e.printStackTrace(); 
+        } catch(Exception e) {
+        	e.printStackTrace();
         }
 		return check;
 	}
 
+    //Controls if exist some id repeated
     public static boolean idValidate(File file){
         ArrayList<Controls> contrList = new ArrayList<Controls>();
         boolean check = true;
@@ -166,6 +169,7 @@ public class errorValidate {
                             	check=false;
                             }
                             else{
+                                button = new Switch();
                                 button.setId(Integer.parseInt(elmSwi.getAttribute("id")));
                                 button.setDef(elmSwi.getAttribute("default"));
                                 button.setText(elmSwi.getTextContent());
@@ -200,14 +204,14 @@ public class errorValidate {
                         if(nodeDropDown.getNodeType() == nodeDropDown.ELEMENT_NODE) {
                             Element elmDrop = (Element) nodeDropDown;
                             ArrayList<String> option = new ArrayList<String>();
-                            if (elmDrop.getAttribute("id") == null) {
+                            if (elmDrop.getAttribute("id").equals("")) {
                             	check=false;
                             }else{
                                 int id = Integer.parseInt(elmDrop.getAttribute("id"));
                                 int def = Integer.parseInt(elmDrop.getAttribute("default"));
                                 String label = elmDrop.getAttribute("label");
-                                
-                            
+
+
                                 NodeList listaOption= elmDrop.getElementsByTagName("option");
                                 for(int j = 0; j < listaOption.getLength(); j++) {
                                     Node nodeOption = listaOption.item(j);
@@ -216,19 +220,19 @@ public class errorValidate {
                                         if (elmOpti.getAttributes().getLength()!=1) {
                                             check=false;
                                         }
-                                        option.add(new Option(elmOpti.getAttribute("value"),elmOpti.getTextContent()).toString());
+                                        option.add(new Option(Integer.parseInt(elmOpti.getAttribute("value")),elmOpti.getTextContent()).toString());
                                     }
-                                    
+
 
                                 }
                                 dropDown = new Dropdown(id,def,label,option);
                                 contrList.add(dropDown);
-                               
+
                             }
                         }
 
                     }
-                    
+
                     NodeList listaSensor = elm.getElementsByTagName("sensor");
                     for(int i = 0; i < listaSensor.getLength(); i++) {
                         Node nodeSensor = listaSensor.item(i);
@@ -238,19 +242,20 @@ public class errorValidate {
                             	check=false;
                             }
                             else{
+                                sensor = new Sensor();
                                 sensor.setId(Integer.parseInt(elmSen.getAttribute("id")));
                                 sensor.setUnits(elmSen.getAttribute("units"));
                                 sensor.setThresholdlow(Integer.parseInt(elmSen.getAttribute("thresholdlow")));
                                 sensor.setThresholdhigh(Integer.parseInt(elmSen.getAttribute("thresholdhigh")));
                                 sensor.setText(elmSen.getTextContent());
                                 contrList.add(sensor);
-                              
+
                             }
                         }
-                        
+
                     }
-                    
-                    
+
+
                 }
             }
 
@@ -259,7 +264,7 @@ public class errorValidate {
                 String[] listSplit = contr.toString().split("#");
 
                 idList.add(Integer.parseInt(listSplit[1]));
-                
+
             }
 
             Collections.sort(idList);
@@ -273,13 +278,14 @@ public class errorValidate {
                     check = false;
                 }
             }
-            System.out.println(idList);
-        } catch(Exception e) { 
-        	e.printStackTrace(); 
+
+        } catch(Exception e) {
+        	e.printStackTrace();
         }
 		return check;
     }
 
+    //This method chekcs if some attribute are empty
     public static boolean nullValues(File file){
         boolean check = true;
         try {
@@ -310,11 +316,11 @@ public class errorValidate {
                             	check=false;
                                 break;
                             }
-                            
+
                         }
 
                     }
-                    
+
                     NodeList listaSlider = elm.getElementsByTagName("slider");
                     for(int i = 0; i < listaSlider.getLength(); i++) {
                         Node nodeSlider = listaSlider.item(i);
@@ -325,10 +331,10 @@ public class errorValidate {
                             	check=false;
                                 break;
                             }
-                           
+
                         }
                     }
-                    
+
                     NodeList listaDropDown = elm.getElementsByTagName("dropdown");
                     for(int i = 0; i < listaDropDown.getLength(); i++) {
                         Node nodeDropDown = listaDropDown.item(i);
@@ -338,8 +344,8 @@ public class errorValidate {
                                 System.out.println("COMBOBOX MAL");
                             	check=false;
                                 break;
-                            }else{                           
-                            
+                            }else{
+
                                 NodeList listaOption= elmDrop.getElementsByTagName("option");
                                 for(int j = 0; j < listaOption.getLength(); j++) {
                                     Node nodeOption = listaOption.item(j);
@@ -351,15 +357,15 @@ public class errorValidate {
                                             break;
                                         }
                                     }
-                                    
+
 
                                 }
-                               
+
                             }
                         }
 
                     }
-                    
+
                     NodeList listaSensor = elm.getElementsByTagName("sensor");
                     for(int i = 0; i < listaSensor.getLength(); i++) {
                         Node nodeSensor = listaSensor.item(i);
@@ -370,21 +376,22 @@ public class errorValidate {
                                 check=false;
                                 break;
                             }
-                            
+
                         }
-                        
+
                     }
-                    
-                    
+
+
                 }
             }
-        
-        } catch(Exception e) { 
-        	e.printStackTrace(); 
+
+        } catch(Exception e) {
+        	e.printStackTrace();
         }
 		return check;
     }
 
+    //if switch default attribute are different of on or off error
     public static boolean switchTextValidate(File file){
         boolean check = true;
         try {
@@ -415,19 +422,20 @@ public class errorValidate {
                             	check=false;
                                 break;
                             }
-                            
+
                         }
 
                     }
                 }
             }
-        }catch(Exception e) { 
-        	e.printStackTrace(); 
+        }catch(Exception e) {
+        	e.printStackTrace();
         }
 		return check;
-            
+
     }
 
+    //This method controls the type of all attributes
     public static boolean typeValueError(File file){
         boolean check = true;
         try {
@@ -458,11 +466,11 @@ public class errorValidate {
                             	check=false;
                                 break;
                             }
-                            
+
                         }
 
                     }
-                    
+
                     NodeList listaSlider = elm.getElementsByTagName("slider");
                     for(int i = 0; i < listaSlider.getLength(); i++) {
                         Node nodeSlider = listaSlider.item(i);
@@ -473,10 +481,10 @@ public class errorValidate {
                             	check=false;
                                 break;
                             }
-                           
+
                         }
                     }
-                    
+
                     NodeList listaDropDown = elm.getElementsByTagName("dropdown");
                     for(int i = 0; i < listaDropDown.getLength(); i++) {
                         Node nodeDropDown = listaDropDown.item(i);
@@ -486,8 +494,8 @@ public class errorValidate {
                                 System.out.println("COMBOBOX MAL");
                             	check=false;
                                 break;
-                            }else{                           
-                            
+                            }else{
+
                                 NodeList listaOption= elmDrop.getElementsByTagName("option");
                                 for(int j = 0; j < listaOption.getLength(); j++) {
                                     Node nodeOption = listaOption.item(j);
@@ -499,15 +507,15 @@ public class errorValidate {
                                             break;
                                         }
                                     }
-                                    
+
 
                                 }
-                               
+
                             }
                         }
 
                     }
-                    
+
                     NodeList listaSensor = elm.getElementsByTagName("sensor");
                     for(int i = 0; i < listaSensor.getLength(); i++) {
                         Node nodeSensor = listaSensor.item(i);
@@ -518,21 +526,21 @@ public class errorValidate {
                                 check=false;
                                 break;
                             }
-                            
+
                         }
-                        
+
                     }
-                    
-                    
+
+
                 }
             }
-        
-        } catch(Exception e) { 
-        	e.printStackTrace(); 
+
+        } catch(Exception e) {
+        	e.printStackTrace();
         }
 		return check;
     }
-    
+
     public static boolean isNumeric(String valueText){
         try{
             Integer.parseInt(valueText);

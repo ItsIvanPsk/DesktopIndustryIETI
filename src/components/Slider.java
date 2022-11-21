@@ -55,11 +55,11 @@ public class Slider extends Controls{
         this.step = step;
     }
 
-    public String getValue() {
+    public String getText() {
         return text;
     }
 
-    public void setValue(String text) {
+    public void setText(String text) {
         this.text = text;
     }
 
