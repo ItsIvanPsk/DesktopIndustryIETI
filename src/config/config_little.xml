@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<root>
+    <controls name="Primer Bloque">
+        <switch id="0" default="on">Luces oficina</switch> 
+    </controls>
+    <controls name="Segundo Bloque">
+        <switch id="1" default="on">Luces oficina</switch> 
+    </controls>
+</root>
