@@ -26,13 +26,13 @@ public class Servidor extends WebSocketServer {
     String bbddPath = System.getProperty("user.dir") + "/src/database.db";
     String configPath = System.getProperty("user.dir") + "/src/config/config.xml";
     private static Scanner sc=new Scanner(System.in);
-    private static int port = 8888; 
+    private static int port = 8888;
     private static Servidor socket;
     Window window = new Window();
     static Model modelo = Model.getModel();
 
     public static void main(String[] args) throws InterruptedException, IOException {
-        
+
         baseDades.checkDataBase();
         boolean running = true;
 
@@ -46,9 +46,10 @@ public class Servidor extends WebSocketServer {
             if (line.equals("exit")) {
                 running = false;
             }
-        }    
+        }
 
         socket.stop(1000);
+
     }
 
     public Servidor(int port) throws UnknownHostException {
@@ -130,10 +131,10 @@ public class Servidor extends WebSocketServer {
     }
 
     @Override
-    public void onError(WebSocket conn, Exception ex) { 
+    public void onError(WebSocket conn, Exception ex) {
 
     }
-    
+
     @Override
     public void onStart() { }
 

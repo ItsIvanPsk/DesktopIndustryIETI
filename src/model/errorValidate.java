@@ -153,7 +153,7 @@ public class errorValidate {
             doc.getDocumentElement().normalize();
 
             NodeList listaControles = doc.getElementsByTagName("controls");
-            Integer blockID = 1;
+            String blockName = "1";
             for(int cnt = 0; cnt < listaControles.getLength(); cnt++) {
                 Node nodeControl = listaControles.item(cnt);
                 if(nodeControl.getNodeType() == nodeControl.ELEMENT_NODE) {
@@ -191,7 +191,7 @@ public class errorValidate {
                                 int max = Integer.parseInt(elmSli.getAttribute("max"));
                                 int step = Integer.parseInt(elmSli.getAttribute("step"));
                                 String text = elmSli.getTextContent();
-                                slider = new Slider(id, blockID, def, min, max, step, text);
+                                slider = new Slider(id, blockName, def, min, max, step, text);
                                 contrList.add(slider);
                             }
                         }
@@ -223,7 +223,7 @@ public class errorValidate {
 
 
                                 }
-                                dropDown = new Dropdown(id,blockID,def,label,option);
+                                dropDown = new Dropdown(id,def,blockName,label,option);
                                 contrList.add(dropDown);
 
                             }
