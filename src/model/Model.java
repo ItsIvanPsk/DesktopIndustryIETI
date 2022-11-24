@@ -137,7 +137,6 @@ public class Model {
                 doc.getDocumentElement().normalize();
                 NodeList blockList = doc.getElementsByTagName("root");
                 for(int cont = 0; cont < blockList.getLength(); cont++) {
-
                     NodeList listaControles = doc.getElementsByTagName("controls");
                     for(int i = 0; i < listaControles.getLength(); i++) {
                         Node nodeControls = listaControles.item(i);
@@ -145,9 +144,10 @@ public class Model {
                             Element elmContr = (Element) nodeControls;
                             getModel().controls.add(elmContr.getAttribute("name"));
 
+
                         }
+
                     }
-                    System.out.println(getModel().controls);
 
                     for(int cnt = 0; cnt < listaControles.getLength(); cnt++) {
                         Node nodeControl = listaControles.item(cnt);
@@ -160,13 +160,14 @@ public class Model {
                                     Element elmSwi = (Element) nodeSwitch;
                                     Switch switch_obj = new Switch(
                                         Integer.parseInt(elmSwi.getAttribute("id")),
-                                        getModel().controls.get(cont),
+                                        getModel().controls.get(cnt),
                                         elmSwi.getAttribute("default"),
                                         elmSwi.getTextContent()
                                     );
                                     getModel().getSwitchs().add(switch_obj.toString());
                                     getModel().getSwitchsObj().add(switch_obj);
                                 }
+
                             }
                             NodeList listaSlider = elm.getElementsByTagName("slider");
                             for(int i = 0; i < listaSlider.getLength(); i++) {
@@ -234,6 +235,7 @@ public class Model {
                             }
                         }
                     }
+
                 }
             } catch(Exception e) {
                 e.printStackTrace();
