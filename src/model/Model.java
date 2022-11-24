@@ -1,5 +1,6 @@
 package src.model;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.management.AttributeList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -126,9 +128,11 @@ public class Model {
                 Document doc = dBuilder.parse(file);
 
                 doc.getDocumentElement().normalize();
-                
-                NodeList listaControles = doc.getElementsByTagName("controls");
 
+                NodeList listaControles = doc.getElementsByTagName("controls");
+                AttributeList listaAtributos = (AttributeList) doc.getAttributes();
+                System.out.println(listaAtributos);
+                Integer blockID = 1;
                 for(int cnt = 0; cnt < listaControles.getLength(); cnt++) {
                     Node nodeControl = listaControles.item(cnt);
                     if(nodeControl.getNodeType() == Node.ELEMENT_NODE) {
@@ -140,6 +144,7 @@ public class Model {
                                 Element elmSwi = (Element) nodeSwitch;
                                 Switch switch_obj = new Switch(
                                     Integer.parseInt(elmSwi.getAttribute("id")), 
+                                    blockID,
                                     elmSwi.getAttribute("default"), 
                                     elmSwi.getTextContent()
                                 );
@@ -154,6 +159,7 @@ public class Model {
                                 Element elmSli = (Element) nodeSlider;
                                 Slider slider = new Slider(
                                     Integer.parseInt(elmSli.getAttribute("id")), 
+                                    1,
                                     Integer.parseInt(elmSli.getAttribute("default")),
                                     Integer.parseInt(elmSli.getAttribute("min")),
                                     Integer.parseInt(elmSli.getAttribute("max")),
@@ -179,11 +185,15 @@ public class Model {
                                     Node nodeOption = listaOption.item(j);
                                     if(nodeOption.getNodeType() == Node.ELEMENT_NODE) {
                                         Element elmOpti = (Element) nodeOption;
-                                        option.add(new Option(Integer.parseInt(elmOpti.getAttribute("value")),elmOpti.getTextContent()).toString());
+                                        option.add(
+                                            new Option(
+                                                Integer.parseInt(elmOpti.getAttribute("value")),
+                                                elmOpti.getTextContent()).toString()
+                                            );
                                     }
 
                                 }
-                                Dropdown dropdown = new Dropdown(id,def,lab,option);
+                                Dropdown dropdown = new Dropdown(id,1,def,lab,option);
                                 getModel().getDropDowns().add(dropdown.toString());
                                 getModel().getDropDownsObj().add(dropdown);
                             }
@@ -196,6 +206,7 @@ public class Model {
                                 Element elmSen = (Element) nodeSensor;
                                 Sensor sensor = new Sensor(
                                     Integer.parseInt(elmSen.getAttribute("id")),
+                                    1,
                                     elmSen.getAttribute("units"),
                                     Integer.parseInt(elmSen.getAttribute("thresholdlow")),
                                     Integer.parseInt(elmSen.getAttribute("thresholdhigh")),
@@ -216,7 +227,6 @@ public class Model {
     public String recorrerArrays() {
         String appComponentes = "CF%%";
 
-        // getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())
         if(getModel().getSwitchsObj().size() != 0){
             for (int i = 0; i < getModel().getSwitchsObj().size(); i++) {
                 System.out.println(getModel().getSwitchsObj().get(i).toString());
@@ -241,7 +251,7 @@ public class Model {
                 appComponentes = appComponentes + getModel().getDropDownsObj().get(i).toString() + "%%";
             }
         }
-        System.out.println("STRING MODELO-> " + appComponentes);
+
         return appComponentes;
     }
 
@@ -263,12 +273,11 @@ public class Model {
                     if (boton.getText().equalsIgnoreCase("on")) {
                         boton.setText("off");
                         getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
-                        System.out.println("Model onClick" + getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())));
+                        boton.setForeground(Color.lightGray);
                     } else {
                         boton.setText("on");
                         getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
-                        System.out.println(getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())));
-                    }
+                        boton.setForeground(Color.BLUE);                    }
                 }
             });
             if (boton.getText().equalsIgnoreCase("on")){
@@ -276,7 +285,7 @@ public class Model {
             }
             JPanel panel2=new JPanel();
             JLabel tag=new JLabel(getModel().getSwitchsObj().get(sw).getText());
-            boton.setFocusable(false);
+            boton.setFocusable(true);
             panel2.add(tag);
             panel2.add(boton);
             panel1.add(panel2);

@@ -1,11 +1,12 @@
 package src.components;
 
 public class Sensor extends Controls{
-    int id,thresholdlow,thresholdhigh;
+    int id,blockID,thresholdlow,thresholdhigh;
     private String units,text;
 
-    public Sensor(int id, String units, int thresholdlow,int thresholdhigh,String text) {
+    public Sensor(int id, int blockID, String units, int thresholdlow,int thresholdhigh,String text) {
         this.id = id;
+        this.blockID = blockID;
         this.units = units;
         this.thresholdlow = thresholdlow;
         this.thresholdhigh= thresholdhigh;
@@ -20,6 +21,13 @@ public class Sensor extends Controls{
         return id;
     }
 
+    public int getBlockId() {
+        return blockID;
+    }
+
+    public void setBlockId(int blockID) {
+        this.blockID = blockID;
+    }
 
     public String getUnits() {
         return units;
@@ -58,7 +66,7 @@ public class Sensor extends Controls{
     }
     @Override
     public String toString() {
-        return "SS#"+id+"#"+units+"#"+ thresholdlow+"#"+thresholdhigh+"#"+text;
+        return "SS#" + id + "#" + blockID + "#" + units + "#" + thresholdlow + "#" + thresholdhigh + "#" + text;
     }
     
     

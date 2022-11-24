@@ -1,4 +1,5 @@
 package src;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
@@ -16,6 +17,7 @@ import org.java_websocket.server.WebSocketServer;
 import src.model.Model;
 import src.model.baseDades;
 import src.utils.UtilsSQLite;
+import src.view.CustomsDialogs;
 import src.view.Window;
 
 
@@ -128,7 +130,9 @@ public class Servidor extends WebSocketServer {
     }
 
     @Override
-    public void onError(WebSocket conn, Exception ex) { ex.printStackTrace(); }
+    public void onError(WebSocket conn, Exception ex) { 
+
+    }
     
     @Override
     public void onStart() { }

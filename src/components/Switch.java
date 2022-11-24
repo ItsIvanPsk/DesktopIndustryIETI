@@ -2,11 +2,12 @@ package src.components;
 
 
 public class Switch extends Controls{
-    private int id;
+    private int id, blockID;
     private String def,text;
 
-    public Switch(int id, String def, String text) {
+    public Switch(int id, int blockID, String def, String text) {
         this.id = id;
+        this.blockID = blockID;
         this.def = def;
         this.text = text;
     }
@@ -19,6 +20,14 @@ public class Switch extends Controls{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getBlockId() {
+        return blockID;
+    }
+
+    public void setBlockId(int blockID) {
+        this.blockID = blockID;
     }
 
     public String getDef() {
@@ -39,9 +48,7 @@ public class Switch extends Controls{
 
     @Override
     public String toString() {
-        return "SW#"+id+"#"+def+"#"+text;
+        return "SW#" + id + "#" + blockID + "#" + def + "#" + text;
     }
-    
-    
     
 }

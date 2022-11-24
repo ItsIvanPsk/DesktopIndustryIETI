@@ -5,6 +5,14 @@ import javax.swing.JOptionPane;
 
 public class CustomsDialogs {
 
+    //ADDRESS ALREADY ON USE
+    public static void alreadyOnUseDialog(JFrame frame){
+        JOptionPane.showMessageDialog(frame,
+            "The server address is already on use, please restart the server!",
+            "Server address already on use",
+            JOptionPane.ERROR_MESSAGE);
+    }
+
     //ID VALIDATE DIALOG
     public static void idDialog(JFrame frame){
         JOptionPane.showMessageDialog(frame,

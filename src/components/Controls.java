@@ -1,5 +1,5 @@
 package src.components;
 
-public class Controls {
+public abstract class Controls {
     
 }

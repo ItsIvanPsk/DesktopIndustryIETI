@@ -3,18 +3,18 @@ package src.components;
 import java.util.ArrayList;
 
 public class Dropdown extends Controls{
-    private int id, def;
+    private int id, def, blockID;
     private String label;
     private ArrayList<String> listOpt;
     
     //Constructor
-    public Dropdown(){
-    }
+    public Dropdown(){  }
 
-    public Dropdown(int id, int def, String label, ArrayList<String> listOpt) {
+    public Dropdown(int id, int def, int blockID, String label, ArrayList<String> listOpt) {
         super();
         this.id = id;
         this.def = def;
+        this.blockID = blockID;
         this.label=label;
         this.listOpt = listOpt;
     }
@@ -36,6 +36,14 @@ public class Dropdown extends Controls{
         this.def = def;
     }
 
+    public int getBlockId() {
+        return blockID;
+    }
+
+    public void setBlockId(int blockID) {
+        this.blockID = blockID;
+    }
+
     public String getLabel() {
         return label;
     }
@@ -54,9 +62,7 @@ public class Dropdown extends Controls{
 
     //ToString
     public String toString() {
-    	return "DD#" + id + "#" + def + "#" + label + "#" + listOpt.toString();
+    	return "DD#" + id + "#" + blockID + "#" + def + "#" + blockID + "#" + label + "#" + listOpt.toString();
     }
-    
-    
     
 }
