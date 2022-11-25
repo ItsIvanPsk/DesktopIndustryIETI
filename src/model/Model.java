@@ -144,7 +144,6 @@ public class Model {
                             Element elmContr = (Element) nodeControls;
                             getModel().controls.add(elmContr.getAttribute("name"));
 
-
                         }
 
                     }
@@ -176,7 +175,7 @@ public class Model {
                                     Element elmSli = (Element) nodeSlider;
                                     Slider slider = new Slider(
                                         Integer.parseInt(elmSli.getAttribute("id")),
-                                        getModel().controls.get(cont),
+                                        getModel().controls.get(cnt),
                                         Integer.parseInt(elmSli.getAttribute("default")),
                                         Integer.parseInt(elmSli.getAttribute("min")),
                                         Integer.parseInt(elmSli.getAttribute("max")),
@@ -210,7 +209,7 @@ public class Model {
                                         }
 
                                     }
-                                    Dropdown dropdown = new Dropdown(id,def,getModel().controls.get(cont),lab,option);
+                                    Dropdown dropdown = new Dropdown(id,def,getModel().controls.get(cnt),lab,option);
                                     getModel().getDropDowns().add(dropdown.toString());
                                     getModel().getDropDownsObj().add(dropdown);
                                 }
@@ -223,7 +222,7 @@ public class Model {
                                     Element elmSen = (Element) nodeSensor;
                                     Sensor sensor = new Sensor(
                                         Integer.parseInt(elmSen.getAttribute("id")),
-                                        getModel().controls.get(cont),
+                                        getModel().controls.get(cnt),
                                         elmSen.getAttribute("units"),
                                         Integer.parseInt(elmSen.getAttribute("thresholdlow")),
                                         Integer.parseInt(elmSen.getAttribute("thresholdhigh")),
