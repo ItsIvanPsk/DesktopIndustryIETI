@@ -164,14 +164,46 @@ public class Window {
 			SwingUtilities.updateComponentTreeUI(ventana);
 		}
 		else{
-			
-
-
 			panelIndividual.add(titleBlock);
-			panelIndividual.add(scrollPanelSwitch);
-			panelIndividual.add(scrollPanelSlider);
-			panelIndividual.add(scrollPanelDropDown);
-			panelIndividual.add(scrollPanelSensor);
+			int contador=0;
+			for (int i=0;i<modelo.getSwitchsObj().size();i++){
+				if (modelo.getSwitchsObj().get(i).getBlockId().equals(modelo.getControls().get(posicionBloque))){
+					contador++;
+				}
+			}
+			if (contador>0){
+				panelIndividual.add(scrollPanelSwitch);
+			}
+
+			contador=0;
+			for (int i=0;i<modelo.getSlidersObj().size();i++){
+				if (modelo.getSlidersObj().get(i).getBlockId().equals(modelo.getControls().get(posicionBloque))){
+					contador++;
+				}
+			}
+			if (contador>0){
+				panelIndividual.add(scrollPanelSlider);
+			}
+
+			contador=0;
+			for (int i=0;i<modelo.getDropDownsObj().size();i++){
+				if (modelo.getDropDownsObj().get(i).getBlockId().equals(modelo.getControls().get(posicionBloque))){
+					contador++;
+				}
+			}
+			if (contador>0){
+				panelIndividual.add(scrollPanelDropDown);
+			}
+
+			contador=0;
+			for (int i=0;i<modelo.getSensorsObj().size();i++){
+				if (modelo.getSensorsObj().get(i).getBlockId().equals(modelo.getControls().get(posicionBloque))){
+					contador++;
+				}
+			}
+			if (contador>0){
+				panelIndividual.add(scrollPanelSensor);
+			}
 			panelIndividual.add(Box.createVerticalStrut(100));
 
 			allComponents.add(panelIndividual);
