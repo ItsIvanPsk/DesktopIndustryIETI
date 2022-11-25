@@ -165,6 +165,8 @@ public class Window {
 		}
 		else{
 			panelIndividual.add(titleBlock);
+			JPanel panelForScrolls=new JPanel();
+			panelForScrolls.setLayout(new GridLayout(2,2));
 			int contador=0;
 			for (int i=0;i<modelo.getSwitchsObj().size();i++){
 				if (modelo.getSwitchsObj().get(i).getBlockId().equals(modelo.getControls().get(posicionBloque))){
@@ -172,7 +174,7 @@ public class Window {
 				}
 			}
 			if (contador>0){
-				panelIndividual.add(scrollPanelSwitch);
+				panelForScrolls.add(scrollPanelSwitch);
 			}
 
 			contador=0;
@@ -182,7 +184,7 @@ public class Window {
 				}
 			}
 			if (contador>0){
-				panelIndividual.add(scrollPanelSlider);
+				panelForScrolls.add(scrollPanelSlider);
 			}
 
 			contador=0;
@@ -192,7 +194,7 @@ public class Window {
 				}
 			}
 			if (contador>0){
-				panelIndividual.add(scrollPanelDropDown);
+				panelForScrolls.add(scrollPanelDropDown);
 			}
 
 			contador=0;
@@ -202,8 +204,9 @@ public class Window {
 				}
 			}
 			if (contador>0){
-				panelIndividual.add(scrollPanelSensor);
+				panelForScrolls.add(scrollPanelSensor);
 			}
+			panelIndividual.add(panelForScrolls);
 			panelIndividual.add(Box.createVerticalStrut(100));
 
 			allComponents.add(panelIndividual);
