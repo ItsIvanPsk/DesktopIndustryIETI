@@ -13,10 +13,12 @@ import src.model.Model;
 
 public class Window {
 	private static  JFrame ventana;
+	private JScrollPane scrollGeneral;
     private JScrollPane scrollPanelSwitch;
 	private JScrollPane scrollPanelSlider;
 	private JScrollPane scrollPanelDropDown;
 	private JScrollPane scrollPanelSensor;
+	private JPanel allComponents;
 	private static JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir"));
 	private static FileFilter filter = new FileNameExtensionFilter("File xml (.xml)", "xml");
 	Model modelo = Model.getModel();
@@ -46,7 +48,7 @@ public class Window {
 			}
 		});
 		arxiu.add(carregarConfig);
-		panelContenedor.setLayout(new GridLayout(2,2));
+
 		
 		ventana.setSize(1500, 1000);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -68,59 +70,110 @@ public class Window {
 	    }
 	    File selectedFile = fileChooser.getSelectedFile();
 	    Model.lecturaXML(selectedFile);
-	    loadComponents();
+	    loadAllComponents();
 	}
-	public void loadComponents() {
+	public void loadAllComponents() {
 		panelContenedor.removeAll();
+		int bloques=2;
+		if (bloques==1){
+			panelContenedor.setLayout(new GridLayout(2,2));
+			loadComponentsBlock();
+		}
+		else{
+			scrollGeneral=new JScrollPane();
+			panelContenedor.add(scrollGeneral);
+			allComponents=new JPanel();
+			allComponents.setLayout(new BoxLayout(allComponents, BoxLayout.Y_AXIS));
+			for (int i=1;i<=bloques;i++){
+				loadComponentsBlock();
+			}
+			scrollGeneral.setViewportView(allComponents);
+			SwingUtilities.updateComponentTreeUI(ventana);
+		}
+	}
+	public void loadComponentsBlock(){
+		int bloques=2;//variable que se utilizara mas tarde para el tema de la interfaz con bloques
 		scrollPanelSwitch= new JScrollPane();
-        panelContenedor.add(scrollPanelSwitch);
 
 		JPanel titleSwitch = new JPanel();
         titleSwitch.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
         scrollPanelSwitch.setColumnHeaderView(titleSwitch);
 
         JLabel labelSwitch = new JLabel("Switchs");
+		labelSwitch.setFont(new Font("Serif",Font.PLAIN,25));
         titleSwitch.add(labelSwitch);
 		
 
 		scrollPanelSlider= new JScrollPane();
-        panelContenedor.add(scrollPanelSlider);
 
 		JPanel titleSlider= new JPanel();
         titleSlider.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
         scrollPanelSlider.setColumnHeaderView(titleSlider);
 
         JLabel labelSlider = new JLabel("Sliders");
+		labelSlider.setFont(new Font("Serif",Font.PLAIN,25));
         titleSlider.add(labelSlider);
 
 
 		scrollPanelDropDown= new JScrollPane();
-        panelContenedor.add(scrollPanelDropDown);
 
 		JPanel titleDropDown = new JPanel();
         titleDropDown.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
         scrollPanelDropDown.setColumnHeaderView(titleDropDown);
 
         JLabel labelDropDown = new JLabel("Drops Downs");
+		labelDropDown.setFont(new Font("Serif",Font.PLAIN,25));
         titleDropDown.add(labelDropDown);
 
 
 		scrollPanelSensor= new JScrollPane();
-        panelContenedor.add(scrollPanelSensor);
 
 		JPanel titleSensor = new JPanel();
         titleSensor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
         scrollPanelSensor.setColumnHeaderView(titleSensor);
 
         JLabel labelSensors = new JLabel("Sensors");
+		labelSensors.setFont(new Font("Serif",Font.PLAIN,25));
         titleSensor.add(labelSensors);
 
 		scrollPanelSwitch.setViewportView(modelo.createSwitch());
 		scrollPanelSlider.setViewportView(modelo.createSlider());
 		scrollPanelDropDown.setViewportView(modelo.createDropdown());
 		scrollPanelSensor.setViewportView(modelo.createSensor());
-		SwingUtilities.updateComponentTreeUI(ventana);
+
+		if (bloques==1){
+			
+			panelContenedor.add(scrollPanelSwitch);
+			panelContenedor.add(scrollPanelSlider);
+			panelContenedor.add(scrollPanelDropDown);
+			panelContenedor.add(scrollPanelSensor);
+			SwingUtilities.updateComponentTreeUI(ventana);
+		}
+		else{
+			JPanel panelIndividual=new JPanel();
+			panelIndividual.setLayout(new BoxLayout(panelIndividual, BoxLayout.Y_AXIS));
+
+			JPanel titleBlock = new JPanel();
+        	titleBlock.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+
+			JLabel labelBlock=new JLabel("Bloque 1");
+			labelBlock.setFont(new Font("Serif",Font.BOLD,32));
+			titleBlock.add(labelBlock);
+
+
+			panelIndividual.add(titleBlock);
+			panelIndividual.add(scrollPanelSwitch);
+			panelIndividual.add(scrollPanelSlider);
+			panelIndividual.add(scrollPanelDropDown);
+			panelIndividual.add(scrollPanelSensor);
+			panelIndividual.add(Box.createVerticalStrut(100));
+
+			allComponents.add(panelIndividual);
+
+
+		}
 	}
+
 	public static JFrame getVentana(){
 		return ventana;
 	}
