@@ -164,7 +164,6 @@ public class Window {
 			SwingUtilities.updateComponentTreeUI(ventana);
 		}
 		else{
-			panelIndividual.add(titleBlock);
 			JPanel panelForScrolls=new JPanel();
 			panelForScrolls.setLayout(new GridLayout(2,2));
 			int contador=0;
