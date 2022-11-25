@@ -1,29 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
     <controls name="Primer Bloque">
-        <switch id="1" default="on">Label</switch>
-        <slider id="2" default="5" min="0" max="10" step="1">Label</slider>
-        <dropdown id="3" default="3" label="Etiqueta">
-            <option value="2">Label 2</option>
-            <option value="3">Label 3</option>
-        </dropdown>
-        <dropdown id="4" default="2" label="Puertas del garaje">
-            <option value="1">Puerta delantera</option>
-            <option value="2">Puerta trasera</option>
-        </dropdown>
-        <sensor id="5" units="ºC" thresholdlow="5" thresholdhigh="10">Label</sensor>
+        <switch id="0" default="on">Luces oficina</switch>
     </controls>
     <controls name="Segundo Bloque">
-        <switch id="6" default="on">Label</switch>
-        <slider id="7" default="5" min="0" max="10" step="1">Label</slider>
-        <dropdown id="8" default="3" label="Etiqueta">
-            <option value="2">Label 2</option>
-            <option value="3">Label 3</option>
-        </dropdown>
-        <dropdown id="9" default="2" label="Puertas del garaje">
-            <option value="1">Puerta delantera</option>
-            <option value="2">Puerta trasera</option>
-        </dropdown>
-        <sensor id="10" units="ºC" thresholdlow="5" thresholdhigh="10">Label</sensor>
+        <switch id="1" default="on">Luces oficina</switch>
+        <switch id="2" default="on">Luces oficina</switch>
     </controls>
 </root>
