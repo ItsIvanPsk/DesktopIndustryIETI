@@ -36,6 +36,12 @@ public class baseDades{
                 + " hash Varchar(300) NOT NULL);";
         UtilsSQLite.queryUpdate(conn, query);
 
+        query = "CREATE TABLE Snapshoot ("
+                + "	id integer PRIMARY KEY AUTOINCREMENT,"
+                + "	config Varchar(10000) NOT NULL,"
+                + " date Data);";
+        UtilsSQLite.queryUpdate(conn, query);
+
         query = "CREATE TABLE Salt ("
                 + "	id integer PRIMARY KEY AUTOINCREMENT,"
                 + "	idUser integer NOT NULL,"
