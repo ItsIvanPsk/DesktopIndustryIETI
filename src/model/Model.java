@@ -278,145 +278,153 @@ public class Model {
         return appComponentes;
     }
 
-    public JPanel createSwitch() {
+    public JPanel createSwitch(String nameBlock) {
         // Generate the background and the header
         JPanel panel1=new JPanel();
         panel1.setLayout(new GridLayout(0,2));
 
         for( int sw = 0 ; sw < getModel().getSwitchsObj().size() ; sw++ ){
-            JToggleButton boton = new JToggleButton(
-                getModel().getSwitchsObj()
-                .get(sw)
-                .getDef()
-            );
-            boton.setName(String.valueOf(sw));
-            boton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (boton.getText().equalsIgnoreCase("on")) {
-                        boton.setText("off");
-                        getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
-                        boton.setForeground(Color.lightGray);
-                    } else {
-                        boton.setText("on");
-                        getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
-                        boton.setForeground(Color.BLUE);                    }
+            if (getModel().getSwitchsObj().get(sw).getBlockId().equals(nameBlock)){
+                JToggleButton boton = new JToggleButton(
+                    getModel().getSwitchsObj()
+                    .get(sw)
+                    .getDef()
+                );
+                boton.setName(String.valueOf(sw));
+                boton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (boton.getText().equalsIgnoreCase("on")) {
+                            boton.setText("off");
+                            getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
+                            boton.setForeground(Color.lightGray);
+                        } else {
+                            boton.setText("on");
+                            getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
+                            boton.setForeground(Color.BLUE);                    }
+                    }
+                });
+                if (boton.getText().equalsIgnoreCase("on")){
+                    boton.setSelected(true);
                 }
-            });
-            if (boton.getText().equalsIgnoreCase("on")){
-                boton.setSelected(true);
+                JPanel panel2=new JPanel();
+                JLabel tag=new JLabel(getModel().getSwitchsObj().get(sw).getText());
+                boton.setFocusable(true);
+                panel2.add(tag);
+                panel2.add(boton);
+                panel1.add(panel2);
             }
-            JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(getModel().getSwitchsObj().get(sw).getText());
-            boton.setFocusable(true);
-            panel2.add(tag);
-            panel2.add(boton);
-            panel1.add(panel2);
 
         }
 	    return panel1;
 	}
 
-	public JPanel createSlider() {
+	public JPanel createSlider(String nameBlock) {
 
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
 
         for( int sl = 0 ; sl < getModel().getSlidersObj().size() ; sl++ ){
-            JSlider slider = new JSlider(
-                getModel().getSlidersObj().get(sl).getMin(),
-                getModel().getSlidersObj().get(sl).getMax(),
-                getModel().getSlidersObj().get(sl).getDef()
-            );
-            slider.setPaintTrack(true);
-            slider.setPaintTicks(true);
-            slider.setPaintLabels(true);
-            slider.setMajorTickSpacing(getModel().getSlidersObj().get(sl).getStep());
-            slider.setName(String.valueOf(sl));
-            slider.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());;
-                }
+            if (getModel().getSlidersObj().get(sl).getBlockId().equals(nameBlock)){
+                JSlider slider = new JSlider(
+                    getModel().getSlidersObj().get(sl).getMin(),
+                    getModel().getSlidersObj().get(sl).getMax(),
+                    getModel().getSlidersObj().get(sl).getDef()
+                );
+                slider.setPaintTrack(true);
+                slider.setPaintTicks(true);
+                slider.setPaintLabels(true);
+                slider.setMajorTickSpacing(getModel().getSlidersObj().get(sl).getStep());
+                slider.setName(String.valueOf(sl));
+                slider.addChangeListener(new ChangeListener() {
+                    @Override
+                    public void stateChanged(ChangeEvent e) {
+                        getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());;
+                    }
 
-            });
+                });
 
-            JPanel panel2=new JPanel();
-            panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
-            JLabel tag=new JLabel(getModel().getSlidersObj().get(sl).getText());
-            tag.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panel2.add(tag);
-            panel2.add(slider);
-            panel1.add(Box.createVerticalStrut(10));
-            panel1.add(panel2);
+                JPanel panel2=new JPanel();
+                panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
+                JLabel tag=new JLabel(getModel().getSlidersObj().get(sl).getText());
+                tag.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panel2.add(tag);
+                panel2.add(slider);
+                panel1.add(Box.createVerticalStrut(10));
+                panel1.add(panel2);
 
+            }
         }
 	return panel1;
 	}
 
-	public JPanel createDropdown() {
+	public JPanel createDropdown(String nameBlock) {
 		JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayout(0,2));
 
 
         for( int cb = 0 ; cb < getModel().getDropDownsObj().size() ; cb++ ){
-            JComboBox combo = new JComboBox();
-            for( int op = 0 ; op < getModel().getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
-                String[] array=getModel().getDropDownsObj().get(cb).getListOpt().get(op).split("//");
-                Option pre=new Option(Integer.parseInt(array[0]), array[1]);
-                if (getModel().getDropDownsObj().get(cb).getDef() == pre.getValue()) {
-                    combo.addItem(pre.getText());
-                    combo.setSelectedIndex(op);
+            if (getModel().getDropDownsObj().get(cb).getBlockId().equals(nameBlock)){
+                JComboBox combo = new JComboBox();
+                for( int op = 0 ; op < getModel().getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
+                    String[] array=getModel().getDropDownsObj().get(cb).getListOpt().get(op).split("//");
+                    Option pre=new Option(Integer.parseInt(array[0]), array[1]);
+                    if (getModel().getDropDownsObj().get(cb).getDef() == pre.getValue()) {
+                        combo.addItem(pre.getText());
+                        combo.setSelectedIndex(op);
+                    }
+                    else {
+                        combo.addItem(pre.getText());
+                    }
                 }
-                else {
-                    combo.addItem(pre.getText());
-                }
-            }
-            combo.setPrototypeDisplayValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            combo.setName(String.valueOf(cb));
-            combo.addItemListener(new ItemListener(){
+                combo.setPrototypeDisplayValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                combo.setName(String.valueOf(cb));
+                combo.addItemListener(new ItemListener(){
 
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    for( int op = 0 ; op < getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().size() ; op++ ){
-                        String[] array=getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("//");
-                        Option pre=new Option(Integer.parseInt(array[0]), array[1]);
-                        if (pre.getText().equals(combo.getSelectedItem())){
-                            getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
+                    @Override
+                    public void itemStateChanged(ItemEvent e) {
+                        for( int op = 0 ; op < getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().size() ; op++ ){
+                            String[] array=getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("//");
+                            Option pre=new Option(Integer.parseInt(array[0]), array[1]);
+                            if (pre.getText().equals(combo.getSelectedItem())){
+                                getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
+                            }
                         }
+
                     }
 
-                }
-
-            });
-            JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(getModel().getDropDownsObj().get(cb).getLabel());
-            combo.setMaximumSize(new Dimension(400, 50));
-            panel2.add(tag);
-            panel2.add(combo);
-            panel1.add(panel2);
+                });
+                JPanel panel2=new JPanel();
+                JLabel tag=new JLabel(getModel().getDropDownsObj().get(cb).getLabel());
+                combo.setMaximumSize(new Dimension(400, 50));
+                panel2.add(tag);
+                panel2.add(combo);
+                panel1.add(panel2);
+            }
         }
 	    return panel1;
 	}
 
-	public JPanel createSensor() {
+	public JPanel createSensor(String nameBlock) {
 		JPanel panel1=new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         JTextField text=null;
 
         for( int ss = 0 ; ss < getModel().getSensorsObj().size() ; ss++ ){
-            text = new JTextField();
-			text.setText(
-                "Temperature thresholdlow: " + getModel().getSensorsObj().get(ss).getThresholdlow() + " " + getModel().getSensorsObj().get(ss).getUnits()
-                + "\nTemperature Thresholdhigh: " + getModel().getSensorsObj().get(ss).getThresholdhigh() + " " + getModel().getSensorsObj().get(ss).getUnits());
+            if (getModel().getSensorsObj().get(ss).getBlockId().equals(nameBlock)){
+                text = new JTextField();
+                text.setText(
+                    "Temperature thresholdlow: " + getModel().getSensorsObj().get(ss).getThresholdlow() + " " + getModel().getSensorsObj().get(ss).getUnits()
+                    + "\nTemperature Thresholdhigh: " + getModel().getSensorsObj().get(ss).getThresholdhigh() + " " + getModel().getSensorsObj().get(ss).getUnits());
 
-            text.setEditable(false);
-            JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(getModel().getSensorsObj().get(ss).getText());
-            panel2.add(tag);
-            panel2.add(text);
-            panel1.add(Box.createVerticalStrut(10));
-            panel1.add(panel2);
+                text.setEditable(false);
+                JPanel panel2=new JPanel();
+                JLabel tag=new JLabel(getModel().getSensorsObj().get(ss).getText());
+                panel2.add(tag);
+                panel2.add(text);
+                panel1.add(Box.createVerticalStrut(10));
+                panel1.add(panel2);
+            }
         }
 		return panel1;
 	}

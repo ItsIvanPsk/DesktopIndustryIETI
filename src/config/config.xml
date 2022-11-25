@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
     <controls name="Primer Bloque">
-        <switch id="0" default="on">Luces oficina</switch>
-        <slider id="1" default="5" min="0" max="10" step="1">Revs Licuadora</slider>
+        <switch id="0" default="on">Luces oficina1</switch>
+        <slider id="1" default="5" min="0" max="10" step="1">Revs Licuadora1</slider>
         <dropdown id="2" default="2" label="Puertas del garaje">
-            <option value="1">Puerta delantera</option>
-            <option value="2">Puerta trasera</option>
+            <option value="1">Puerta delantera1</option>
+            <option value="2">Puerta trasera1</option>
         </dropdown>
-        <sensor id="3" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp</sensor>
-        <switch id="4" default="off">Luces del parking</switch>
-        <switch id="5" default="on">Luces de la oficina 2</switch>
-        <slider id="6" default="15" min="7" max="21" step="1">Revs Acelerador</slider>
+        <sensor id="3" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp1</sensor>
+        <switch id="4" default="off">Luces del parking1</switch>
+        <switch id="5" default="on">Luces de la oficina 1</switch>
+        <slider id="6" default="15" min="7" max="21" step="1">Revs Acelerador1</slider>
     </controls>
     <controls name="Segundo Bloque">
-        <switch id="7" default="on">Luces oficina</switch>
-        <slider id="8" default="5" min="0" max="10" step="1">Revs Licuadora</slider>
+        <switch id="7" default="on">Luces oficina2</switch>
+        <slider id="8" default="5" min="0" max="10" step="1">Revs Licuadora2</slider>
         <dropdown id="9" default="2" label="Puertas del garaje">
-            <option value="1">Puerta delantera</option>
-            <option value="2">Puerta trasera</option>
+            <option value="1">Puerta delantera2</option>
+            <option value="2">Puerta trasera2</option>
         </dropdown>
-        <sensor id="10" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp</sensor>
-        <switch id="11" default="off">Luces del parking</switch>
+        <sensor id="10" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp2</sensor>
+        <switch id="11" default="off">Luces del parking2</switch>
         <switch id="12" default="on">Luces de la oficina 2</switch>
-        <slider id="13" default="15" min="7" max="21" step="1">Revs Acelerador</slider>
+        <slider id="13" default="15" min="7" max="21" step="1">Revs Acelerador2</slider>
     </controls>
     <controls name="Tercer Bloque">
-        <switch id="14" default="on">Luces oficina</switch>
-        <sensor id="15" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp</sensor>
+        <switch id="14" default="on">Luces oficina3</switch>
+        <sensor id="15" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp3</sensor>
 
     </controls>
 

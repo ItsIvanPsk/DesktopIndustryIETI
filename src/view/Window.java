@@ -74,24 +74,24 @@ public class Window {
 	}
 	public void loadAllComponents() {
 		panelContenedor.removeAll();
-		int bloques=1;//modelo.getControls().size()
+		int bloques=modelo.getControls().size();
 		if (bloques==1){;
-			loadComponentsBlock(bloques-1);
+			loadComponentsBlock(0);
 		}
 		else{
 			scrollGeneral=new JScrollPane();
 			panelContenedor.add(scrollGeneral);
 			allComponents=new JPanel();
 			allComponents.setLayout(new BoxLayout(allComponents, BoxLayout.Y_AXIS));
-			for (int i=1;i<=bloques;i++){
-				loadComponentsBlock(bloques-1);
+			for (int i=0;i<bloques;i++){
+				loadComponentsBlock(i);
 			}
 			scrollGeneral.setViewportView(allComponents);
 			SwingUtilities.updateComponentTreeUI(ventana);
 		}
 	}
 	public void loadComponentsBlock(int posicionBloque){
-		int bloques=1;//variable que se utilizara mas tarde para el tema de la interfaz con bloques
+		int bloques=modelo.getControls().size();
 		scrollPanelSwitch= new JScrollPane();
 
 		JPanel titleSwitch = new JPanel();
@@ -135,10 +135,10 @@ public class Window {
 		labelSensors.setFont(new Font("Serif",Font.PLAIN,25));
         titleSensor.add(labelSensors);
 
-		scrollPanelSwitch.setViewportView(modelo.createSwitch());
-		scrollPanelSlider.setViewportView(modelo.createSlider());
-		scrollPanelDropDown.setViewportView(modelo.createDropdown());
-		scrollPanelSensor.setViewportView(modelo.createSensor());
+		scrollPanelSwitch.setViewportView(modelo.createSwitch(modelo.getControls().get(posicionBloque)));
+		scrollPanelSlider.setViewportView(modelo.createSlider(modelo.getControls().get(posicionBloque)));
+		scrollPanelDropDown.setViewportView(modelo.createDropdown(modelo.getControls().get(posicionBloque)));
+		scrollPanelSensor.setViewportView(modelo.createSensor(modelo.getControls().get(posicionBloque)));
 
 		JPanel panelIndividual=new JPanel();
 		panelIndividual.setLayout(new BoxLayout(panelIndividual, BoxLayout.Y_AXIS));
