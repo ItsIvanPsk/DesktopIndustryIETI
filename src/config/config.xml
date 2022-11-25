@@ -24,6 +24,10 @@
         <switch id="12" default="on">Luces de la oficina 2</switch>
         <slider id="13" default="15" min="7" max="21" step="1">Revs Acelerador</slider>
     </controls>
+    <controls name="Tercer Bloque">
+        <switch id="14" default="on">Luces oficina</switch>
+        <sensor id="15" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp</sensor>
 
+    </controls>
 
 </root>
