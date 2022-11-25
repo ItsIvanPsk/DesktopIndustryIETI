@@ -124,6 +124,7 @@ public class Model {
                 getModel().getSliders().clear();
                 getModel().getDropDowns().clear();
                 getModel().getSensors().clear();
+                getModel().getControls().clear();
 
                 getModel().getSwitchsObj().clear();
                 getModel().getSlidersObj().clear();
@@ -273,6 +274,7 @@ public class Model {
         }
 
         System.out.println(appComponentes);
+        System.out.println(controls);
         return appComponentes;
     }
 
@@ -508,6 +510,7 @@ public class Model {
     public ArrayList<String> getSliders() { return sliders; }
     public ArrayList<String> getDropDowns() { return dropdowns; }
     public ArrayList<String> getSensors() { return sensors; }
+    public ArrayList<String> getControls() { return controls; }
 
     public ArrayList<Switch> getSwitchsObj() { return switchs_obj; }
     public ArrayList<Slider> getSlidersObj() { return sliders_obj; }

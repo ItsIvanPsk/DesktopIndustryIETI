@@ -74,10 +74,9 @@ public class Window {
 	}
 	public void loadAllComponents() {
 		panelContenedor.removeAll();
-		int bloques=2;
-		if (bloques==1){
-			panelContenedor.setLayout(new GridLayout(2,2));
-			loadComponentsBlock();
+		int bloques=1;//modelo.getControls().size()
+		if (bloques==1){;
+			loadComponentsBlock(bloques-1);
 		}
 		else{
 			scrollGeneral=new JScrollPane();
@@ -85,14 +84,14 @@ public class Window {
 			allComponents=new JPanel();
 			allComponents.setLayout(new BoxLayout(allComponents, BoxLayout.Y_AXIS));
 			for (int i=1;i<=bloques;i++){
-				loadComponentsBlock();
+				loadComponentsBlock(bloques-1);
 			}
 			scrollGeneral.setViewportView(allComponents);
 			SwingUtilities.updateComponentTreeUI(ventana);
 		}
 	}
-	public void loadComponentsBlock(){
-		int bloques=2;//variable que se utilizara mas tarde para el tema de la interfaz con bloques
+	public void loadComponentsBlock(int posicionBloque){
+		int bloques=1;//variable que se utilizara mas tarde para el tema de la interfaz con bloques
 		scrollPanelSwitch= new JScrollPane();
 
 		JPanel titleSwitch = new JPanel();
@@ -141,24 +140,31 @@ public class Window {
 		scrollPanelDropDown.setViewportView(modelo.createDropdown());
 		scrollPanelSensor.setViewportView(modelo.createSensor());
 
+		JPanel panelIndividual=new JPanel();
+		panelIndividual.setLayout(new BoxLayout(panelIndividual, BoxLayout.Y_AXIS));
+
+		JPanel titleBlock = new JPanel();
+		titleBlock.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+
+		JLabel labelBlock=new JLabel(modelo.getControls().get(posicionBloque));
+		labelBlock.setFont(new Font("Serif",Font.BOLD,32));
+		titleBlock.add(labelBlock);
+		panelIndividual.add(titleBlock);
+
 		if (bloques==1){
-			
-			panelContenedor.add(scrollPanelSwitch);
-			panelContenedor.add(scrollPanelSlider);
-			panelContenedor.add(scrollPanelDropDown);
-			panelContenedor.add(scrollPanelSensor);
+			JPanel panelScrolls=new JPanel();
+			panelScrolls.setLayout(new GridLayout(2,2));
+			panelScrolls.add(scrollPanelSwitch);
+			panelScrolls.add(scrollPanelSlider);
+			panelScrolls.add(scrollPanelDropDown);
+			panelScrolls.add(scrollPanelSensor);
+
+			panelIndividual.add(panelScrolls);
+			panelContenedor.add(panelIndividual);
 			SwingUtilities.updateComponentTreeUI(ventana);
 		}
 		else{
-			JPanel panelIndividual=new JPanel();
-			panelIndividual.setLayout(new BoxLayout(panelIndividual, BoxLayout.Y_AXIS));
-
-			JPanel titleBlock = new JPanel();
-        	titleBlock.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-
-			JLabel labelBlock=new JLabel("Bloque 1");
-			labelBlock.setFont(new Font("Serif",Font.BOLD,32));
-			titleBlock.add(labelBlock);
+			
 
 
 			panelIndividual.add(titleBlock);
