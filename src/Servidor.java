@@ -112,18 +112,18 @@ public class Servidor extends WebSocketServer {
                     } else {
                         modelo.getSwitchsObj().get(sw_index).setDef("off");
                     }
-                    window.loadComponents();
+                    window.loadAllComponents();
                     break;
                 case "SL":
                     Integer sl_index = modelo.findObjectWithId(Integer.parseInt(splitedMessage[2]));
                     modelo.getSlidersObj().get(sl_index).setDef(Integer.parseInt(splitedMessage[3]));
-                    window.loadComponents();
+                    window.loadAllComponents();
                     break;
                 case "DD":
                     System.out.println(splitedMessage[3]);
                     Integer dd_index = modelo.findObjectWithId(Integer.parseInt(splitedMessage[2]));
                     modelo.getDropDownsObj().get(dd_index).setDef(Integer.parseInt(splitedMessage[3]));
-                    window.loadComponents();
+                    window.loadAllComponents();
                     break;
             }
         }
