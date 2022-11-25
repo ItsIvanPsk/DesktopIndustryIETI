@@ -12,7 +12,7 @@ public class UtilsSQLite {
 
     public static Connection connect (String filePath) {
         Connection conn = null;
-        
+
         try {
             String url = "jdbc:sqlite:" + filePath;
             conn = DriverManager.getConnection(url);
@@ -28,8 +28,8 @@ public class UtilsSQLite {
 
     public static void disconnect (Connection conn ) {
         try {
-            if (conn != null) { 
-                conn.close(); 
+            if (conn != null) {
+                conn.close();
                 System.out.println("DDBB SQLite desconnectada");
             }
         } catch (SQLException ex) { System.out.println(ex.getMessage()); }
