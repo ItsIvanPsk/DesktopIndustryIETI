@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,9 +33,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.password4j.Password;
 
+import src.components.Controls;
 import src.components.Dropdown;
 import src.components.Option;
 import src.components.Sensor;
@@ -50,16 +53,19 @@ public class Model {
     private ArrayList<String> sliders = new ArrayList<String>();
     private ArrayList<String> dropdowns = new ArrayList<String>();
     private ArrayList<String> sensors = new ArrayList<String>();
+    private ArrayList<String> controls = new ArrayList<String>();
+
     // Desktop
 	private ArrayList<Switch> switchs_obj = new ArrayList<>();
     private ArrayList<Slider> sliders_obj = new ArrayList<>();
     private ArrayList<Dropdown> dropdowns_obj = new ArrayList<>();
     private ArrayList<Sensor> sensors_obj = new ArrayList<>();
-    
+    private ArrayList<Controls> control_obj = new ArrayList<>();
+
     private static Model instance;
 
     private Model(){
-        
+
     }
 
     public static Model getModel(){
@@ -70,20 +76,21 @@ public class Model {
     }
 
     /*
-        
+
         Variables con GETTERS/SETTERS en vez de usar static
 
         1 METODO para obtener del XML y crear los objetos en los respectivos Arrays
-        1 METODO para generar la interfaz, este metodo cogerá los 4 arrays y generará la 
+        1 METODO para generar la interfaz, este metodo cogerá los 4 arrays y generará la
             interfaz desde 0 con los objetos de los arrays.
         1 METODO para recorrer los arrays y generar string para la App
-        
+
         1 METODO para encontrar un objeto con una id en concreto y retornarlo //WIP
         1 METODO para actualizar el objeto deseado en los Arrays (Puede ser que también se deba de cambiar el XML) //WIP
         1 METODO para encriptar la contraseña //WIP
         1 METODO 'Salt&Pepper' para desencriptar la contraseña //WIP
 
      */
+
 
     public static void lecturaXML(File file) {
 
@@ -117,7 +124,7 @@ public class Model {
                 getModel().getSliders().clear();
                 getModel().getDropDowns().clear();
                 getModel().getSensors().clear();
-        
+
                 getModel().getSwitchsObj().clear();
                 getModel().getSlidersObj().clear();
                 getModel().getDropDownsObj().clear();
@@ -128,104 +135,118 @@ public class Model {
                 Document doc = dBuilder.parse(file);
 
                 doc.getDocumentElement().normalize();
+                NodeList blockList = doc.getElementsByTagName("root");
+                for(int cont = 0; cont < blockList.getLength(); cont++) {
+                    NodeList listaControles = doc.getElementsByTagName("controls");
+                    for(int i = 0; i < listaControles.getLength(); i++) {
+                        Node nodeControls = listaControles.item(i);
+                        if(nodeControls.getNodeType() == Node.ELEMENT_NODE) {
+                            Element elmContr = (Element) nodeControls;
+                            getModel().controls.add(elmContr.getAttribute("name"));
 
-                NodeList listaControles = doc.getElementsByTagName("controls");
-                AttributeList listaAtributos = (AttributeList) doc.getAttributes();
-                System.out.println(listaAtributos);
-                Integer blockID = 1;
-                for(int cnt = 0; cnt < listaControles.getLength(); cnt++) {
-                    Node nodeControl = listaControles.item(cnt);
-                    if(nodeControl.getNodeType() == Node.ELEMENT_NODE) {
-                        Element elm = (Element) nodeControl;
-                        NodeList listaSwitch = elm.getElementsByTagName("switch");
-                        for(int i = 0; i < listaSwitch.getLength(); i++) {
-                            Node nodeSwitch = listaSwitch.item(i);
-                            if(nodeSwitch.getNodeType() == Node.ELEMENT_NODE) {
-                                Element elmSwi = (Element) nodeSwitch;
-                                Switch switch_obj = new Switch(
-                                    Integer.parseInt(elmSwi.getAttribute("id")), 
-                                    blockID,
-                                    elmSwi.getAttribute("default"), 
-                                    elmSwi.getTextContent()
-                                );
-                                getModel().getSwitchs().add(switch_obj.toString());
-                                getModel().getSwitchsObj().add(switch_obj);
-                            }
+
                         }
-                        NodeList listaSlider = elm.getElementsByTagName("slider");
-                        for(int i = 0; i < listaSlider.getLength(); i++) {
-                            Node nodeSlider = listaSlider.item(i);
-                            if(nodeSlider.getNodeType() == Node.ELEMENT_NODE) {
-                                Element elmSli = (Element) nodeSlider;
-                                Slider slider = new Slider(
-                                    Integer.parseInt(elmSli.getAttribute("id")), 
-                                    1,
-                                    Integer.parseInt(elmSli.getAttribute("default")),
-                                    Integer.parseInt(elmSli.getAttribute("min")),
-                                    Integer.parseInt(elmSli.getAttribute("max")),
-                                    Integer.parseInt(elmSli.getAttribute("step")),
-                                    elmSli.getTextContent());
 
-                                getModel().getSliders().add(slider.toString());
-                                getModel().getSlidersObj().add(slider);
-                            }
-                        }
-                        NodeList listaDropDown = elm.getElementsByTagName("dropdown");
-                        for(int i = 0; i < listaDropDown.getLength(); i++) {
-                            Node nodeDropDown = listaDropDown.item(i);
-                            if(nodeDropDown.getNodeType() == Node.ELEMENT_NODE) {
-                                Element elmDrop = (Element) nodeDropDown;
-                                int id = Integer.parseInt(elmDrop.getAttribute("id"));
-                                int def= Integer.parseInt(elmDrop.getAttribute("default"));
-                                String lab= elmDrop.getAttribute("label");
-                                ArrayList<String> option = new ArrayList<String>();
+                    }
 
-                                NodeList listaOption= elmDrop.getElementsByTagName("option");
-                                for(int j = 0; j < listaOption.getLength(); j++) {
-                                    Node nodeOption = listaOption.item(j);
-                                    if(nodeOption.getNodeType() == Node.ELEMENT_NODE) {
-                                        Element elmOpti = (Element) nodeOption;
-                                        option.add(
-                                            new Option(
-                                                Integer.parseInt(elmOpti.getAttribute("value")),
-                                                elmOpti.getTextContent()).toString()
-                                            );
-                                    }
-
+                    for(int cnt = 0; cnt < listaControles.getLength(); cnt++) {
+                        Node nodeControl = listaControles.item(cnt);
+                        if(nodeControl.getNodeType() == Node.ELEMENT_NODE) {
+                            Element elm = (Element) nodeControl;
+                            NodeList listaSwitch = elm.getElementsByTagName("switch");
+                            for(int i = 0; i < listaSwitch.getLength(); i++) {
+                                Node nodeSwitch = listaSwitch.item(i);
+                                if(nodeSwitch.getNodeType() == Node.ELEMENT_NODE) {
+                                    Element elmSwi = (Element) nodeSwitch;
+                                    Switch switch_obj = new Switch(
+                                        Integer.parseInt(elmSwi.getAttribute("id")),
+                                        getModel().controls.get(cnt),
+                                        elmSwi.getAttribute("default"),
+                                        elmSwi.getTextContent()
+                                    );
+                                    getModel().getSwitchs().add(switch_obj.toString());
+                                    getModel().getSwitchsObj().add(switch_obj);
                                 }
-                                Dropdown dropdown = new Dropdown(id,1,def,lab,option);
-                                getModel().getDropDowns().add(dropdown.toString());
-                                getModel().getDropDownsObj().add(dropdown);
+
                             }
-                        }
+                            NodeList listaSlider = elm.getElementsByTagName("slider");
+                            for(int i = 0; i < listaSlider.getLength(); i++) {
+                                Node nodeSlider = listaSlider.item(i);
+                                if(nodeSlider.getNodeType() == Node.ELEMENT_NODE) {
+                                    Element elmSli = (Element) nodeSlider;
+                                    Slider slider = new Slider(
+                                        Integer.parseInt(elmSli.getAttribute("id")),
+                                        getModel().controls.get(cont),
+                                        Integer.parseInt(elmSli.getAttribute("default")),
+                                        Integer.parseInt(elmSli.getAttribute("min")),
+                                        Integer.parseInt(elmSli.getAttribute("max")),
+                                        Integer.parseInt(elmSli.getAttribute("step")),
+                                        elmSli.getTextContent());
 
-                        NodeList listaSensor = elm.getElementsByTagName("sensor");
-                        for(int i = 0; i < listaSensor.getLength(); i++) {
-                            Node nodeSensor = listaSensor.item(i);
-                            if(nodeSensor.getNodeType() == Node.ELEMENT_NODE) {
-                                Element elmSen = (Element) nodeSensor;
-                                Sensor sensor = new Sensor(
-                                    Integer.parseInt(elmSen.getAttribute("id")),
-                                    1,
-                                    elmSen.getAttribute("units"),
-                                    Integer.parseInt(elmSen.getAttribute("thresholdlow")),
-                                    Integer.parseInt(elmSen.getAttribute("thresholdhigh")),
-                                    elmSen.getTextContent());
+                                    getModel().getSliders().add(slider.toString());
+                                    getModel().getSlidersObj().add(slider);
+                                }
+                            }
+                            NodeList listaDropDown = elm.getElementsByTagName("dropdown");
+                            for(int i = 0; i < listaDropDown.getLength(); i++) {
+                                Node nodeDropDown = listaDropDown.item(i);
+                                if(nodeDropDown.getNodeType() == Node.ELEMENT_NODE) {
+                                    Element elmDrop = (Element) nodeDropDown;
+                                    int id = Integer.parseInt(elmDrop.getAttribute("id"));
+                                    int def= Integer.parseInt(elmDrop.getAttribute("default"));
+                                    String lab= elmDrop.getAttribute("label");
+                                    ArrayList<String> option = new ArrayList<String>();
 
-                                getModel().getSensors().add(sensor.toString());
-                                getModel().getSensorsObj().add(sensor);
+                                    NodeList listaOption= elmDrop.getElementsByTagName("option");
+                                    for(int j = 0; j < listaOption.getLength(); j++) {
+                                        Node nodeOption = listaOption.item(j);
+                                        if(nodeOption.getNodeType() == Node.ELEMENT_NODE) {
+                                            Element elmOpti = (Element) nodeOption;
+                                            option.add(
+                                                new Option(
+                                                    Integer.parseInt(elmOpti.getAttribute("value")),
+                                                    elmOpti.getTextContent()).toString()
+                                                );
+                                        }
+
+                                    }
+                                    Dropdown dropdown = new Dropdown(id,def,getModel().controls.get(cont),lab,option);
+                                    getModel().getDropDowns().add(dropdown.toString());
+                                    getModel().getDropDownsObj().add(dropdown);
+                                }
+                            }
+
+                            NodeList listaSensor = elm.getElementsByTagName("sensor");
+                            for(int i = 0; i < listaSensor.getLength(); i++) {
+                                Node nodeSensor = listaSensor.item(i);
+                                if(nodeSensor.getNodeType() == Node.ELEMENT_NODE) {
+                                    Element elmSen = (Element) nodeSensor;
+                                    Sensor sensor = new Sensor(
+                                        Integer.parseInt(elmSen.getAttribute("id")),
+                                        getModel().controls.get(cont),
+                                        elmSen.getAttribute("units"),
+                                        Integer.parseInt(elmSen.getAttribute("thresholdlow")),
+                                        Integer.parseInt(elmSen.getAttribute("thresholdhigh")),
+                                        elmSen.getTextContent());
+
+                                    getModel().getSensors().add(sensor.toString());
+                                    getModel().getSensorsObj().add(sensor);
+                                }
                             }
                         }
                     }
+
                 }
             } catch(Exception e) {
                 e.printStackTrace();
             }
         }
+        getModel().recorrerArrays();
     }
 
+
     public String recorrerArrays() {
-        String appComponentes = "CF%%";
+        String appComponentes = "CF%%" + getModel().controls.size() + "%%";
 
         if(getModel().getSwitchsObj().size() != 0){
             for (int i = 0; i < getModel().getSwitchsObj().size(); i++) {
@@ -252,6 +273,7 @@ public class Model {
             }
         }
 
+        System.out.println(appComponentes);
         return appComponentes;
     }
 
@@ -293,9 +315,9 @@ public class Model {
         }
 	    return panel1;
 	}
-	
+
 	public JPanel createSlider() {
-	
+
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
 
@@ -315,9 +337,9 @@ public class Model {
                 public void stateChanged(ChangeEvent e) {
                     getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());;
                 }
-                
+
             });
-            
+
             JPanel panel2=new JPanel();
             panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
             JLabel tag=new JLabel(getModel().getSlidersObj().get(sl).getText());
@@ -326,11 +348,11 @@ public class Model {
             panel2.add(slider);
             panel1.add(Box.createVerticalStrut(10));
             panel1.add(panel2);
-            
+
         }
 	return panel1;
 	}
-	
+
 	public JPanel createDropdown() {
 		JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayout(0,2));
@@ -362,9 +384,9 @@ public class Model {
                             getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
                         }
                     }
-                    
+
                 }
-                
+
             });
             JPanel panel2=new JPanel();
             JLabel tag=new JLabel(getModel().getDropDownsObj().get(cb).getLabel());
@@ -375,7 +397,7 @@ public class Model {
         }
 	    return panel1;
 	}
-	
+
 	public JPanel createSensor() {
 		JPanel panel1=new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
@@ -386,7 +408,7 @@ public class Model {
 			text.setText(
                 "Temperature thresholdlow: " + getModel().getSensorsObj().get(ss).getThresholdlow() + " " + getModel().getSensorsObj().get(ss).getUnits()
                 + "\nTemperature Thresholdhigh: " + getModel().getSensorsObj().get(ss).getThresholdhigh() + " " + getModel().getSensorsObj().get(ss).getUnits());
-            
+
             text.setEditable(false);
             JPanel panel2=new JPanel();
             JLabel tag=new JLabel(getModel().getSensorsObj().get(ss).getText());
@@ -422,7 +444,7 @@ public class Model {
                 return i;
             }
         }
-        
+
         return -1;
     }
 
@@ -440,7 +462,7 @@ public class Model {
             e.printStackTrace();
         }
         return 0;
-    } 
+    }
     public boolean passwordValidate(String username, String password){
         String filePath = System.getProperty("user.dir") + "/src/database.db";
         Connection conn=UtilsSQLite.connect(filePath);

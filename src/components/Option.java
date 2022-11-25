@@ -1,16 +1,16 @@
 package src.components;
- 
+
 public class Option extends Controls{
     private int value;
     private String text;
-    
+
     //Constructor
     public Option(int value, String text) {
         super();
         this.value = value;
         this.text = text;
     }
-    
+
     //Getters and Setters
     public int getValue() {
         return value;
@@ -32,4 +32,4 @@ public class Option extends Controls{
     public String toString() {
     	return value + "//" + text;
     }
-}    
+}

@@ -2,21 +2,21 @@ package src.components;
 
 
 public class Slider extends Controls {
-    private int id, blockID, def, min, max, step;
-    private String text;
-    
+    private int id, def, min, max, step;
+    private String text, blockName;
+
     //Constructor
-    public Slider(int id, int blockID, int def, int min, int max, int step, String text) {
+    public Slider(int id, String blockName, int def, int min, int max, int step, String text) {
         super();
         this.id = id;
-        this.blockID = blockID;
+        this.blockName = blockName;
         this.def = def;
         this.min = min;
         this.max = max;
         this.step = step;
         this.text = text;
     }
-    
+
     public Slider() {
     }
 
@@ -29,12 +29,12 @@ public class Slider extends Controls {
         this.id = id;
     }
 
-    public int getBlockId() {
-        return blockID;
+    public String getBlockId() {
+        return blockName;
     }
 
-    public void setBlockId(int blockID) {
-        this.blockID = blockID;
+    public void setBlockId(String blockName) {
+        this.blockName = blockName;
     }
 
     public int getDef() {
@@ -76,7 +76,7 @@ public class Slider extends Controls {
     public void setValue(String text) {
         this.text = text;
     }
-    
+
     public String getText() {
         return text;
     }
@@ -87,7 +87,7 @@ public class Slider extends Controls {
 
     //ToString
     public String toString() {
-        return "SL#" + id + "#" + blockID + "#" + def + "#" + min + "#" + max + "#" + step + "#" + text;
+        return "SL#" + id + "#" + blockName + "#" + def + "#" + min + "#" + max + "#" + step + "#" + text;
     }
-       
+
 }
