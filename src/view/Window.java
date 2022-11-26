@@ -148,6 +148,7 @@ public class Window {
 
 		JLabel labelBlock=new JLabel(modelo.getControls().get(posicionBloque));
 		labelBlock.setFont(new Font("Serif",Font.BOLD,32));
+		titleBlock.setBackground(Color.ORANGE);
 		titleBlock.add(labelBlock);
 		panelIndividual.add(titleBlock);
 
