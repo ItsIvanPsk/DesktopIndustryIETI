@@ -292,12 +292,12 @@ public class Model {
                         if (boton.getText().equalsIgnoreCase("on")) {
                             boton.setText("off");
                             getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
-                            Servidor.goUpdateApp(getModel().recorrerArrays());
+                            Servidor.getServidor().goUpdateApp();
                             boton.setForeground(Color.lightGray);
                         } else {
                             boton.setText("on");
                             getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
-                            Servidor.goUpdateApp(getModel().recorrerArrays());
+                            Servidor.getServidor().goUpdateApp();
                             boton.setForeground(Color.BLUE);                    }
                     }
                 });
@@ -340,7 +340,7 @@ public class Model {
                     @Override
                     public void stateChanged(ChangeEvent e) {
                         getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());
-                        Servidor.goUpdateApp(getModel().recorrerArrays());
+                        Servidor.getServidor().goUpdateApp();
                     }
 
                 });
@@ -380,7 +380,7 @@ public class Model {
                         combo.addItem(pre.getText());
                     }
                 }
-                combo.setPrototypeDisplayValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                combo.setPrototypeDisplayValue("Label");
                 combo.setName(String.valueOf(cb));
                 combo.addItemListener(new ItemListener(){
 
@@ -391,7 +391,7 @@ public class Model {
                             Option pre=new Option(Integer.parseInt(array[0]), array[1]);
                             if (pre.getText().equals(combo.getSelectedItem())){
                                 getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
-                                Servidor.goUpdateApp(getModel().recorrerArrays());
+                                Servidor.getServidor().goUpdateApp();
                             }
                         }
 
