@@ -2,6 +2,7 @@ package src.model;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,13 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-import javax.management.AttributeList;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -28,15 +26,12 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import com.password4j.Password;
-
+import src.Servidor;
 import src.components.Controls;
 import src.components.Dropdown;
 import src.components.Option;
@@ -297,10 +292,12 @@ public class Model {
                         if (boton.getText().equalsIgnoreCase("on")) {
                             boton.setText("off");
                             getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
+                            Servidor.goUpdateApp(getModel().recorrerArrays());
                             boton.setForeground(Color.lightGray);
                         } else {
                             boton.setText("on");
                             getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
+                            Servidor.goUpdateApp(getModel().recorrerArrays());
                             boton.setForeground(Color.BLUE);                    }
                     }
                 });
@@ -339,7 +336,8 @@ public class Model {
                 slider.addChangeListener(new ChangeListener() {
                     @Override
                     public void stateChanged(ChangeEvent e) {
-                        getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());;
+                        getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());
+                        Servidor.goUpdateApp(getModel().recorrerArrays());
                     }
 
                 });
@@ -388,6 +386,7 @@ public class Model {
                             Option pre=new Option(Integer.parseInt(array[0]), array[1]);
                             if (pre.getText().equals(combo.getSelectedItem())){
                                 getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
+                                Servidor.goUpdateApp(getModel().recorrerArrays());
                             }
                         }
 
@@ -467,7 +466,6 @@ public class Model {
             rs.next();
             return rs.getInt("id");
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return 0;
