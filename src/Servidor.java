@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import javax.annotation.processing.SupportedOptions;
+
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -30,6 +33,17 @@ public class Servidor extends WebSocketServer {
     static Model modelo = Model.getModel();
     WebSocket conn;
 
+    private Servidor(){
+
+    }
+
+    public static Servidor getServidor(){
+        if(socket == null){
+            socket = new Servidor();
+        }
+        return socket;
+    }
+
     public static void main(String[] args) throws InterruptedException, IOException {
 
         baseDades.checkDataBase();
@@ -38,7 +52,7 @@ public class Servidor extends WebSocketServer {
         java.lang.System.setProperty("jdk.tls.client.protocols", "TLSv1,TLSv1.1,TLSv1.2");
 
         socket = new Servidor(port);
-        socket.start();
+        getServidor().start();
 
         while (running) {
             String line = sc.nextLine();
@@ -47,7 +61,7 @@ public class Servidor extends WebSocketServer {
             }
         }
 
-        socket.stop(1000);
+        getServidor().stop(1000);
 
     }
 
@@ -107,23 +121,27 @@ public class Servidor extends WebSocketServer {
                     modelo.getSwitchsObj().get(sw_index).setDef("off");
                 }
                 window.loadAllComponents();
+                goUpdateApp();
                 break;
             case "SL":
                 Integer sl_index = modelo.findObjectWithId(Integer.parseInt(splitedMessage[2]));
                 modelo.getSlidersObj().get(sl_index).setDef(Integer.parseInt(splitedMessage[3]));
                 window.loadAllComponents();
+                goUpdateApp();
                 break;
             case "DD":
                 System.out.println(splitedMessage[3]);
                 Integer dd_index = modelo.findObjectWithId(Integer.parseInt(splitedMessage[2]));
                 modelo.getDropDownsObj().get(dd_index).setDef(Integer.parseInt(splitedMessage[3]));
                 window.loadAllComponents();
+                goUpdateApp();
                 break;
         }
     }
 
-    public static void goUpdateApp(String message){
-        socket.getConn().send(message);
+    public void goUpdateApp(){
+        broadcast(Model.getModel().recorrerArrays());
+        System.out.println("goUpdateApp");
     }
 
     public Servidor(int port) throws UnknownHostException {
