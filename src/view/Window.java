@@ -95,7 +95,7 @@ public class Window {
 		scrollPanelSwitch= new JScrollPane();
 
 		JPanel titleSwitch = new JPanel();
-        titleSwitch.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        titleSwitch.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelSwitch.setColumnHeaderView(titleSwitch);
 
         JLabel labelSwitch = new JLabel("Switchs");
@@ -106,7 +106,7 @@ public class Window {
 		scrollPanelSlider= new JScrollPane();
 
 		JPanel titleSlider= new JPanel();
-        titleSlider.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        titleSlider.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelSlider.setColumnHeaderView(titleSlider);
 
         JLabel labelSlider = new JLabel("Sliders");
@@ -117,7 +117,7 @@ public class Window {
 		scrollPanelDropDown= new JScrollPane();
 
 		JPanel titleDropDown = new JPanel();
-        titleDropDown.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        titleDropDown.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelDropDown.setColumnHeaderView(titleDropDown);
 
         JLabel labelDropDown = new JLabel("Drops Downs");
@@ -128,7 +128,7 @@ public class Window {
 		scrollPanelSensor= new JScrollPane();
 
 		JPanel titleSensor = new JPanel();
-        titleSensor.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+        titleSensor.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelSensor.setColumnHeaderView(titleSensor);
 
         JLabel labelSensors = new JLabel("Sensors");
@@ -144,7 +144,7 @@ public class Window {
 		panelIndividual.setLayout(new BoxLayout(panelIndividual, BoxLayout.Y_AXIS));
 
 		JPanel titleBlock = new JPanel();
-		titleBlock.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		titleBlock.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
 
 		JLabel labelBlock=new JLabel(modelo.getControls().get(posicionBloque));
 		labelBlock.setFont(new Font("Serif",Font.BOLD,32));

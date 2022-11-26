@@ -306,7 +306,7 @@ public class Model {
                 }
                 JPanel panel2=new JPanel();
                 JLabel tag=new JLabel(getModel().getSwitchsObj().get(sw).getText());
-                boton.setFocusable(true);
+                boton.setFocusable(false);
                 panel2.add(tag);
                 panel2.add(boton);
                 panel1.add(panel2);
