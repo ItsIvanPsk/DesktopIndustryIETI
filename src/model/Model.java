@@ -11,8 +11,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import javax.annotation.processing.SupportedOptions;
@@ -518,6 +520,22 @@ public class Model implements ServerUtils{
             }
             return false;
         }
+    }
+
+    public String sysDate(){
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+        
+        return formatter.format(date);
+    }
+
+
+    public void insertDatabase(){
+        
+        String config = Model.getModel().recorrerArrays();
+        String query = "INSERT INTO Snapshoot (config, date) VALUES ('" + config + "','" + Model.getModel().sysDate() +"');";
+        System.out.println("QUERYYYYYYYYYYYYYYYYYYYYY " + query);
+        UtilsSQLite.queryUpdate(baseDades.conn, query);
     }
 
     // Getters/Setters

@@ -258,8 +258,7 @@ public class errorValidate {
 
             ArrayList<Integer> idList = new ArrayList<Integer>();
             for (Controls contr : contrList){
-                String[] listSplit = contr.toString().split("#");
-
+                String[] listSplit = contr.toString().split("_");
                 idList.add(Integer.parseInt(listSplit[1]));
 
             }
