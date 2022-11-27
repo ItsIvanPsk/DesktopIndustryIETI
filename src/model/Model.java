@@ -309,7 +309,9 @@ public class Model implements ServerUtils{
                 boton.setFocusable(false);
                 panel2.add(tag);
                 panel2.add(boton);
+                panel2.setBackground(Color.CYAN);
                 panel1.add(panel2);
+                panel1.setBackground(Color.CYAN);
             }
 
         }
@@ -333,6 +335,7 @@ public class Model implements ServerUtils{
                 slider.setPaintLabels(true);
                 slider.setMajorTickSpacing(getModel().getSlidersObj().get(sl).getStep());
                 slider.setName(String.valueOf(sl));
+                slider.setBackground(Color.CYAN);
                 slider.addChangeListener(new ChangeListener() {
                     @Override
                     public void stateChanged(ChangeEvent e) {
@@ -348,8 +351,10 @@ public class Model implements ServerUtils{
                 tag.setAlignmentX(Component.CENTER_ALIGNMENT);
                 panel2.add(tag);
                 panel2.add(slider);
+                panel2.setBackground(Color.CYAN);
                 panel1.add(Box.createVerticalStrut(10));
                 panel1.add(panel2);
+                panel1.setBackground(Color.CYAN);
 
             }
         }
@@ -398,7 +403,9 @@ public class Model implements ServerUtils{
                 combo.setMaximumSize(new Dimension(400, 50));
                 panel2.add(tag);
                 panel2.add(combo);
+                panel2.setBackground(Color.CYAN);
                 panel1.add(panel2);
+                panel1.setBackground(Color.CYAN);
             }
         }
 	    return panel1;
@@ -421,8 +428,10 @@ public class Model implements ServerUtils{
                 JLabel tag=new JLabel(getModel().getSensorsObj().get(ss).getText());
                 panel2.add(tag);
                 panel2.add(text);
+                panel2.setBackground(Color.CYAN);
                 panel1.add(Box.createVerticalStrut(10));
                 panel1.add(panel2);
+                panel1.setBackground(Color.CYAN);
             }
         }
 		return panel1;
