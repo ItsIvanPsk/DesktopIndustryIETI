@@ -1,6 +1,8 @@
 package src.components;
 
-public class Sensor extends Controls{
+import src.utils.ServerUtils;
+
+public class Sensor extends Controls implements ServerUtils{
     int id,thresholdlow,thresholdhigh;
     private String units,text,blockName;
 
@@ -66,7 +68,14 @@ public class Sensor extends Controls{
     }
     @Override
     public String toString() {
-        return "SS#" + id + "#" + blockName + "#" + units + "#" + thresholdlow + "#" + thresholdhigh + "#" + text;
+        return 
+        "SS" + componentAttr
+        + id + componentAttr
+        + blockName + componentAttr
+        + units + componentAttr
+        + thresholdlow + componentAttr
+        + thresholdhigh + componentAttr
+        + text;
     }
 
 

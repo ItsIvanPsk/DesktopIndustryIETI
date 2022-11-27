@@ -2,7 +2,9 @@ package src.components;
 
 import java.util.ArrayList;
 
-public class Dropdown extends Controls{
+import src.utils.ServerUtils;
+
+public class Dropdown extends Controls implements ServerUtils{
     private int id, def;
     private String label, blockName;
     private ArrayList<String> listOpt;
@@ -62,7 +64,13 @@ public class Dropdown extends Controls{
 
     //ToString
     public String toString() {
-    	return "DD#" + id + "#" + blockName + "#" + def + "#" + label + "#" + listOpt.toString();
+    	return 
+        "DD" + componentAttr
+        + id + componentAttr
+        + blockName + componentAttr
+        + def + componentAttr
+        + label + componentAttr
+        + listOpt.toString();
     }
 
 }

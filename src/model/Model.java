@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.annotation.processing.SupportedOptions;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -38,11 +40,12 @@ import src.components.Option;
 import src.components.Sensor;
 import src.components.Slider;
 import src.components.Switch;
+import src.utils.ServerUtils;
 import src.utils.UtilsSQLite;
 import src.view.CustomsDialogs;
 import src.view.Window;
 
-public class Model {
+public class Model implements ServerUtils{
     // App
 	private ArrayList<String> switchs = new ArrayList<String>();
     private ArrayList<String> sliders = new ArrayList<String>();
@@ -241,35 +244,32 @@ public class Model {
 
 
     public String recorrerArrays() {
-        String appComponentes = "CF%%" + getModel().controls.size() + "%%";
+        String appComponentes = "CF" + componentSep + getModel().controls.size() + componentSep;
 
         if(getModel().getSwitchsObj().size() != 0){
             for (int i = 0; i < getModel().getSwitchsObj().size(); i++) {
                 System.out.println(getModel().getSwitchsObj().get(i).toString());
-                appComponentes = appComponentes + getModel().getSwitchsObj().get(i).toString() + "%%";
+                appComponentes = appComponentes + getModel().getSwitchsObj().get(i).toString() + componentSep;
             }
         }
 
         if(getModel().getSlidersObj().size() != 0){
             for (int i = 0; i < getModel().getSlidersObj().size(); i++) {
-                appComponentes = appComponentes + getModel().getSlidersObj().get(i).toString() + "%%";
+                appComponentes = appComponentes + getModel().getSlidersObj().get(i).toString() + componentSep;
             }
         }
 
         if(getModel().getSensorsObj().size() != 0){
             for (int i = 0; i < getModel().getSensorsObj().size(); i++) {
-                appComponentes = appComponentes + getModel().getSensorsObj().get(i).toString() + "%%";
+                appComponentes = appComponentes + getModel().getSensorsObj().get(i).toString() + componentSep;
             }
         }
 
         if(getModel().getDropDownsObj().size() != 0){
             for (int i = 0; i < getModel().getDropDownsObj().size(); i++) {
-                appComponentes = appComponentes + getModel().getDropDownsObj().get(i).toString() + "%%";
+                appComponentes = appComponentes + getModel().getDropDownsObj().get(i).toString() + componentSep;
             }
         }
-
-        System.out.println(appComponentes);
-        System.out.println(controls);
         return appComponentes;
     }
 
@@ -365,7 +365,7 @@ public class Model {
             if (getModel().getDropDownsObj().get(cb).getBlockId().equals(nameBlock)){
                 JComboBox combo = new JComboBox();
                 for( int op = 0 ; op < getModel().getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
-                    String[] array=getModel().getDropDownsObj().get(cb).getListOpt().get(op).split("//");
+                    String[] array = getModel().getDropDownsObj().get(cb).getListOpt().get(op).split("\\$");
                     Option pre=new Option(Integer.parseInt(array[0]), array[1]);
                     if (getModel().getDropDownsObj().get(cb).getDef() == pre.getValue()) {
                         combo.addItem(pre.getText());
@@ -375,14 +375,14 @@ public class Model {
                         combo.addItem(pre.getText());
                     }
                 }
-                combo.setPrototypeDisplayValue("Label");
+                combo.setPrototypeDisplayValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 combo.setName(String.valueOf(cb));
                 combo.addItemListener(new ItemListener(){
 
                     @Override
                     public void itemStateChanged(ItemEvent e) {
                         for( int op = 0 ; op < getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().size() ; op++ ){
-                            String[] array=getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("//");
+                            String[] array=getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("\\$");
                             Option pre=new Option(Integer.parseInt(array[0]), array[1]);
                             if (pre.getText().equals(combo.getSelectedItem())){
                                 getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
