@@ -3,6 +3,7 @@ package src.model;
 import lib.*;
 import java.io.File;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -10,6 +11,7 @@ public class baseDades{
     static String filePath = System.getProperty("user.dir") + "/src/database.db";
     public static Connection conn = UtilsSQLite.connect(filePath);
     static String query;
+    public static ResultSet rs;
 
     public static void checkDataBase(){
         File db = new File(filePath);

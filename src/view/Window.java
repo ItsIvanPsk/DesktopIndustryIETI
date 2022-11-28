@@ -25,7 +25,7 @@ public class Window {
 	private static FileFilter filter = new FileNameExtensionFilter("File xml (.xml)", "xml");
 	Model modelo = Model.getModel();
 	private Container panelContenedor;
-	
+
 	public Window() {
 		construirVentana();
 	}
@@ -34,13 +34,13 @@ public class Window {
 		panelContenedor=ventana.getContentPane();
 		JMenuBar barraMenu=new JMenuBar();
 		ventana.setJMenuBar(barraMenu);
-		
+
 		JMenu arxiu = new JMenu("Arxiu");
 		barraMenu.add(arxiu);
-		
+
 		JMenu visualitzacio = new JMenu("Visualitzacions");
 		barraMenu.add(visualitzacio);
-		
+
 		JMenu snapShoot = new JMenu("SnapShoot");
 		barraMenu.add(snapShoot);
 
@@ -49,25 +49,44 @@ public class Window {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				abrirArchivo();
-				
+
 			}
 		});
 		arxiu.add(carregarConfig);
-		
+
 		JMenuItem doSnapshoot = new JMenuItem("Fer Snapshoot");
 		doSnapshoot.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Model.getModel().insertDatabase();
-				
+
+
 			}
 		});
 		snapShoot.add(doSnapshoot);
 
-		JMenuItem loadSnapshoot = new JMenuItem("Carrega Snapshoot");
+		JMenu loadSnapshoot = new JMenu("Carrega Snapshoot");
 		snapShoot.add(loadSnapshoot);
-		JMenuItem snapshootCount = new JMenuItem();
-		
+
+		for (int i = 0; i < Model.getModel().loadDates().size(); i++) {
+			JMenuItem snapshootCount = new JMenuItem();
+			snapshootCount.setName(String.valueOf(i));
+			snapshootCount.setText(Model.getModel().loadDates().get(i));
+
+			snapshootCount.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					int num = Integer.parseInt(snapshootCount.getName());
+					Model.getModel().reloadArrays(Model.getModel().getConfigById(num+1));
+					loadAllComponents();
+				}
+			});
+
+			loadSnapshoot.add(snapshootCount);
+
+		}
+
+
 
 		ventana.setSize(1500, 1000);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -85,7 +104,7 @@ public class Window {
 	    int returnVal = fileChooser.showOpenDialog(ventana);
 
 	    if(returnVal != JFileChooser.APPROVE_OPTION) {
-	        return;  
+	        return;
 	    }
 	    File selectedFile = fileChooser.getSelectedFile();
 	    Model.lecturaXML(selectedFile);
@@ -121,7 +140,7 @@ public class Window {
         JLabel labelSwitch = new JLabel("Switchs");
 		labelSwitch.setFont(new Font("Serif",Font.PLAIN,25));
         titleSwitch.add(labelSwitch);
-		
+
 
 		scrollPanelSlider= new JScrollPane();
 

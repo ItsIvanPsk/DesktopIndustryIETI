@@ -12,11 +12,12 @@ public class Dropdown extends Controls implements ServerUtils{
     //Constructor
     public Dropdown(){  }
 
-    public Dropdown(int id, int def, String blockName, String label, ArrayList<String> listOpt) {
+    public Dropdown(int id, String blockName, int def, String label, ArrayList<String> listOpt) {
         super();
         this.id = id;
-        this.def = def;
         this.blockName = blockName;
+        this.def = def;
+
         this.label=label;
         this.listOpt = listOpt;
     }
@@ -64,7 +65,7 @@ public class Dropdown extends Controls implements ServerUtils{
 
     //ToString
     public String toString() {
-    	return 
+    	return
         "DD" + componentAttr
         + id + componentAttr
         + blockName + componentAttr
