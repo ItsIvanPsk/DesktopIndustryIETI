@@ -115,6 +115,7 @@ public class Window {
 
 		JPanel titleSwitch = new JPanel();
         titleSwitch.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
+		titleSwitch.setBackground(new Color(208,201,199));
         scrollPanelSwitch.setColumnHeaderView(titleSwitch);
 
         JLabel labelSwitch = new JLabel("Switchs");
@@ -127,6 +128,7 @@ public class Window {
 		JPanel titleSlider= new JPanel();
         titleSlider.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelSlider.setColumnHeaderView(titleSlider);
+		titleSlider.setBackground(new Color(208,201,199));
 
         JLabel labelSlider = new JLabel("Sliders");
 		labelSlider.setFont(new Font("Serif",Font.PLAIN,25));
@@ -138,6 +140,7 @@ public class Window {
 		JPanel titleDropDown = new JPanel();
         titleDropDown.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelDropDown.setColumnHeaderView(titleDropDown);
+		titleDropDown.setBackground(new Color(208,201,199));
 
         JLabel labelDropDown = new JLabel("Drops Downs");
 		labelDropDown.setFont(new Font("Serif",Font.PLAIN,25));
@@ -149,6 +152,7 @@ public class Window {
 		JPanel titleSensor = new JPanel();
         titleSensor.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelSensor.setColumnHeaderView(titleSensor);
+		titleSensor.setBackground(new Color(208,201,199));
 
         JLabel labelSensors = new JLabel("Sensors");
 		labelSensors.setFont(new Font("Serif",Font.PLAIN,25));
@@ -167,7 +171,7 @@ public class Window {
 
 		JLabel labelBlock=new JLabel(modelo.getControls().get(posicionBloque));
 		labelBlock.setFont(new Font("Serif",Font.BOLD,32));
-		titleBlock.setBackground(Color.ORANGE);
+		titleBlock.setBackground(new Color(232, 195, 158));
 		titleBlock.add(labelBlock);
 		panelIndividual.add(titleBlock);
 
@@ -226,7 +230,6 @@ public class Window {
 				panelForScrolls.add(scrollPanelSensor);
 			}
 			panelIndividual.add(panelForScrolls);
-			panelIndividual.add(Box.createVerticalStrut(100));
 
 			allComponents.add(panelIndividual);
 
