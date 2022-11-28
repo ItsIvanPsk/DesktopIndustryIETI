@@ -290,7 +290,6 @@ public class Model implements ServerUtils{
                 boton.setName(String.valueOf(sw));
                 boton.setBorderPainted(false);
                 boton.setBackground(new Color(183,196,197));
-                //boton.setForeground(new Color(83,83,83));
                 boton.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
@@ -299,31 +298,27 @@ public class Model implements ServerUtils{
                             boton.setText("off");
                             getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
                             Servidor.getServidor().goUpdateApp();
-                            //boton.setForeground(new Color(83,83,83));
                             boton.setBackground(new Color(183,196,197));
                         } else {
                             boton.setText("on");
                             boton.setSelected(false);
                             getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
                             Servidor.getServidor().goUpdateApp();
-                            boton.setBackground(new Color(116,222,231));
-                            //boton.setForeground(new Color(1,85,77));                    
+                            boton.setBackground(new Color(116,222,231));                   
                         }
                     }
                 });
                 if (boton.getText().equalsIgnoreCase("on")){
                     boton.setBackground(new Color(116,222,231));
-                    //boton.setForeground(new Color(1,85,77));
                 }
                 JPanel panel2=new JPanel();
                 JLabel tag=new JLabel(getModel().getSwitchsObj().get(sw).getText());
-                tag.setForeground(new Color(255,255,255));
                 boton.setFocusable(false);
                 panel2.add(tag);
                 panel2.add(boton);
-                panel2.setBackground(new Color(101,56,178));
+                panel2.setBackground(new Color(208,201,199));
                 panel1.add(panel2);
-                panel1.setBackground(new Color(101,56,178));
+                panel1.setBackground(new Color(208,201,199));
             }
 
         }
@@ -347,8 +342,7 @@ public class Model implements ServerUtils{
                 slider.setPaintLabels(true);
                 slider.setMajorTickSpacing(getModel().getSlidersObj().get(sl).getStep());
                 slider.setName(String.valueOf(sl));
-                slider.setBackground(new Color(101,56,178));
-                slider.setForeground(new Color(255,255,255));
+                slider.setBackground(new Color(208,201,199));
                 slider.addChangeListener(new ChangeListener() {
                     @Override
                     public void stateChanged(ChangeEvent e) {
@@ -362,13 +356,12 @@ public class Model implements ServerUtils{
                 panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
                 JLabel tag=new JLabel(getModel().getSlidersObj().get(sl).getText());
                 tag.setAlignmentX(Component.CENTER_ALIGNMENT);
-                tag.setForeground(new Color(255,255,255));
                 panel2.add(tag);
                 panel2.add(slider);
-                panel2.setBackground(new Color(101,56,178));
+                panel2.setBackground(new Color(208,201,199));;
                 panel1.add(Box.createVerticalStrut(10));
                 panel1.add(panel2);
-                panel1.setBackground(new Color(101,56,178));
+                panel1.setBackground(new Color(208,201,199));
 
             }
         }
@@ -414,13 +407,12 @@ public class Model implements ServerUtils{
                 });
                 JPanel panel2=new JPanel();
                 JLabel tag=new JLabel(getModel().getDropDownsObj().get(cb).getLabel());
-                tag.setForeground(new Color(255,255,255));
                 combo.setMaximumSize(new Dimension(400, 50));
                 panel2.add(tag);
                 panel2.add(combo);
-                panel2.setBackground(new Color(101,56,178));
+                panel2.setBackground(new Color(208,201,199));
                 panel1.add(panel2);
-                panel1.setBackground(new Color(101,56,178));
+                panel1.setBackground(new Color(208,201,199));
             }
         }
 	    return panel1;
@@ -441,13 +433,13 @@ public class Model implements ServerUtils{
                 text.setEditable(false);
                 JPanel panel2=new JPanel();
                 JLabel tag=new JLabel(getModel().getSensorsObj().get(ss).getText());
-                tag.setForeground(new Color(255,255,255));
                 panel2.add(tag);
                 panel2.add(text);
-                panel2.setBackground(new Color(101,56,178));
+                panel2.setBackground(new Color(208,201,199));
                 panel1.add(Box.createVerticalStrut(10));
                 panel1.add(panel2);
-                panel1.setBackground(new Color(101,56,178));
+                panel1.setBackground(new Color(208,201,199));
+                
             }
         }
 		return panel1;

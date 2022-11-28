@@ -150,10 +150,11 @@ public class Window {
 
 		JPanel titleSwitch = new JPanel();
         titleSwitch.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
-		titleSwitch.setBackground(new Color(208,201,199));
+		titleSwitch.setBackground(new Color(159,123,222));
         scrollPanelSwitch.setColumnHeaderView(titleSwitch);
 
-        JLabel labelSwitch = new JLabel("Switchs");
+        JLabel labelSwitch = new JLabel("Switches");
+		labelSwitch.setForeground(new Color(255,255,255));
 		labelSwitch.setFont(new Font("Serif",Font.PLAIN,25));
         titleSwitch.add(labelSwitch);
 
@@ -163,9 +164,10 @@ public class Window {
 		JPanel titleSlider= new JPanel();
         titleSlider.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelSlider.setColumnHeaderView(titleSlider);
-		titleSlider.setBackground(new Color(208,201,199));
+		titleSlider.setBackground(new Color(159,123,222));
 
         JLabel labelSlider = new JLabel("Sliders");
+		labelSlider.setForeground(new Color(255,255,255));
 		labelSlider.setFont(new Font("Serif",Font.PLAIN,25));
         titleSlider.add(labelSlider);
 
@@ -175,9 +177,10 @@ public class Window {
 		JPanel titleDropDown = new JPanel();
         titleDropDown.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelDropDown.setColumnHeaderView(titleDropDown);
-		titleDropDown.setBackground(new Color(208,201,199));
+		titleDropDown.setBackground(new Color(159,123,222));
 
         JLabel labelDropDown = new JLabel("Drops Downs");
+		labelDropDown.setForeground(new Color(255,255,255));
 		labelDropDown.setFont(new Font("Serif",Font.PLAIN,25));
         titleDropDown.add(labelDropDown);
 
@@ -187,9 +190,10 @@ public class Window {
 		JPanel titleSensor = new JPanel();
         titleSensor.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));
         scrollPanelSensor.setColumnHeaderView(titleSensor);
-		titleSensor.setBackground(new Color(208,201,199));
+		titleSensor.setBackground(new Color(159,123,222));
 
         JLabel labelSensors = new JLabel("Sensors");
+		labelSensors.setForeground(new Color(255,255,255));
 		labelSensors.setFont(new Font("Serif",Font.PLAIN,25));
         titleSensor.add(labelSensors);
 
@@ -206,7 +210,8 @@ public class Window {
 
 		JLabel labelBlock=new JLabel(modelo.getControls().get(posicionBloque));
 		labelBlock.setFont(new Font("Serif",Font.BOLD,32));
-		titleBlock.setBackground(new Color(232, 195, 158));
+		labelBlock.setForeground(new Color(255,255,255));
+		titleBlock.setBackground(new Color(101,56,178));
 		titleBlock.add(labelBlock);
 		panelIndividual.add(titleBlock);
 
