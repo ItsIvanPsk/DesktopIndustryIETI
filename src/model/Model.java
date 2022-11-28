@@ -210,7 +210,7 @@ public class Model implements ServerUtils{
                                         }
 
                                     }
-                                    Dropdown dropdown = new Dropdown(id,def,getModel().controls.get(cnt),lab,option);
+                                    Dropdown dropdown = new Dropdown(id,getModel().controls.get(cnt),def,lab,option);
                                     getModel().getDropDowns().add(dropdown.toString());
                                     getModel().getDropDownsObj().add(dropdown);
                                 }
@@ -525,17 +525,58 @@ public class Model implements ServerUtils{
     public String sysDate(){
         SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date(System.currentTimeMillis());
-        
+
         return formatter.format(date);
     }
 
 
     public void insertDatabase(){
-        
+
         String config = Model.getModel().recorrerArrays();
         String query = "INSERT INTO Snapshoot (config, date) VALUES ('" + config + "','" + Model.getModel().sysDate() +"');";
-        System.out.println("QUERYYYYYYYYYYYYYYYYYYYYY " + query);
         UtilsSQLite.queryUpdate(baseDades.conn, query);
+    }
+
+    public ArrayList<String> loadDates(){
+        String query = ("SELECT date FROM Snapshoot;");
+        ResultSet rs = UtilsSQLite.querySelect(baseDades.conn, query);
+        ArrayList<String> datesList = new ArrayList<String>();
+        try {
+            while (rs.next()) { //Read every row
+                int columnCount = rs.getMetaData().getColumnCount();
+                for (int column = 1; column <= columnCount; column++) { //Read every column
+                    String columnName = rs.getMetaData().getColumnName(column);
+                    Object value = rs.getObject(columnName);
+                    datesList.add(String.valueOf(value));
+                }
+
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return datesList;
+    }
+
+    public String getConfigValues(){
+        String config = "";
+        String query = ("SELECT config FROM Snapshoot;");
+        ResultSet rs = UtilsSQLite.querySelect(baseDades.conn, query);
+        try {
+            while (rs.next()) { //Read every row
+                int columnCount = rs.getMetaData().getColumnCount();
+                for (int column = 1; column <= columnCount; column++) { //Read every column
+                    String columnName = rs.getMetaData().getColumnName(column);
+                    Object value = rs.getObject(columnName);
+
+                }
+
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return config;
     }
 
     // Getters/Setters
@@ -549,6 +590,113 @@ public class Model implements ServerUtils{
     public ArrayList<Slider> getSlidersObj() { return sliders_obj; }
     public ArrayList<Dropdown> getDropDownsObj() { return dropdowns_obj; }
     public ArrayList<Sensor> getSensorsObj() { return sensors_obj; }
+
+    public String getConfigById(int id) {
+        String query = ("SELECT config FROM Snapshoot where id = '" + id + "';");
+        ResultSet rs = UtilsSQLite.querySelect(baseDades.conn, query);
+        try {
+            while (rs.next()) { //Read every row
+                int columnCount = rs.getMetaData().getColumnCount();
+                for (int column = 1; column <= columnCount; column++) { //Read every column
+                    String columnName = rs.getMetaData().getColumnName(column);
+                    Object value = rs.getObject(columnName);
+                    System.out.println(value);
+                    return String.valueOf(value);
+                }
+
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public void reloadArrays(String config){
+        ArrayList<Switch> switches = new ArrayList<>();
+        ArrayList<Sensor> sensors = new ArrayList<>();
+        ArrayList<Slider> sliders = new ArrayList<>();
+        ArrayList<Dropdown> dropdowns = new ArrayList<>();
+        ArrayList<Option> opts;
+        ArrayList<String> opt_String = new ArrayList<>();
+
+        String[] components = config.split("··");
+        Integer blockCant = Integer.parseInt(components[1]);
+
+        for (int component = 0; component < components.length; component++) {
+            if(component != 0 && component != 1){
+                String componentID = components[component].substring(0, 2).toString();
+                String[] attr = components[component].split("_");
+
+                switch (componentID) {
+                    case "SW":
+                        switches.add(
+                                new Switch(
+                                        Integer.parseInt(attr[1]),
+                                        attr[2],
+                                        attr[3],
+                                        attr[4]
+                                )
+                        );
+                        break;
+                    case "SL":
+                        sliders.add(
+                                new Slider(
+                                        Integer.parseInt(attr[1]),
+                                        attr[2],
+                                        Integer.parseInt(attr[3]),
+                                        Integer.parseInt(attr[4]),
+                                        Integer.parseInt(attr[5]),
+                                        Integer.parseInt(attr[6]),
+                                        attr[7]
+                                )
+                        );
+                        break;
+                    case "SS":
+                        sensors.add(
+                                new Sensor(
+                                        Integer.parseInt(attr[1]),
+                                        attr[2],
+                                        attr[3],
+                                        Integer.parseInt(attr[4]),
+                                        Integer.parseInt(attr[5]),
+                                        attr[6]
+                                )
+                        );
+                        break;
+                    case "DD":
+                        opts = new ArrayList<>();
+                        opt_String = new ArrayList<>();
+                        String[] sepComas = attr[5].split(",");
+                        for (int sepOpc = 0; sepOpc < sepComas.length; sepOpc++) {
+                            if (sepOpc == sepComas.length - 1) {
+                                sepComas[sepOpc] = sepComas[sepOpc].substring(1, sepComas[sepOpc].length() - 1);
+                            } else {
+                                sepComas[sepOpc] = sepComas[sepOpc].substring(1);
+                            }
+                        }
+
+                        for (int sepOpc = 0; sepOpc < sepComas.length; sepOpc++) {
+                            String[] options = sepComas[sepOpc].split("\\$");
+                            opt_String.add(
+                                            Integer.parseInt(options[0])+ componentAuxSep +
+                                            options[1]);
+                        }
+
+                        dropdowns.add(
+                                new Dropdown(
+                                        Integer.parseInt(attr[1]),
+                                        attr[2],
+                                        Integer.parseInt(attr[3]),
+                                        attr[4],
+                                        opt_String
+                                )
+                        );
+                        break;
+                }
+            }
+        }
+    }
 
 }
 
