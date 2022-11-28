@@ -8,7 +8,9 @@ import javax.swing.border.MatteBorder;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import lib.UtilsSQLite;
 import src.model.Model;
+import src.model.baseDades;
 
 
 public class Window {
@@ -39,6 +41,9 @@ public class Window {
 		JMenu visualitzacio = new JMenu("Visualitzacions");
 		barraMenu.add(visualitzacio);
 		
+		JMenu snapShoot = new JMenu("SnapShoot");
+		barraMenu.add(snapShoot);
+
 		JMenuItem carregarConfig = new JMenuItem("Carregar configuracio");
 		carregarConfig.addActionListener(new ActionListener() {
 			@Override
@@ -48,8 +53,22 @@ public class Window {
 			}
 		});
 		arxiu.add(carregarConfig);
-
 		
+		JMenuItem doSnapshoot = new JMenuItem("Fer Snapshoot");
+		doSnapshoot.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Model.getModel().insertDatabase();
+				
+			}
+		});
+		snapShoot.add(doSnapshoot);
+
+		JMenuItem loadSnapshoot = new JMenuItem("Carrega Snapshoot");
+		snapShoot.add(loadSnapshoot);
+		JMenuItem snapshootCount = new JMenuItem();
+		
+
 		ventana.setSize(1500, 1000);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 	    int x = (int) ((dimension.getWidth() - ventana.getWidth()) / 2);

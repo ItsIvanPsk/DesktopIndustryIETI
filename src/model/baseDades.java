@@ -8,7 +8,7 @@ import java.sql.Statement;
 
 public class baseDades{
     static String filePath = System.getProperty("user.dir") + "/src/database.db";
-    static Connection conn = UtilsSQLite.connect(filePath);
+    public static Connection conn = UtilsSQLite.connect(filePath);
     static String query;
 
     public static void checkDataBase(){
@@ -30,6 +30,9 @@ public class baseDades{
         query = "DROP TABLE IF EXISTS Pepper;";
         UtilsSQLite.queryUpdate(conn, query);
 
+        query = "DROP TABLE IF EXISTS Snapshoot;";
+        UtilsSQLite.queryUpdate(conn, query);
+
         query = "CREATE TABLE User ("
                 + "	id integer PRIMARY KEY AUTOINCREMENT,"
                 + "	userName Varchar(15) NOT NULL,"
@@ -38,7 +41,7 @@ public class baseDades{
 
         query = "CREATE TABLE Snapshoot ("
                 + "	id integer PRIMARY KEY AUTOINCREMENT,"
-                + "	config Varchar(10000) NOT NULL,"
+                + "	config Varchar(100000000) NOT NULL,"
                 + " date Data);";
         UtilsSQLite.queryUpdate(conn, query);
 
@@ -66,7 +69,6 @@ public class baseDades{
         UtilsSQLite.queryUpdate(conn, query);
         query = "INSERT INTO User (userName, hash) VALUES ('prueba', '"+Model.encrypt("prueba", pwdSalt, pwdPepper)+"');";
         UtilsSQLite.queryUpdate(conn, query);
-
         query = "INSERT INTO Salt (idUser, salt) VALUES ('"+Model.idUser(conn,"Ivan")+"', '"+pwdSalt+"');";
         UtilsSQLite.queryUpdate(conn, query);
         query = "INSERT INTO Salt (idUser, salt) VALUES ('"+Model.idUser(conn,"Marc")+"', '"+pwdSalt+"');";
