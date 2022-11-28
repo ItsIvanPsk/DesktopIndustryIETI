@@ -49,23 +49,41 @@ public class Window {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				abrirArchivo();
-
 			}
 		});
 		arxiu.add(carregarConfig);
 
+		JMenu loadSnapshoot = new JMenu("Carrega Snapshoot");
 		JMenuItem doSnapshoot = new JMenuItem("Fer Snapshoot");
 		doSnapshoot.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Model.getModel().insertDatabase();
+				loadSnapshoot.removeAll();
+				System.out.println("Load dates size: " + Model.getModel().loadDates().size());
+				for (int i = 0; i < Model.getModel().loadDates().size(); i++) {
+					JMenuItem snapshootCount = new JMenuItem();
+					
+					snapshootCount.setName(String.valueOf(i));
+					snapshootCount.setText(Model.getModel().loadDates().get(i));
 
-
+					snapshootCount.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							int num = Integer.parseInt(snapshootCount.getName());
+							Model.getModel().reloadArrays(Model.getModel().getConfigById(num+1));
+							loadAllComponents();
+						}
+					});
+					
+		
+					loadSnapshoot.add(snapshootCount);
+		
+				}
 			}
 		});
 		snapShoot.add(doSnapshoot);
 
-		JMenu loadSnapshoot = new JMenu("Carrega Snapshoot");
 		snapShoot.add(loadSnapshoot);
 
 		for (int i = 0; i < Model.getModel().loadDates().size(); i++) {
@@ -85,8 +103,6 @@ public class Window {
 			loadSnapshoot.add(snapshootCount);
 
 		}
-
-
 
 		ventana.setSize(1500, 1000);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
@@ -129,8 +145,8 @@ public class Window {
 		}
 	}
 	public void loadComponentsBlock(int posicionBloque){
-		int bloques=modelo.getControls().size();
-		scrollPanelSwitch= new JScrollPane();
+		int bloques = modelo.getControls().size();
+		scrollPanelSwitch = new JScrollPane();
 
 		JPanel titleSwitch = new JPanel();
         titleSwitch.setBorder(new MatteBorder(1, 1, 1, 1, Color.BLACK));

@@ -552,8 +552,9 @@ public class Model implements ServerUtils{
     }
 
     public ArrayList<String> loadDates(){
+        ResultSet rs = null;
         String query = ("SELECT date FROM Snapshoot;");
-        ResultSet rs = UtilsSQLite.querySelect(baseDades.conn, query);
+        rs = UtilsSQLite.querySelect(baseDades.conn, query);
         ArrayList<String> datesList = new ArrayList<String>();
         try {
             while (rs.next()) { //Read every row
@@ -563,7 +564,6 @@ public class Model implements ServerUtils{
                     Object value = rs.getObject(columnName);
                     datesList.add(String.valueOf(value));
                 }
-
             }
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -710,6 +710,16 @@ public class Model implements ServerUtils{
                 }
             }
         }
+
+        getModel().switchs_obj.clear();
+        getModel().sliders_obj.clear();
+        getModel().sensors_obj.clear();
+        getModel().dropdowns_obj.clear();
+
+        getModel().switchs_obj = switches;
+        getModel().sliders_obj = sliders;
+        getModel().sensors_obj = sensors;
+        getModel().dropdowns_obj = dropdowns;
     }
 
 }

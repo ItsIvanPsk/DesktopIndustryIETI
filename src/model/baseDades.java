@@ -4,8 +4,6 @@ import lib.*;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 public class baseDades{
     static String filePath = System.getProperty("user.dir") + "/src/database.db";
