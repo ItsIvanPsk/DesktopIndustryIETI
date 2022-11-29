@@ -1,7 +1,8 @@
 package src.components;
 
+import src.utils.ServerUtils;
 
-public class Switch extends Controls{
+public class Switch extends Controls implements ServerUtils{
     private int id;
     private String def,text, blockName;
 
@@ -48,7 +49,12 @@ public class Switch extends Controls{
 
     @Override
     public String toString() {
-        return "SW#" + id + "#" + blockName + "#" + def + "#" + text;
+        return 
+        "SW" + componentAttr
+        + id + componentAttr
+        + blockName + componentAttr
+        + def + componentAttr
+        + text;
     }
 
 }

@@ -1,7 +1,8 @@
 package src.components;
 
+import src.utils.ServerUtils;
 
-public class Slider extends Controls {
+public class Slider extends Controls implements ServerUtils{
     private int id, def, min, max, step;
     private String text, blockName;
 
@@ -87,7 +88,14 @@ public class Slider extends Controls {
 
     //ToString
     public String toString() {
-        return "SL#" + id + "#" + blockName + "#" + def + "#" + min + "#" + max + "#" + step + "#" + text;
+        return "SL" + componentAttr
+        + id + componentAttr
+        + blockName + componentAttr
+        + def + componentAttr
+        + min + componentAttr
+        + max + componentAttr
+        + step + componentAttr
+        + text;
     }
 
 }

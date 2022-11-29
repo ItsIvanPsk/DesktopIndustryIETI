@@ -1,6 +1,8 @@
 package src.components;
 
-public class Option extends Controls{
+import src.utils.ServerUtils;
+
+public class Option extends Controls implements ServerUtils{
     private int value;
     private String text;
 
@@ -30,6 +32,6 @@ public class Option extends Controls{
 
     //ToSting
     public String toString() {
-    	return value + "//" + text;
+    	return value + componentAuxSep + text;
     }
 }

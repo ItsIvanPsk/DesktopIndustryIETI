@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <root>
-    <controls name="Primer Bloque">
+    <controls name="Fabrica Seat">
         <switch id="0" default="on">Luces oficina</switch>
         <slider id="1" default="5" min="0" max="10" step="1">Revs Licuadora</slider>
         <dropdown id="2" default="2" label="Puertas del garaje">
@@ -9,10 +9,10 @@
         </dropdown>
         <sensor id="3" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp</sensor>
         <switch id="4" default="off">Luces del parking</switch>
-        <switch id="5" default="on">Luces de la oficina 2</switch>
+        <switch id="5" default="on">Luces de la oficina</switch>
         <slider id="6" default="15" min="7" max="21" step="1">Revs Acelerador</slider>
     </controls>
-    <controls name="Segundo Bloque">
+    <controls name="Fabrica McLaren">
         <switch id="7" default="on">Luces oficina</switch>
         <slider id="8" default="5" min="0" max="10" step="1">Revs Licuadora</slider>
         <dropdown id="9" default="2" label="Puertas del garaje">
@@ -21,9 +21,13 @@
         </dropdown>
         <sensor id="10" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp</sensor>
         <switch id="11" default="off">Luces del parking</switch>
-        <switch id="12" default="on">Luces de la oficina 2</switch>
+        <switch id="12" default="on">Luces de la oficina</switch>
         <slider id="13" default="15" min="7" max="21" step="1">Revs Acelerador</slider>
     </controls>
+    <controls name="Fabrica Mazda">
+        <switch id="14" default="on">Luces oficina</switch>
+        <sensor id="15" units="ºC" thresholdlow="5" thresholdhigh="10">Oficina Temp</sensor>
 
+    </controls>
 
 </root>

@@ -223,7 +223,7 @@ public class errorValidate {
 
 
                                 }
-                                dropDown = new Dropdown(id,def,blockName,label,option);
+                                dropDown = new Dropdown(id,blockName,def,label,option);
                                 contrList.add(dropDown);
 
                             }
@@ -258,7 +258,7 @@ public class errorValidate {
 
             ArrayList<Integer> idList = new ArrayList<Integer>();
             for (Controls contr : contrList){
-                String[] listSplit = contr.toString().split("#");
+                String[] listSplit = contr.toString().split("_");
 
                 idList.add(Integer.parseInt(listSplit[1]));
 

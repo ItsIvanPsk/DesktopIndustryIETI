@@ -2,6 +2,7 @@ package src.model;
 
 import java.awt.Color;
 import java.awt.Component;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -9,13 +10,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
-import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import javax.management.AttributeList;
+import javax.annotation.processing.SupportedOptions;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
@@ -28,26 +30,24 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
 import com.password4j.Password;
-
+import src.Servidor;
 import src.components.Controls;
 import src.components.Dropdown;
 import src.components.Option;
 import src.components.Sensor;
 import src.components.Slider;
 import src.components.Switch;
+import src.utils.ServerUtils;
 import src.utils.UtilsSQLite;
 import src.view.CustomsDialogs;
 import src.view.Window;
 
-public class Model {
+public class Model implements ServerUtils{
     // App
 	private ArrayList<String> switchs = new ArrayList<String>();
     private ArrayList<String> sliders = new ArrayList<String>();
@@ -124,6 +124,7 @@ public class Model {
                 getModel().getSliders().clear();
                 getModel().getDropDowns().clear();
                 getModel().getSensors().clear();
+                getModel().getControls().clear();
 
                 getModel().getSwitchsObj().clear();
                 getModel().getSlidersObj().clear();
@@ -143,7 +144,6 @@ public class Model {
                         if(nodeControls.getNodeType() == Node.ELEMENT_NODE) {
                             Element elmContr = (Element) nodeControls;
                             getModel().controls.add(elmContr.getAttribute("name"));
-
 
                         }
 
@@ -176,7 +176,7 @@ public class Model {
                                     Element elmSli = (Element) nodeSlider;
                                     Slider slider = new Slider(
                                         Integer.parseInt(elmSli.getAttribute("id")),
-                                        getModel().controls.get(cont),
+                                        getModel().controls.get(cnt),
                                         Integer.parseInt(elmSli.getAttribute("default")),
                                         Integer.parseInt(elmSli.getAttribute("min")),
                                         Integer.parseInt(elmSli.getAttribute("max")),
@@ -210,7 +210,7 @@ public class Model {
                                         }
 
                                     }
-                                    Dropdown dropdown = new Dropdown(id,def,getModel().controls.get(cont),lab,option);
+                                    Dropdown dropdown = new Dropdown(id,getModel().controls.get(cnt),def,lab,option);
                                     getModel().getDropDowns().add(dropdown.toString());
                                     getModel().getDropDownsObj().add(dropdown);
                                 }
@@ -223,7 +223,7 @@ public class Model {
                                     Element elmSen = (Element) nodeSensor;
                                     Sensor sensor = new Sensor(
                                         Integer.parseInt(elmSen.getAttribute("id")),
-                                        getModel().controls.get(cont),
+                                        getModel().controls.get(cnt),
                                         elmSen.getAttribute("units"),
                                         Integer.parseInt(elmSen.getAttribute("thresholdlow")),
                                         Integer.parseInt(elmSen.getAttribute("thresholdhigh")),
@@ -246,176 +246,200 @@ public class Model {
 
 
     public String recorrerArrays() {
-        String appComponentes = "CF%%" + getModel().controls.size() + "%%";
+        String appComponentes = "CF" + componentSep + getModel().controls.size() + componentSep;
 
         if(getModel().getSwitchsObj().size() != 0){
             for (int i = 0; i < getModel().getSwitchsObj().size(); i++) {
                 System.out.println(getModel().getSwitchsObj().get(i).toString());
-                appComponentes = appComponentes + getModel().getSwitchsObj().get(i).toString() + "%%";
+                appComponentes = appComponentes + getModel().getSwitchsObj().get(i).toString() + componentSep;
             }
         }
 
         if(getModel().getSlidersObj().size() != 0){
             for (int i = 0; i < getModel().getSlidersObj().size(); i++) {
-                appComponentes = appComponentes + getModel().getSlidersObj().get(i).toString() + "%%";
+                appComponentes = appComponentes + getModel().getSlidersObj().get(i).toString() + componentSep;
             }
         }
 
         if(getModel().getSensorsObj().size() != 0){
             for (int i = 0; i < getModel().getSensorsObj().size(); i++) {
-                appComponentes = appComponentes + getModel().getSensorsObj().get(i).toString() + "%%";
+                appComponentes = appComponentes + getModel().getSensorsObj().get(i).toString() + componentSep;
             }
         }
 
         if(getModel().getDropDownsObj().size() != 0){
             for (int i = 0; i < getModel().getDropDownsObj().size(); i++) {
-                appComponentes = appComponentes + getModel().getDropDownsObj().get(i).toString() + "%%";
+                appComponentes = appComponentes + getModel().getDropDownsObj().get(i).toString() + componentSep;
             }
         }
-
-        System.out.println(appComponentes);
         return appComponentes;
     }
 
-    public JPanel createSwitch() {
-        // Generate the background and the header
+    public JPanel createSwitch(String nameBlock) {
         JPanel panel1=new JPanel();
         panel1.setLayout(new GridLayout(0,2));
 
         for( int sw = 0 ; sw < getModel().getSwitchsObj().size() ; sw++ ){
-            JToggleButton boton = new JToggleButton(
-                getModel().getSwitchsObj()
-                .get(sw)
-                .getDef()
-            );
-            boton.setName(String.valueOf(sw));
-            boton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (boton.getText().equalsIgnoreCase("on")) {
-                        boton.setText("off");
-                        getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
-                        boton.setForeground(Color.lightGray);
-                    } else {
-                        boton.setText("on");
-                        getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
-                        boton.setForeground(Color.BLUE);                    }
+            if (getModel().getSwitchsObj().get(sw).getBlockId().equals(nameBlock)){
+                JToggleButton boton = new JToggleButton(
+                    getModel().getSwitchsObj()
+                    .get(sw)
+                    .getDef()
+                );
+                boton.setName(String.valueOf(sw));
+                boton.setBorderPainted(true);
+                boton.setBackground(new Color(183,196,197));
+                boton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (boton.getText().equalsIgnoreCase("on")) {
+                            boton.setSelected(false);
+                            boton.setText("off");
+                            getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("off");
+                            Servidor.getServidor().goUpdateApp();
+                            boton.setBackground(new Color(183,196,197));
+                        } else {
+                            boton.setText("on");
+                            boton.setSelected(false);
+                            getModel().getSwitchsObj().get(Integer.parseInt(boton.getName())).setDef("on");
+                            Servidor.getServidor().goUpdateApp();
+                            boton.setBackground(new Color(116,222,231));                   
+                        }
+                    }
+                });
+                if (boton.getText().equalsIgnoreCase("on")){
+                    boton.setBackground(new Color(116,222,231));
                 }
-            });
-            if (boton.getText().equalsIgnoreCase("on")){
-                boton.setSelected(true);
+                JPanel panel2=new JPanel();
+                JLabel tag=new JLabel(getModel().getSwitchsObj().get(sw).getText());
+                boton.setFocusable(false);
+                panel2.add(tag);
+                panel2.add(boton);
+                panel2.setBackground(new Color(208,201,199));
+                panel1.add(panel2);
+                panel1.setBackground(new Color(208,201,199));
             }
-            JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(getModel().getSwitchsObj().get(sw).getText());
-            boton.setFocusable(true);
-            panel2.add(tag);
-            panel2.add(boton);
-            panel1.add(panel2);
 
         }
 	    return panel1;
 	}
 
-	public JPanel createSlider() {
+	public JPanel createSlider(String nameBlock) {
 
         JPanel panel1 = new JPanel();
         panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
 
         for( int sl = 0 ; sl < getModel().getSlidersObj().size() ; sl++ ){
-            JSlider slider = new JSlider(
-                getModel().getSlidersObj().get(sl).getMin(),
-                getModel().getSlidersObj().get(sl).getMax(),
-                getModel().getSlidersObj().get(sl).getDef()
-            );
-            slider.setPaintTrack(true);
-            slider.setPaintTicks(true);
-            slider.setPaintLabels(true);
-            slider.setMajorTickSpacing(getModel().getSlidersObj().get(sl).getStep());
-            slider.setName(String.valueOf(sl));
-            slider.addChangeListener(new ChangeListener() {
-                @Override
-                public void stateChanged(ChangeEvent e) {
-                    getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());;
-                }
+            if (getModel().getSlidersObj().get(sl).getBlockId().equals(nameBlock)){
+                JSlider slider = new JSlider(
+                    getModel().getSlidersObj().get(sl).getMin(),
+                    getModel().getSlidersObj().get(sl).getMax(),
+                    getModel().getSlidersObj().get(sl).getDef()
+                );
+                slider.setPaintTrack(true);
+                slider.setPaintTicks(true);
+                slider.setPaintLabels(true);
+                slider.setMajorTickSpacing(getModel().getSlidersObj().get(sl).getStep());
+                slider.setName(String.valueOf(sl));
+                slider.setBackground(new Color(208,201,199));
+                slider.addChangeListener(new ChangeListener() {
+                    @Override
+                    public void stateChanged(ChangeEvent e) {
+                        getModel().getSlidersObj().get(Integer.parseInt(slider.getName())).setDef(slider.getValue());
+                        Servidor.getServidor().goUpdateApp();
+                    }
 
-            });
+                });
 
-            JPanel panel2=new JPanel();
-            panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
-            JLabel tag=new JLabel(getModel().getSlidersObj().get(sl).getText());
-            tag.setAlignmentX(Component.CENTER_ALIGNMENT);
-            panel2.add(tag);
-            panel2.add(slider);
-            panel1.add(Box.createVerticalStrut(10));
-            panel1.add(panel2);
+                JPanel panel2=new JPanel();
+                panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
+                JLabel tag=new JLabel(getModel().getSlidersObj().get(sl).getText());
+                tag.setAlignmentX(Component.CENTER_ALIGNMENT);
+                panel2.add(tag);
+                panel2.add(slider);
+                panel2.setBackground(new Color(208,201,199));;
+                panel1.add(Box.createVerticalStrut(10));
+                panel1.add(panel2);
+                panel1.setBackground(new Color(208,201,199));
 
+            }
         }
 	return panel1;
 	}
 
-	public JPanel createDropdown() {
+	public JPanel createDropdown(String nameBlock) {
 		JPanel panel1 = new JPanel();
         panel1.setLayout(new GridLayout(0,2));
 
 
         for( int cb = 0 ; cb < getModel().getDropDownsObj().size() ; cb++ ){
-            JComboBox combo = new JComboBox();
-            for( int op = 0 ; op < getModel().getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
-                String[] array=getModel().getDropDownsObj().get(cb).getListOpt().get(op).split("//");
-                Option pre=new Option(Integer.parseInt(array[0]), array[1]);
-                if (getModel().getDropDownsObj().get(cb).getDef() == pre.getValue()) {
-                    combo.addItem(pre.getText());
-                    combo.setSelectedIndex(op);
+            if (getModel().getDropDownsObj().get(cb).getBlockId().equals(nameBlock)){
+                JComboBox combo = new JComboBox();
+                for( int op = 0 ; op < getModel().getDropDownsObj().get(cb).getListOpt().size() ; op++ ){
+                    String[] array = getModel().getDropDownsObj().get(cb).getListOpt().get(op).split("\\$");
+                    Option pre=new Option(Integer.parseInt(array[0]), array[1]);
+                    if (getModel().getDropDownsObj().get(cb).getDef() == pre.getValue()) {
+                        combo.addItem(pre.getText());
+                        combo.setSelectedIndex(op);
+                    }
+                    else {
+                        combo.addItem(pre.getText());
+                    }
                 }
-                else {
-                    combo.addItem(pre.getText());
-                }
-            }
-            combo.setPrototypeDisplayValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            combo.setName(String.valueOf(cb));
-            combo.addItemListener(new ItemListener(){
+                combo.setPrototypeDisplayValue("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                combo.setName(String.valueOf(cb));
+                combo.addItemListener(new ItemListener(){
 
-                @Override
-                public void itemStateChanged(ItemEvent e) {
-                    for( int op = 0 ; op < getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().size() ; op++ ){
-                        String[] array=getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("//");
-                        Option pre=new Option(Integer.parseInt(array[0]), array[1]);
-                        if (pre.getText().equals(combo.getSelectedItem())){
-                            getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
+                    @Override
+                    public void itemStateChanged(ItemEvent e) {
+                        for( int op = 0 ; op < getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().size() ; op++ ){
+                            String[] array=getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).getListOpt().get(op).split("\\$");
+                            Option pre=new Option(Integer.parseInt(array[0]), array[1]);
+                            if (pre.getText().equals(combo.getSelectedItem())){
+                                getModel().getDropDownsObj().get(Integer.parseInt(combo.getName())).setDef(pre.getValue());
+                                Servidor.getServidor().goUpdateApp();
+                            }
                         }
+
                     }
 
-                }
-
-            });
-            JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(getModel().getDropDownsObj().get(cb).getLabel());
-            combo.setMaximumSize(new Dimension(400, 50));
-            panel2.add(tag);
-            panel2.add(combo);
-            panel1.add(panel2);
+                });
+                JPanel panel2=new JPanel();
+                JLabel tag=new JLabel(getModel().getDropDownsObj().get(cb).getLabel());
+                combo.setMaximumSize(new Dimension(400, 50));
+                panel2.add(tag);
+                panel2.add(combo);
+                panel2.setBackground(new Color(208,201,199));
+                panel1.add(panel2);
+                panel1.setBackground(new Color(208,201,199));
+            }
         }
 	    return panel1;
 	}
 
-	public JPanel createSensor() {
+	public JPanel createSensor(String nameBlock) {
 		JPanel panel1=new JPanel();
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
         JTextField text=null;
 
         for( int ss = 0 ; ss < getModel().getSensorsObj().size() ; ss++ ){
-            text = new JTextField();
-			text.setText(
-                "Temperature thresholdlow: " + getModel().getSensorsObj().get(ss).getThresholdlow() + " " + getModel().getSensorsObj().get(ss).getUnits()
-                + "\nTemperature Thresholdhigh: " + getModel().getSensorsObj().get(ss).getThresholdhigh() + " " + getModel().getSensorsObj().get(ss).getUnits());
+            if (getModel().getSensorsObj().get(ss).getBlockId().equals(nameBlock)){
+                text = new JTextField();
+                text.setText(
+                    "Temperature thresholdlow: " + getModel().getSensorsObj().get(ss).getThresholdlow() + " " + getModel().getSensorsObj().get(ss).getUnits()
+                    + "\nTemperature Thresholdhigh: " + getModel().getSensorsObj().get(ss).getThresholdhigh() + " " + getModel().getSensorsObj().get(ss).getUnits());
 
-            text.setEditable(false);
-            JPanel panel2=new JPanel();
-            JLabel tag=new JLabel(getModel().getSensorsObj().get(ss).getText());
-            panel2.add(tag);
-            panel2.add(text);
-            panel1.add(Box.createVerticalStrut(10));
-            panel1.add(panel2);
+                text.setEditable(false);
+                JPanel panel2=new JPanel();
+                JLabel tag=new JLabel(getModel().getSensorsObj().get(ss).getText());
+                panel2.add(tag);
+                panel2.add(text);
+                panel2.setBackground(new Color(208,201,199));
+                panel1.add(Box.createVerticalStrut(10));
+                panel1.add(panel2);
+                panel1.setBackground(new Color(208,201,199));
+                
+            }
         }
 		return panel1;
 	}
@@ -458,7 +482,6 @@ public class Model {
             rs.next();
             return rs.getInt("id");
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return 0;
@@ -504,16 +527,173 @@ public class Model {
         }
     }
 
+    public String sysDate(){
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(System.currentTimeMillis());
+
+        return formatter.format(date);
+    }
+
+
+    public void insertDatabase(){
+
+        String config = Model.getModel().recorrerArrays();
+        String query = "INSERT INTO Snapshoot (config, date) VALUES ('" + config + "','" + Model.getModel().sysDate() +"');";
+        UtilsSQLite.queryUpdate(baseDades.conn, query);
+    }
+
+    public ArrayList<String> loadDates(){
+        ResultSet rs = null;
+        String query = ("SELECT date FROM Snapshoot;");
+        rs = UtilsSQLite.querySelect(baseDades.conn, query);
+        ArrayList<String> datesList = new ArrayList<String>();
+        try {
+            while (rs.next()) {
+                int columnCount = rs.getMetaData().getColumnCount();
+                for (int column = 1; column <= columnCount; column++) { //Read every column
+                    String columnName = rs.getMetaData().getColumnName(column);
+                    Object value = rs.getObject(columnName);
+                    datesList.add(String.valueOf(value));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return datesList;
+    }
+
+    public void deleteSnapShoots(){
+        UtilsSQLite.queryUpdate(baseDades.conn, "DELETE FROM Snapshoot");
+    }
+
+
     // Getters/Setters
     public ArrayList<String> getSwitchs() { return switchs; }
     public ArrayList<String> getSliders() { return sliders; }
     public ArrayList<String> getDropDowns() { return dropdowns; }
     public ArrayList<String> getSensors() { return sensors; }
+    public ArrayList<String> getControls() { return controls; }
 
     public ArrayList<Switch> getSwitchsObj() { return switchs_obj; }
     public ArrayList<Slider> getSlidersObj() { return sliders_obj; }
     public ArrayList<Dropdown> getDropDownsObj() { return dropdowns_obj; }
     public ArrayList<Sensor> getSensorsObj() { return sensors_obj; }
+
+    public String getConfigById(int id) {
+        String query = ("SELECT config FROM Snapshoot where id = '" + id + "';");
+        ResultSet rs = UtilsSQLite.querySelect(baseDades.conn, query);
+        try {
+            while (rs.next()) { //Read every row
+                int columnCount = rs.getMetaData().getColumnCount();
+                for (int column = 1; column <= columnCount; column++) { //Read every column
+                    String columnName = rs.getMetaData().getColumnName(column);
+                    Object value = rs.getObject(columnName);
+                    System.out.println(value);
+                    return String.valueOf(value);
+                }
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public void reloadArrays(String config){
+        ArrayList<Switch> switches = new ArrayList<>();
+        ArrayList<Sensor> sensors = new ArrayList<>();
+        ArrayList<Slider> sliders = new ArrayList<>();
+        ArrayList<Dropdown> dropdowns = new ArrayList<>();
+        ArrayList<String> opt_String = new ArrayList<>();
+
+        String[] components = config.split("··");
+
+        for (int component = 0; component < components.length; component++) {
+            if(component != 0 && component != 1){
+                String componentID = components[component].substring(0, 2).toString();
+                String[] attr = components[component].split("_");
+
+                switch (componentID) {
+                    case "SW":
+                        switches.add(
+                                new Switch(
+                                        Integer.parseInt(attr[1]),
+                                        attr[2],
+                                        attr[3],
+                                        attr[4]
+                                )
+                        );
+                        break;
+                    case "SL":
+                        sliders.add(
+                                new Slider(
+                                        Integer.parseInt(attr[1]),
+                                        attr[2],
+                                        Integer.parseInt(attr[3]),
+                                        Integer.parseInt(attr[4]),
+                                        Integer.parseInt(attr[5]),
+                                        Integer.parseInt(attr[6]),
+                                        attr[7]
+                                )
+                        );
+                        break;
+                    case "SS":
+                        sensors.add(
+                                new Sensor(
+                                        Integer.parseInt(attr[1]),
+                                        attr[2],
+                                        attr[3],
+                                        Integer.parseInt(attr[4]),
+                                        Integer.parseInt(attr[5]),
+                                        attr[6]
+                                )
+                        );
+                        break;
+                    case "DD":
+                        opt_String = new ArrayList<>();
+                        String[] sepComas = attr[5].split(",");
+                        for (int sepOpc = 0; sepOpc < sepComas.length; sepOpc++) {
+                            if (sepOpc == sepComas.length - 1) {
+                                sepComas[sepOpc] = sepComas[sepOpc].substring(1, sepComas[sepOpc].length() - 1);
+                            } else {
+                                sepComas[sepOpc] = sepComas[sepOpc].substring(1);
+                            }
+                        }
+
+                        for (int sepOpc = 0; sepOpc < sepComas.length; sepOpc++) {
+                            String[] options = sepComas[sepOpc].split("\\$");
+                            opt_String.add(
+                                            Integer.parseInt(options[0])+ componentAuxSep +
+                                            options[1]);
+                        }
+
+                        dropdowns.add(
+                                new Dropdown(
+                                        Integer.parseInt(attr[1]),
+                                        attr[2],
+                                        Integer.parseInt(attr[3]),
+                                        attr[4],
+                                        opt_String
+                                )
+                        );
+                        break;
+                }
+            }
+        }
+
+        getModel().switchs_obj.clear();
+        getModel().sliders_obj.clear();
+        getModel().sensors_obj.clear();
+        getModel().dropdowns_obj.clear();
+
+        getModel().switchs_obj = switches;
+        getModel().sliders_obj = sliders;
+        getModel().sensors_obj = sensors;
+        getModel().dropdowns_obj = dropdowns;
+
+        Servidor.getServidor().goUpdateApp();
+
+    }
 
 }
 
