@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import javax.annotation.processing.SupportedOptions;
-
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -47,6 +45,7 @@ public class Servidor extends WebSocketServer {
     public static void main(String[] args) throws InterruptedException, IOException {
 
         baseDades.checkDataBase();
+        baseDades.del();
         boolean running = true;
 
         java.lang.System.setProperty("jdk.tls.client.protocols", "TLSv1,TLSv1.1,TLSv1.2");

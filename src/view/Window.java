@@ -109,9 +109,7 @@ public class Window {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Model.getModel().deleteSnapShoots();
-				loadSnapshoot.removeAll();
-				System.out.println("Load dates size: " + Model.getModel().loadDates().size());
+				baseDades.del();
 				for (int i = 0; i < Model.getModel().loadDates().size(); i++) {
 					JMenuItem snapshootCount = new JMenuItem();
 					
@@ -127,9 +125,8 @@ public class Window {
 						}
 					});
 					
-		
 					loadSnapshoot.add(snapshootCount);
-		
+					
 				}
 			}
 

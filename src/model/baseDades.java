@@ -97,4 +97,15 @@ public class baseDades{
 
     }
 
+    public static void del() {
+        query = "DROP TABLE IF EXISTS Snapshoot;";
+        UtilsSQLite.queryUpdate(conn, query);
+        
+        query = "CREATE TABLE Snapshoot ("
+                + "	id integer PRIMARY KEY AUTOINCREMENT,"
+                + "	config Varchar(100000000) NOT NULL,"
+                + " date Data);";
+        UtilsSQLite.queryUpdate(conn, query);
+    }
+
 }
