@@ -276,7 +276,6 @@ public class Model implements ServerUtils{
     }
 
     public JPanel createSwitch(String nameBlock) {
-        // Generate the background and the header
         JPanel panel1=new JPanel();
         panel1.setLayout(new GridLayout(0,2));
 
@@ -288,7 +287,7 @@ public class Model implements ServerUtils{
                     .getDef()
                 );
                 boton.setName(String.valueOf(sw));
-                boton.setBorderPainted(false);
+                boton.setBorderPainted(true);
                 boton.setBackground(new Color(183,196,197));
                 boton.addActionListener(new ActionListener() {
                     @Override
@@ -549,7 +548,7 @@ public class Model implements ServerUtils{
         rs = UtilsSQLite.querySelect(baseDades.conn, query);
         ArrayList<String> datesList = new ArrayList<String>();
         try {
-            while (rs.next()) { //Read every row
+            while (rs.next()) {
                 int columnCount = rs.getMetaData().getColumnCount();
                 for (int column = 1; column <= columnCount; column++) { //Read every column
                     String columnName = rs.getMetaData().getColumnName(column);
@@ -558,31 +557,9 @@ public class Model implements ServerUtils{
                 }
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return datesList;
-    }
-
-    public String getConfigValues(){
-        String config = "";
-        String query = ("SELECT config FROM Snapshoot;");
-        ResultSet rs = UtilsSQLite.querySelect(baseDades.conn, query);
-        try {
-            while (rs.next()) { //Read every row
-                int columnCount = rs.getMetaData().getColumnCount();
-                for (int column = 1; column <= columnCount; column++) { //Read every column
-                    String columnName = rs.getMetaData().getColumnName(column);
-                    Object value = rs.getObject(columnName);
-
-                }
-
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return config;
     }
 
     // Getters/Setters

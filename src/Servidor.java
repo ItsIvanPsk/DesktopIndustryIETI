@@ -141,7 +141,6 @@ public class Servidor extends WebSocketServer {
 
     public void goUpdateApp(){
         broadcast(Model.getModel().recorrerArrays());
-        System.out.println("goUpdateApp");
     }
 
     public Servidor(int port) throws UnknownHostException {
