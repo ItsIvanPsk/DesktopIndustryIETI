@@ -623,11 +623,9 @@ public class Model implements ServerUtils{
         ArrayList<Sensor> sensors = new ArrayList<>();
         ArrayList<Slider> sliders = new ArrayList<>();
         ArrayList<Dropdown> dropdowns = new ArrayList<>();
-        ArrayList<Option> opts;
         ArrayList<String> opt_String = new ArrayList<>();
 
         String[] components = config.split("··");
-        Integer blockCant = Integer.parseInt(components[1]);
 
         for (int component = 0; component < components.length; component++) {
             if(component != 0 && component != 1){
@@ -671,7 +669,6 @@ public class Model implements ServerUtils{
                         );
                         break;
                     case "DD":
-                        opts = new ArrayList<>();
                         opt_String = new ArrayList<>();
                         String[] sepComas = attr[5].split(",");
                         for (int sepOpc = 0; sepOpc < sepComas.length; sepOpc++) {
@@ -712,6 +709,9 @@ public class Model implements ServerUtils{
         getModel().sliders_obj = sliders;
         getModel().sensors_obj = sensors;
         getModel().dropdowns_obj = dropdowns;
+
+        Servidor.getServidor().goUpdateApp();
+
     }
 
 }
