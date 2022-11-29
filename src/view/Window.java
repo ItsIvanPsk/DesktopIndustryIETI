@@ -83,7 +83,6 @@ public class Window {
 			}
 		});
 		snapShoot.add(doSnapshoot);
-
 		snapShoot.add(loadSnapshoot);
 
 		for (int i = 0; i < Model.getModel().loadDates().size(); i++) {
@@ -103,6 +102,40 @@ public class Window {
 			loadSnapshoot.add(snapshootCount);
 
 		}
+
+		JMenuItem deleteSnapShoots = new JMenuItem();
+		deleteSnapShoots.setText("Delete snapshoots");
+		deleteSnapShoots.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Model.getModel().deleteSnapShoots();
+				loadSnapshoot.removeAll();
+				System.out.println("Load dates size: " + Model.getModel().loadDates().size());
+				for (int i = 0; i < Model.getModel().loadDates().size(); i++) {
+					JMenuItem snapshootCount = new JMenuItem();
+					
+					snapshootCount.setName(String.valueOf(i));
+					snapshootCount.setText(Model.getModel().loadDates().get(i));
+
+					snapshootCount.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							int num = Integer.parseInt(snapshootCount.getName());
+							Model.getModel().reloadArrays(Model.getModel().getConfigById(num+1));
+							loadAllComponents();
+						}
+					});
+					
+		
+					loadSnapshoot.add(snapshootCount);
+		
+				}
+			}
+
+		});
+
+		snapShoot.add(deleteSnapShoots);
 
 		ventana.setSize(1500, 1000);
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

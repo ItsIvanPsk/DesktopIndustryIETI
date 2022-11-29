@@ -562,6 +562,11 @@ public class Model implements ServerUtils{
         return datesList;
     }
 
+    public void deleteSnapShoots(){
+        UtilsSQLite.queryUpdate(baseDades.conn, "DELETE FROM Snapshoot");
+    }
+
+
     // Getters/Setters
     public ArrayList<String> getSwitchs() { return switchs; }
     public ArrayList<String> getSliders() { return sliders; }
@@ -589,7 +594,6 @@ public class Model implements ServerUtils{
 
             }
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return "";
